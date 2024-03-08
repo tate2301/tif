@@ -1,5 +1,5 @@
 {
-  "extends": "@tif/typescript-config/react-library.json",
+  "extends": "@tif/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "dist"
   },
