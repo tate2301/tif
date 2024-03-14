@@ -1,5 +1,5 @@
 {
-  "name": "@tif/ui",
+  "name": "@repo/react-sdk",
   "version": "0.0.0",
   "private": true,
   "exports": {
@@ -12,8 +12,8 @@
     "generate:component": "turbo gen react-component"
   },
   "devDependencies": {
-    "@tif/eslint-config": "workspace:*",
-    "@tif/typescript-config": "workspace:*",
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
     "@turbo/gen": "^1.12.4",
     "@types/node": "^20.11.24",
     "@types/eslint": "^8.56.5",
