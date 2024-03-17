@@ -24,4 +24,9 @@ export abstract class PaymentMethod {
    * This method is used to void a previously authorized payment
    */
   abstract void(): Promise<PaymentResponse>;
+
+  abstract getTestPaymentDetails<T>(): {
+    success: Array<T>;
+    failure: Array<T>;
+  };
 }

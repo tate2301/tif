@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from "@nestjs/config";
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PaymentModule } from './payment/payment.module';
@@ -8,9 +9,12 @@ import { AnayticsService } from './anaytics/anaytics.service';
 import { RefundsService } from './refunds/refunds.service';
 import { ApiKeyService } from './api-key/api-key.service';
 import { WebhookModule } from './webhook/webhook.module';
+import configuration from './common/env';
 
 @Module({
-  imports: [PaymentModule, WebhookModule, AuthModule],
+  imports: [ConfigModule.forRoot({
+    load: [configuration],
+  }), PaymentModule, WebhookModule, AuthModule],
   controllers: [AppController],
   providers: [
     AppService,

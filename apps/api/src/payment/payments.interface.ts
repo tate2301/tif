@@ -1,10 +1,41 @@
+import { InitiateCheckoutDto } from './dto/checkout.dto';
+import { RefundDto } from './dto/refund.dto';
+import { VoidDto } from './dto/void.dto';
+import { ExecutePaymentDto } from './payment.service';
+
+export interface IPaymentService {
+  isTestingMode: boolean;
+  setTestingMode(isTesting: boolean): void;
+  createCheckoutSession(checkoutDetails: InitiateCheckoutDto): Promise<string>;
+  executePayment(
+    paymentId: string,
+    paymentMethod: PAYMENT_METHODS,
+    paymentDetails: ExecutePaymentDto,
+  ): Promise<PaymentResponse>;
+  voidPayment(paymentId: string, request: VoidDto): Promise<PaymentResponse>;
+  refundTransaction(
+    paymentId: string,
+    request: RefundDto,
+  ): Promise<PaymentResponse>;
+  getTransactionDetails(paymentId: string): Promise<PaymentResponse>;
+}
+
 export interface PaymentStrategy<TRequest, TResponse> {
   execute(paymentDetails: TRequest): Promise<TResponse>;
 }
 
 export enum PAYMENT_METHODS {
-  EcoCash = 'EcoCash',
-  ZimSwitch = 'ZimSwitch',
+  EcoCash = 'ecocash',
+  ZimSwitch = 'zimswitch',
+  Visa = 'visa',
+  Mastercard = 'mastercard',
+  OneMoney = 'onemoney',
+  Telecash = 'telecash',
+}
+
+export enum PAYMENT_MODE {
+  Checkout = 'checkout',
+  Payment = 'payment',
 }
 
 export enum CURRENCIES {

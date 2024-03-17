@@ -1,14 +1,7 @@
 import { Customer } from 'src/core/Customer';
 import { PaymentMethod } from 'src/core/PaymentMethod';
-import {
-  EcoCashPaymentRequest,
-  EcocashPaymentRequest,
-} from 'src/core/params/EcocashPaymentRequest';
-import {
-  EcoCashPaymentResponse,
-  EcocashBillingDetails,
-} from 'src/payment/eco-cash/eco-cash.interface';
-import { PaymentStrategy } from 'src/payment/payments.interface';
+import { EcocashPaymentRequest } from 'src/core/params/EcocashPaymentRequest';
+import { EcocashBillingDetails } from 'src/payment/eco-cash/eco-cash.interface';
 
 export class EcoCashStrategy extends PaymentMethod {
   authorize(): Promise<PaymentResponse> {
@@ -18,9 +11,9 @@ export class EcoCashStrategy extends PaymentMethod {
     throw new Error('Method not implemented.');
   }
 
-  bill(captureParams: object, amount: number): Promise<PaymentResponse> {
+  bill(billParams: object, amount: number): Promise<PaymentResponse> {
     const customer = this.buildCustomerObject(
-      captureParams as {
+      billParams as {
         mobile_number: string;
       },
     );
@@ -44,5 +37,23 @@ export class EcoCashStrategy extends PaymentMethod {
     );
 
     return customer;
+  }
+
+  getTestPaymentDetails<EcocashBillingDetails>(): {
+    success: Array<EcocashBillingDetails>;
+    failure: Array<EcocashBillingDetails>;
+  } {
+    return {
+      success: [],
+      failure: [],
+    };
+  }
+
+  isTestPayment(msisdn: string): boolean {
+    const testDetails = this.getTestPaymentDetails<EcocashBillingDetails>();
+    const failureDetails = testDetails.success.map((item) => item.msisdn);
+    const successDetails = testDetails.failure.map((item) => item.msisdn);
+
+    return [...failureDetails, successDetails].includes(msisdn);
   }
 }
