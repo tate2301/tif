@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { PaymentModule } from './payment/payment.module';
 import { AuthModule } from './auth/auth.module';
 import { AnayticsService } from './anaytics/anaytics.service';
-import { RefundsService } from './refunds/refunds.service';
+import { RefundsService, SuperRefundsService } from './refunds/refunds.service';
 import { ApiKeyService } from './api-key/api-key.service';
 import { WebhookModule } from './webhook/webhook.module';
 import { RefundsController } from './refunds/refunds.controller';
@@ -21,6 +21,12 @@ import configuration from './common/env';
     AuthModule,
   ],
   controllers: [AppController, RefundsController],
-  providers: [AppService, AnayticsService, RefundsService, ApiKeyService],
+  providers: [
+    AppService,
+    AnayticsService,
+    RefundsService,
+    ApiKeyService,
+    SuperRefundsService,
+  ],
 })
 export class AppModule {}
