@@ -4,3 +4,10 @@ export interface PaymentOptionProps{
     active: boolean;
     selected: boolean;
 }
+
+export interface ProductItemProps{
+    title: string;
+    amount: number;
+    quantity: number;
+    picture: any
+}
