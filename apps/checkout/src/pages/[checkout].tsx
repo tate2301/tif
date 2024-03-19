@@ -71,14 +71,14 @@ function Checkout({ postData }: Props) {
         <p className="text-3xl text-slate-900 font-semibold text-center">
           $1000.00
         </p>
-        <div className="bg-slate-900 text-white flex space-x-2 flex-row items-center rounded-lg py-2 px-4">
+        <div className="bg-slate-900 text-white flex space-x-2 flex-row items-center rounded-xl py-2 px-4">
           <CpuChipIcon height={32} width={32} />
           <div className="flex flex-col space-y-[1px]">
             <p className="text-white font-semibold">Velocity</p>
             <p className="text-slate-300 text-xs">Pay with velocity</p>
           </div>
         </div>
-        <div className="border border-slate-200 bg-white  space-y-6 rounded-lg px-4 py-8">
+        <div className="border border-slate-200 bg-white  space-y-6 rounded-xl px-4 py-8">
           <BorderedHeading text="select payment option" />
           <div className="grid grid-cols-3 gap-2 items-center justify-between">
             <PaymentOptionComponent
