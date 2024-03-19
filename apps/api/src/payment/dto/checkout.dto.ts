@@ -7,6 +7,10 @@ import {
 
 export class InitiateCheckoutDto {
   @IsNotEmpty()
+  @IsNumber()
+  readonly merchant: string;
+
+  @IsNotEmpty()
   //   @IsUrl()
   readonly success_url: string;
 
@@ -17,6 +21,10 @@ export class InitiateCheckoutDto {
   @IsNotEmpty()
   @IsNumber()
   readonly amount: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  readonly ui: 'hosted' | 'embedded';
 
   @IsNotEmpty()
   @IsString()
