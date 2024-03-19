@@ -1,4 +1,7 @@
 import React, { ReactNode } from 'react'
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
 
 type Props = {
     children?: ReactNode
@@ -6,7 +9,7 @@ type Props = {
 
 function Layout({children}: Props) {
   return (
-    <div className='flex flex-col bg-slate-50'>
+    <div className={`flex flex-col bg-slate-50 ${inter.className}`}>
         {children}
     </div>
   )

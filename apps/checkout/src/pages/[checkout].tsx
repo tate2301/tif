@@ -10,6 +10,8 @@ import BorderedHeading from "@/components/bordered-heading/BorderedHeading";
 import { useState } from "react";
 import CustomInput from "@/components/custom-input/CustomInput";
 import CustomButton from "@/components/custom-button/CustomButton";
+import { useRouter } from "next/router";
+import useUrlParams from "@/hooks/useUrlParams";
 
 interface PostData {
   title: string;
@@ -43,17 +45,25 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 function Checkout({ postData }: Props) {
   const [phone_number, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
-  const handlePaymentProcess = () =>{
+  const router = useRouter();
+  const { returnUrl } = useUrlParams();
+  console.log(returnUrl)
+
+  const handlePaymentProcess = () => {
     try {
-        setLoading(true)
-        // make payment reqiest
-        setLoading(false)
+      setLoading(true);
+      router.replace({
+        // @ts-ignore
+        pathname: returnUrl,
+        query: { status: 'success' },
+      });
+      setLoading(false);
     } catch (error) {
-        setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex flex-col w-full py-24 px-4">
@@ -62,7 +72,7 @@ function Checkout({ postData }: Props) {
           $1000.00
         </p>
         <div className="bg-slate-900 text-white flex space-x-2 flex-row items-center rounded-lg py-2 px-4">
-            <CpuChipIcon height={32} width={32} />
+          <CpuChipIcon height={32} width={32} />
           <div className="flex flex-col space-y-[1px]">
             <p className="text-white font-semibold">Velocity</p>
             <p className="text-slate-300 text-xs">Pay with velocity</p>
@@ -104,7 +114,11 @@ function Checkout({ postData }: Props) {
             heading="email"
           />
 
-          <CustomButton text="Pay Now" loading={loading} onClick={handlePaymentProcess} />
+          <CustomButton
+            text="Pay Now"
+            loading={loading}
+            onClick={handlePaymentProcess}
+          />
         </div>
       </div>
     </div>
