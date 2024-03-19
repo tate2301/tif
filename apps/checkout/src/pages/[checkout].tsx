@@ -1,4 +1,10 @@
 import { GetServerSidePropsContext } from "next";
+import {
+  DevicePhoneMobileIcon,
+  BuildingLibraryIcon,
+  CreditCardIcon,
+} from "@heroicons/react/24/outline";
+import PaymentOptionComponent from "@/components/payment-option-component/PaymentOptionComponent";
 
 interface PostData {
   title: string;
@@ -29,33 +35,59 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 function Checkout({ postData }: Props) {
   return (
-    <div className="flex flex-col w-full py-16">
-      <div className="max-w-4xl mx-auto w-full flex flex-col space-y-6">
-        <div className="flex flex-col space-y-1">
-          <p className="text-slate-900 font-semibold ">Payment details</p>
-          <p className="text-sm text-slate-400 font-medium">
-            Complete your purchase by providing your payment details
-          </p>
+    <div className="flex flex-col w-full py-24">
+      <div className="max-w-xs mx-auto w-full flex flex-col space-y-6 bg-white">
+        <p className="text-3xl text-slate-900 font-semibold text-center">
+          $1000.00
+        </p>
+        <div className="bg-slate-900 text-white flex space-x-2 flex-row rounded-lg py-2 px-4">
+          <div className="flex flex-col space-y-1">
+            <p className="text-white font-semibold">Velocity</p>
+            <p className="text-slate-300 text-xs">Pay with velocity</p>
+          </div>
         </div>
-        <div className="flex flex-col space-y-1">
-          <p className="text-slate-900 font-semibold ">Email</p>
-          <input
-            type="text"
-            placeholder="Email"
-            className="border border-slate-200/50 rounded px-4 py-2"
-          />
-        </div>
-        <div className="flex flex-col space-y-1">
-          <p className="text-slate-900 font-semibold capitalize">Select Payment method</p>
-          <div className="flex flex-row items-center justify-between space-x-4">
-            <div className="flex flex-col">
-                <p>Ecocash</p>
-            </div>
+        <div className="border border-slate-200 space-y-6 rounded-lg p-4">
+          <div className="flex flex-row items-center space-x-2">
+            <div className="border-t border-slate-100 flex-1"></div>
+            <p className="text-center text-slate-400 text-xs capitalize">
+              Select payment option
+            </p>
+            <div className="border-t border-slate-100 flex-1"></div>
+          </div>
+          <div className="grid grid-cols-3 gap-2 items-center justify-between">
+            <PaymentOptionComponent
+              active={true}
+              selected={true}
+              name="ecocash"
+              Icon={DevicePhoneMobileIcon}
+            />
+            <PaymentOptionComponent
+              active={false}
+              selected={false}
+              name="debit/credit"
+              Icon={CreditCardIcon}
+            />
+            <PaymentOptionComponent
+              active={false}
+              selected={false}
+              name="virtual"
+              Icon={BuildingLibraryIcon}
+            />
+          </div>
+          <div className="flex flex-row items-center space-x-2">
+            <div className="border-t border-slate-100 flex-1"></div>
+            <p className="text-center text-slate-400 text-xs capitalize">
+              enter payment details
+            </p>
+            <div className="border-t border-slate-100 flex-1"></div>
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+
+
 
 export default Checkout;
