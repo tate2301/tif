@@ -1,17 +1,17 @@
+import PaymentOptionComponent from "@/components/payment-option-component/PaymentOptionComponent";
+import BorderedHeading from "@/components/bordered-heading/BorderedHeading";
+import CustomButton from "@/components/custom-button/CustomButton";
+import CustomInput from "@/components/custom-input/CustomInput";
 import { GetServerSidePropsContext } from "next";
+import useUrlParams from "@/hooks/useUrlParams";
+import { useRouter } from "next/router";
 import {
   DevicePhoneMobileIcon,
   BuildingLibraryIcon,
   CreditCardIcon,
   CpuChipIcon,
 } from "@heroicons/react/24/outline";
-import PaymentOptionComponent from "@/components/payment-option-component/PaymentOptionComponent";
-import BorderedHeading from "@/components/bordered-heading/BorderedHeading";
 import { useState } from "react";
-import CustomInput from "@/components/custom-input/CustomInput";
-import CustomButton from "@/components/custom-button/CustomButton";
-import { useRouter } from "next/router";
-import useUrlParams from "@/hooks/useUrlParams";
 
 interface PostData {
   title: string;
@@ -29,7 +29,7 @@ function Checkout({ postData }: Props) {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const { returnUrl } = useUrlParams();
+  const { returnUrl, total } = useUrlParams();
 
   const handlePaymentProcess = () => {
     try {
@@ -49,7 +49,7 @@ function Checkout({ postData }: Props) {
     <div className="flex flex-col w-full py-24 px-4">
       <div className="max-w-sm mx-auto w-full flex flex-col space-y-6 p-2 rounded-lg">
         <p className="text-3xl text-slate-900 font-semibold text-center">
-          $1000.00
+          ${total}
         </p>
         <div className="bg-slate-900 text-white flex space-x-2 flex-row items-center rounded-xl py-2 px-4">
           <CpuChipIcon height={32} width={32} />
