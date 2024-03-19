@@ -18,11 +18,15 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center min-h-screen w-full content-center justify-center space-y-6">
-      <p className="text-3xl font-semibold text-center pb-8 text-slate-900">Checkout</p>
+      <p className="text-xl font-semibold text-center pb-4 text-slate-900">
+        Confirm Order
+      </p>
       <div className="max-w-sm w-full mx-auto flex flex-col bg-white border border-slate-100 rounded-2xl p-4 space-y-2">
         {data.products.map((item: ProductItemProps) => (
           <CartItem
             title={item.title}
+            _id={item._id}
+            key={item._id}
             picture={item.picture}
             quantity={item.quantity}
             amount={item.amount}
@@ -30,11 +34,7 @@ export default function Home() {
         ))}
       </div>
       <div className="flex">
-        <CustomButton
-          onClick={handleNavigate}
-          text="Checkout"
-          loading={false}
-        />
+        <CustomButton onClick={handleNavigate} text="Proceed" loading={false} />
       </div>
     </div>
   );

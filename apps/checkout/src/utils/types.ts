@@ -9,5 +9,6 @@ export interface ProductItemProps{
     title: string;
     amount: number;
     quantity: number;
-    picture: any
+    picture: any;
+    _id?: string
 }

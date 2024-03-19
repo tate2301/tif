@@ -23,25 +23,6 @@ interface Props {
   postData: PostData;
 }
 
-// Example of fetching data using getServerSideProps
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { params } = context;
-  const slug = params?.slug || "";
-
-  // Fetch data based on slug
-  const postData: PostData = {
-    title: "tatenda bako",
-    content: "the content type",
-    amount: 999.99,
-  }; // Fetch data based on the slug
-
-  return {
-    props: {
-      postData,
-    },
-  };
-}
-
 function Checkout({ postData }: Props) {
   const [phone_number, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -49,7 +30,6 @@ function Checkout({ postData }: Props) {
 
   const router = useRouter();
   const { returnUrl } = useUrlParams();
-  console.log(returnUrl)
 
   const handlePaymentProcess = () => {
     try {
@@ -124,5 +104,25 @@ function Checkout({ postData }: Props) {
     </div>
   );
 }
+
+// Example of fetching data using getServerSideProps
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { params } = context;
+  const slug = params?.slug || "";
+
+  // Fetch data based on slug
+  const postData: PostData = {
+    title: "tatenda bako",
+    content: "the content type",
+    amount: 999.99,
+  }; // Fetch data based on the slug
+
+  return {
+    props: {
+      postData,
+    },
+  };
+}
+
 
 export default Checkout;
