@@ -3,12 +3,18 @@ import {
   DevicePhoneMobileIcon,
   BuildingLibraryIcon,
   CreditCardIcon,
+  CpuChipIcon,
 } from "@heroicons/react/24/outline";
 import PaymentOptionComponent from "@/components/payment-option-component/PaymentOptionComponent";
+import BorderedHeading from "@/components/bordered-heading/BorderedHeading";
+import { useState } from "react";
+import CustomInput from "@/components/custom-input/CustomInput";
+import CustomButton from "@/components/custom-button/CustomButton";
 
 interface PostData {
   title: string;
   content: string;
+  amount: number;
 }
 
 interface Props {
@@ -24,6 +30,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const postData: PostData = {
     title: "tatenda bako",
     content: "the content type",
+    amount: 999.99,
   }; // Fetch data based on the slug
 
   return {
@@ -34,26 +41,35 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 
 function Checkout({ postData }: Props) {
+  const [phone_number, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false)
+
+  const handlePaymentProcess = () =>{
+    try {
+        setLoading(true)
+        // make payment reqiest
+        setLoading(false)
+    } catch (error) {
+        setLoading(false)
+    }
+  }
+
   return (
-    <div className="flex flex-col w-full py-24">
-      <div className="max-w-xs mx-auto w-full flex flex-col space-y-6 bg-white">
+    <div className="flex flex-col w-full py-24 px-4">
+      <div className="max-w-sm mx-auto w-full flex flex-col space-y-6 p-2 rounded-lg">
         <p className="text-3xl text-slate-900 font-semibold text-center">
           $1000.00
         </p>
-        <div className="bg-slate-900 text-white flex space-x-2 flex-row rounded-lg py-2 px-4">
-          <div className="flex flex-col space-y-1">
+        <div className="bg-slate-900 text-white flex space-x-2 flex-row items-center rounded-lg py-2 px-4">
+            <CpuChipIcon height={32} width={32} />
+          <div className="flex flex-col space-y-[1px]">
             <p className="text-white font-semibold">Velocity</p>
             <p className="text-slate-300 text-xs">Pay with velocity</p>
           </div>
         </div>
-        <div className="border border-slate-200 space-y-6 rounded-lg p-4">
-          <div className="flex flex-row items-center space-x-2">
-            <div className="border-t border-slate-100 flex-1"></div>
-            <p className="text-center text-slate-400 text-xs capitalize">
-              Select payment option
-            </p>
-            <div className="border-t border-slate-100 flex-1"></div>
-          </div>
+        <div className="border border-slate-200 bg-white  space-y-6 rounded-lg px-4 py-8">
+          <BorderedHeading text="select payment option" />
           <div className="grid grid-cols-3 gap-2 items-center justify-between">
             <PaymentOptionComponent
               active={true}
@@ -74,20 +90,25 @@ function Checkout({ postData }: Props) {
               Icon={BuildingLibraryIcon}
             />
           </div>
-          <div className="flex flex-row items-center space-x-2">
-            <div className="border-t border-slate-100 flex-1"></div>
-            <p className="text-center text-slate-400 text-xs capitalize">
-              enter payment details
-            </p>
-            <div className="border-t border-slate-100 flex-1"></div>
-          </div>
+          <BorderedHeading text="enter payment details" />
+          <CustomInput
+            value={phone_number}
+            setValue={setPhoneNumber}
+            placeholder="0771000000"
+            heading="phone number"
+          />
+          <CustomInput
+            placeholder="email address"
+            value={email}
+            setValue={setEmail}
+            heading="email"
+          />
+
+          <CustomButton text="Pay Now" loading={loading} onClick={handlePaymentProcess} />
         </div>
       </div>
     </div>
   );
 }
-
-
-
 
 export default Checkout;
