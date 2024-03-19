@@ -9,7 +9,7 @@ const CartItem = ({ title, amount, picture, quantity }: ProductItemProps) => {
     setQty(qty+1)
   }
   const reduceQty = () =>{
-    qty >= 1 ? setQty(qty+1) : 1
+    qty > 1 ? setQty(qty-1) : 1
   }
   return (
     <div className="flex row items-center space-x-4">
