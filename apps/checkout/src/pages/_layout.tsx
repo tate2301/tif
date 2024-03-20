@@ -1,16 +1,16 @@
 import React, { ReactNode } from 'react'
-import { Inter } from "next/font/google";
+import { Open_Sans } from 'next/font/google'
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Open_Sans({ subsets: ['latin'] })
 
 type Props = {
-    children?: ReactNode
+  children?: ReactNode
 }
 
-function Layout({children}: Props) {
+function Layout({ children }: Props) {
   return (
-    <div className={`flex flex-col bg-slate-50 ${inter.className}`}>
-        {children}
+    <div className={`flex flex-col bg-white ${inter.className}`}>
+      {children}
     </div>
   )
 }

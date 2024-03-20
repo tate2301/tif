@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 
 type Props = {
-  value: any;
-  setValue: any;
-  heading?: string;
-  placeholder:string
-};
+  value: any
+  setValue: any
+  heading?: string
+  placeholder: string
+}
 
 function CustomInput({ value, setValue, heading, placeholder }: Props) {
   return (
@@ -18,10 +18,10 @@ function CustomInput({ value, setValue, heading, placeholder }: Props) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
-        className="border px-4 py-2 outline-none text-sm border-slate-200 rounded"
+        className="border border-zinc-400/20 shadow-sm p-2 outline-none rounded-lg"
       />
     </div>
-  );
+  )
 }
 
-export default CustomInput;
+export default CustomInput

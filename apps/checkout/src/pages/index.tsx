@@ -1,20 +1,20 @@
-import { useRouter } from "next/router";
-import { ProductItemProps } from "@/utils/types";
-import { data } from "@/utils/data";
-import CartItem from "@/components/cart-item/CartItem";
-import CustomButton from "@/components/custom-button/CustomButton";
+import { useRouter } from 'next/router'
+import { ProductItemProps } from '@/utils/types'
+import { data } from '@/utils/data'
+import CartItem from '@/components/cart-item/CartItem'
+import CustomButton from '@/components/custom-button/CustomButton'
 
 export default function Home() {
-  const router = useRouter();
-  const urlParam = "http://192.168.91.147:3000";
-  const total = 1000.0;
+  const router = useRouter()
+  const urlParam = 'http://localhost:3000'
+  const total = 1000.0
 
   const handleNavigate = () => {
     router.push({
-      pathname: "/checkout",
+      pathname: '/pay',
       query: { return_url: urlParam, total },
-    });
-  };
+    })
+  }
 
   return (
     <div className="flex flex-col items-center min-h-screen w-full content-center justify-center space-y-6">
@@ -37,5 +37,5 @@ export default function Home() {
         <CustomButton onClick={handleNavigate} text="Proceed" loading={false} />
       </div>
     </div>
-  );
+  )
 }
