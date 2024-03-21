@@ -1,7 +1,6 @@
 export default {
-  logo: <span>My Nextra Documentation</span>,
+  logo: <span>Velocity Docs</span>,
   project: {
-    link: "https://github.com/shuding/nextra",
+    link: "https://github.com/tate2301/velocity",
   },
-  // ... other theme options
 };
