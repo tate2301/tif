@@ -19,12 +19,6 @@ import { VoidDto } from './dto/void.dto';
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
-  @Post('checkout')
-  @HttpCode(HttpStatus.CREATED)
-  async create_checkout_session(@Body() checkoutDetails: InitiateCheckoutDto) {
-    return this.paymentService.createCheckoutSession(checkoutDetails);
-  }
-
   @Post(':payment_id/capture/:payment_method')
   @HttpCode(HttpStatus.CREATED)
   async charge(
@@ -41,9 +35,9 @@ export class PaymentController {
     );
   }
 
-  @Put(':payment_id/refund')
+  @Put(':payment_id')
   @HttpCode(HttpStatus.CREATED)
-  async refund(
+  async updatePayment(
     @Param('payment_id') payment_id: string,
     @Body() refundRequest: RefundDto,
   ) {
@@ -52,7 +46,7 @@ export class PaymentController {
     return this.paymentService.refundTransaction(payment_id, refundRequest);
   }
 
-  @Delete(':payment_id/void')
+  @Delete(':payment_id')
   @HttpCode(HttpStatus.CREATED)
   async void(
     @Param('payment_id') payment_id: string,
