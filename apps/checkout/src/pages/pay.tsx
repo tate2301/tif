@@ -1,66 +1,59 @@
-import PaymentOptionComponent from '@/components/payment-option-component/PaymentOptionComponent'
-import BorderedHeading from '@/components/bordered-heading/BorderedHeading'
-import CustomButton from '@/components/custom-button/CustomButton'
-import CustomInput from '@/components/custom-input/CustomInput'
-import { GetServerSidePropsContext } from 'next'
-import useUrlParams from '@/hooks/useUrlParams'
-import { useRouter } from 'next/router'
+import PaymentOptionComponent from "@/components/payment-option-component/PaymentOptionComponent";
+import BorderedHeading from "@/components/bordered-heading/BorderedHeading";
+import CustomButton from "@/components/custom-button/CustomButton";
+import CustomInput from "@/components/custom-input/CustomInput";
+import { GetServerSidePropsContext } from "next";
+import useUrlParams from "@/hooks/useUrlParams";
+import { useRouter } from "next/router";
 import {
   DevicePhoneMobileIcon,
   BuildingLibraryIcon,
   CreditCardIcon,
-} from '@heroicons/react/24/solid'
-import { useState } from 'react'
+} from "@heroicons/react/24/solid";
+import { useState } from "react";
 
 interface PostData {
-  title: string
-  content: string
-  amount: number
+  title: string;
+  content: string;
+  amount: number;
 }
 
 interface Props {
-  postData: PostData
+  postData: PostData;
 }
 
 function Checkout({ postData }: Props) {
-  const [phone_number, setPhoneNumber] = useState('')
-  const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [phone_number, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const router = useRouter()
-  const { returnUrl, total } = useUrlParams()
+  const router = useRouter();
+  const { returnUrl, total } = useUrlParams();
 
   const handlePaymentProcess = () => {
     try {
-      setLoading(true)
+      setLoading(true);
       router.replace({
         // @ts-ignore
         pathname: returnUrl,
-        query: { status: 'success' },
-      })
-      setLoading(false)
+        query: { status: "success" },
+      });
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="flex flex-col w-full py-24 px-4 ">
-      <div className="max-w-lg mx-auto w-full flex flex-col gap-8 p-2 rounded-lg">
-        <div>
-          <div className="flex justify-between pb-2">
-            <p className="inline-flex gap-2 items-center text-zinc-500">
-              Velocity
-            </p>
-            <p className="text-zinc-900 font-semibold text-center">
-              ZWL {total}
-            </p>
-          </div>
-          <p className="text-zinc-500">
-            We never share your payment details with the merchant.
-          </p>
+    <div className="flex h-screen w-full">
+      <div className="w-1/2 h-full bg-gradient-to-b from-blue-500 to-blue-600 p-8">
+        <div className="flex justify-between pb-2">
+          <p className="inline-flex gap-2 items-center text-white">Velocity</p>
+          <p className="text-zinc-900 font-semibold text-center">ZWL {total}</p>
         </div>
+      </div>
 
+      <div className="max-w-lg flex-1 mx-auto flex flex-col gap-8 p-8 pt-24 rounded-lg">
         <BorderedHeading text="Pay with" />
         <div className="grid grid-cols-3 gap-2 items-center justify-between">
           <PaymentOptionComponent
@@ -98,47 +91,32 @@ function Checkout({ postData }: Props) {
           />
         </div>
         <CustomButton
-          text="Complete purchase"
+          text="Pay"
           loading={loading}
           onClick={handlePaymentProcess}
         />
-
-        <BorderedHeading text="Or more payment options" />
-        <div>
-          <div className="flex gap-4 justify-between">
-            <button className="px-6 py-2 rounded-xl bg-zinc-900 text-white font-semibold">
-              InnBucks
-            </button>
-            <button className="px-6 py-2 rounded-xl bg-zinc-900 text-white font-semibold">
-              OMari
-            </button>
-            <button className="px-6 py-2 rounded-xl bg-zinc-900 text-white font-semibold">
-              StewardPay
-            </button>
-          </div>
-        </div>
       </div>
     </div>
-  )
+  );
 }
 
 // Example of fetching data using getServerSideProps
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const { params } = context
-  const slug = params?.slug || ''
+  const { params } = context;
+  const slug = params?.slug || "";
 
   // Fetch data based on slug
   const postData: PostData = {
-    title: 'tatenda bako',
-    content: 'the content type',
+    title: "tatenda bako",
+    content: "the content type",
     amount: 999.99,
-  } // Fetch data based on the slug
+  }; // Fetch data based on the slug
 
   return {
     props: {
       postData,
     },
-  }
+  };
 }
 
-export default Checkout
+export default Checkout;

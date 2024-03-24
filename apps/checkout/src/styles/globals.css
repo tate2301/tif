@@ -4,4 +4,6 @@
 
 body {
   text-rendering: optimizeLegibility;
+  font-size: 14px;
+  font-weight: 400;
 }
