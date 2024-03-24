@@ -8,17 +8,11 @@ export class WebhookController {
   }
 
   @Post()
-  async create_webhook() {
-
-  }
+  async create_webhook() {}
 
   @Patch()
-  async patch_webhook() {
-
-  }
+  async patch_webhook() {}
 
   @Delete()
-  async remove_webhook() {
-
-  }
+  async remove_webhook() {}
 }

@@ -12,6 +12,7 @@ import { RefundsController } from './refunds/refunds.controller';
 import { PaymentSessionService } from './session/payment_session.service';
 import { SessionController } from './session/payment_session.controller';
 import configuration from './common/env';
+import JournalService from './common/journal';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import configuration from './common/env';
     ApiKeyService,
     SuperRefundsService,
     PaymentSessionService,
+    JournalService,
   ],
 })
 export class AppModule {}

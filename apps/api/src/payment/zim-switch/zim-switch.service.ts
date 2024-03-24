@@ -5,8 +5,8 @@ import {
 } from './zim-switch.interface';
 
 export class ZimSwitchStrategy
-  implements
-    PaymentStrategy<ZimSwitchPaymentRequest, ZimSwitchPaymentResponse> {
+  implements PaymentStrategy<ZimSwitchPaymentRequest, ZimSwitchPaymentResponse>
+{
   async execute(
     paymentDetails: ZimSwitchPaymentRequest,
   ): Promise<ZimSwitchPaymentResponse> {
