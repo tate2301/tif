@@ -4,20 +4,25 @@ import {
   IPaymentService,
   PAYMENT_METHODS,
   PaymentResponse,
-  RefundRequest,
 } from 'src/payment/payments.interface';
 import { EcoCashStrategy } from './eco-cash/eco-cash.service';
 import { PaymentMethod } from 'src/core/PaymentMethod';
 import { InitiateCheckoutDto } from './dto/checkout.dto';
 import { VoidDto } from './dto/void.dto';
 import { RefundDto } from './dto/refund.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import DPayment from './data/payment.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class PaymentService implements IPaymentService {
   private strategies: Map<PAYMENT_METHODS, PaymentMethod> = new Map();
   isTestingMode: boolean = false;
 
-  constructor(ecoCashStrategy: EcoCashStrategy) {
+  constructor(
+    @InjectRepository(DPayment) private paymentRepository: Repository<DPayment>,
+    ecoCashStrategy: EcoCashStrategy,
+  ) {
     // Map each strategy to its corresponding payment method
     this.strategies.set(PAYMENT_METHODS.EcoCash, ecoCashStrategy);
   }

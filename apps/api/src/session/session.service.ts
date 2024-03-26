@@ -14,7 +14,7 @@ export interface IPaymentSession {
 }
 
 @Injectable()
-export class PaymentSessionService {
+export class SessionService {
   private sessions: IPaymentSession[] = [];
 
   createSession(session: IPaymentSession): void {

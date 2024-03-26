@@ -1,4 +1,3 @@
-import { PaymentRequest } from 'src/core/params/PaymentRequest';
 import { PaymentResponse } from '../payments.interface';
 
 export type EcocashBillingDetails = {

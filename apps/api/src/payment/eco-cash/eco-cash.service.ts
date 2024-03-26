@@ -1,3 +1,4 @@
+import logger from 'src/common/logger';
 import { Customer } from 'src/core/Customer';
 import { PaymentMethod } from 'src/core/PaymentMethod';
 import { EcocashPaymentRequest } from 'src/core/params/EcocashPaymentRequest';
@@ -17,6 +18,7 @@ export class EcoCashStrategy extends PaymentMethod {
         mobile_number: string;
       },
     );
+    logger.info('Billing customer', customer, amount);
     throw new Error('Method not implemented.');
   }
 

@@ -9,19 +9,30 @@ import { RefundsService, SuperRefundsService } from './refunds/refunds.service';
 import { ApiKeyService } from './api-key/api-key.service';
 import { WebhookModule } from './webhook/webhook.module';
 import { RefundsController } from './refunds/refunds.controller';
-import { PaymentSessionService } from './session/payment_session.service';
-import { SessionController } from './session/payment_session.controller';
+import { SessionController } from './session/session.controller';
 import configuration from './common/env';
-import JournalService from './common/journal';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { SessionModule } from './session/session.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [configuration],
     }),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: 'root',
+      database: 'test',
+      synchronize: true,
+      autoLoadEntities: true,
+    }),
     PaymentModule,
     WebhookModule,
     AuthModule,
+    SessionModule,
   ],
   controllers: [AppController, RefundsController, SessionController],
   providers: [
@@ -30,8 +41,6 @@ import JournalService from './common/journal';
     RefundsService,
     ApiKeyService,
     SuperRefundsService,
-    PaymentSessionService,
-    JournalService,
   ],
 })
 export class AppModule {}
