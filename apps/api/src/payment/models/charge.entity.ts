@@ -1,7 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { DBasePaymentEntity } from './index.entity';
 
 @Entity()
-export class DCharge {
+export class DCharge extends DBasePaymentEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -36,7 +37,4 @@ export class DCharge {
 
   @Column()
   created: Date;
-
-  @Column()
-  livemode: boolean;
 }

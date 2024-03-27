@@ -20,8 +20,8 @@ export class Customer<BillingDetails> implements ICustomer<BillingDetails> {
   billingDetails: BillingDetails;
 
   constructor(meta: CustomerMeta, billingDetails: BillingDetails) {
-    this.meta = this.meta;
-    this.billingDetails = this.billingDetails;
+    this.meta = meta;
+    this.billingDetails = billingDetails;
   }
 
   createCustomer(): Promise<ICustomer<BillingDetails>> {

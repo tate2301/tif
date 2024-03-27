@@ -7,11 +7,11 @@ import {
 } from 'src/payment/payments.interface';
 import { EcoCashStrategy } from './eco-cash/eco-cash.service';
 import { PaymentMethod } from 'src/core/PaymentMethod';
-import { InitiateCheckoutDto } from './dto/checkout.dto';
+import { InitiateCheckoutDto } from './dto/checkout_session.dto';
 import { VoidDto } from './dto/void.dto';
 import { RefundDto } from './dto/refund.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import DPayment from './data/payment.entity';
+import DPayment from './models/payment.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()

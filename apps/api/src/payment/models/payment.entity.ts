@@ -1,7 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { DBasePaymentEntity } from './index.entity';
 
 @Entity()
-export default class DPayment {
+export default class DPayment extends DBasePaymentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -9,16 +10,7 @@ export default class DPayment {
   amount: number;
 
   @Column()
-  currency: 'USD' | 'ZWL';
-
-  @Column('simple-array')
-  payment_methods: string;
-
-  @Column()
   status: 'paid' | 'upaid' | 'no_payment_required' | 'processing' | 'canceled';
-
-  @Column()
-  timestamp: Date;
 
   @Column()
   merchantId: string;
@@ -34,9 +26,6 @@ export default class DPayment {
 
   @Column()
   receipt_email: string;
-
-  @Column()
-  livemode: boolean;
 
   @Column('simple-json')
   shipping: {

@@ -3,7 +3,7 @@ import { PaymentService } from './payment.service';
 import { PaymentController } from './payment.controller';
 import { EcoCashStrategy } from './eco-cash/eco-cash.service';
 import { ZimSwitchStrategy } from './zim-switch/zim-switch.service';
-import DPayment from './data/payment.entity';
+import DPayment from './models/payment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

@@ -1,4 +1,4 @@
-import { InitiateCheckoutDto } from './dto/checkout.dto';
+import { InitiateCheckoutDto } from './dto/checkout_session.dto';
 import { RefundDto } from './dto/refund.dto';
 import { VoidDto } from './dto/void.dto';
 import { ExecutePaymentDto } from './payment.service';
@@ -102,3 +102,11 @@ export interface PaymentResponse {
   transactionId: string;
   status: 'success' | 'failed';
 }
+
+export type LineItem = {
+  id: string;
+  name: string;
+  quantity: number;
+  amount: number;
+  picture_url?: string;
+};
