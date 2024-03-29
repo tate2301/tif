@@ -21,15 +21,15 @@ function CreatePaymentItem({ isCodeRequired, actionButtonText, heading, descript
       <div className="flex flex-row items-center space-x-1">
         {isCodeRequired ? (
           <>
-            <div className="flex bg-secondary main-text text-xs px-1 rounded font-medium">Code required</div>
+            <div className="flex bg-secondary main-text text-xs p-1 rounded font-medium">Code required</div>
           </>
         ) : (
           <>
-            <div className="flex bg-green-200 dark:bg-green-700 dark:text-green-200 text-green-900 rounded px-1 font-medium flex-row items-center space-x-1">
+            <div className="flex bg-green-200 dark:bg-green-700 dark:text-green-200 text-green-900 rounded p-1 font-medium flex-row items-center space-x-1">
               <ClockIcon height={12} width={12} />
               <p className="text-xs">Set up in 1 minute</p>
             </div>
-            <p className="flex bg-blue-200 dark:bg-blue-700 dark:text-blue-200 text-blue-900 text-xs rounded px-1 font-medium">
+            <p className="flex bg-blue-200 dark:bg-blue-700 dark:text-blue-200 text-blue-900 text-xs rounded p-1 font-medium">
               No code required
             </p>
           </>
