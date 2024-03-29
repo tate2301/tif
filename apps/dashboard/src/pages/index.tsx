@@ -19,7 +19,7 @@ export function Index() {
       //     password: password,
       //   }
       // );
-      router.push('/overview')
+      router.push('/payments')
       setPassword('');
       setEmail('');
       // console.log(data);
