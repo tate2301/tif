@@ -1,3 +1,4 @@
+import CreatePaymentItem from "@/components/payment-items/CreatePaymentItem";
 import OverviewLayout from "@/layouts/OverviewLayout";
 import React from "react";
 
@@ -16,9 +17,16 @@ const Payments = (props: Props) => {
         </p>
       </div>
       <div className="grid md:grid-cols-2 grid-cols-2 gap-7 max-w-4xl w-full mx-auto">
-        <div className="col-span-1 flex flex-col">
-          <div className="h-60 rounded-xl bg-secondary"></div>
-        </div>
+        <CreatePaymentItem
+          heading="Share a link to a checkout page"
+          description="Sell a product or subscription or accept a donation by sharing a link to a payment page."
+          actionButtonText="Create payment link"
+        />
+        <CreatePaymentItem
+          heading="Manually charge a customer"
+          description="Create a payment from the Dashboard by manually entering a customer’s card information."
+          actionButtonText="Create a payment"
+        />
       </div>
     </OverviewLayout>
   );
