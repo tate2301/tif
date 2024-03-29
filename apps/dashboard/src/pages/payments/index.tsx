@@ -15,6 +15,11 @@ const Payments = (props: Props) => {
           that integrate with our APIs.
         </p>
       </div>
+      <div className="grid md:grid-cols-2 grid-cols-2 gap-7 max-w-4xl w-full mx-auto">
+        <div className="col-span-1 flex flex-col">
+          <div className="h-60 rounded-xl bg-secondary"></div>
+        </div>
+      </div>
     </OverviewLayout>
   );
 };
