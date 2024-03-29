@@ -13,7 +13,7 @@ const DashboardLayout = (props: Props) => {
     <Head>
       <title>Dashboard</title>
     </Head>
-    <div className='flex flex-col'>
+    <div className='flex flex-col min-h-screen'>
         <div className="nav">
             <Navbar />
         </div>

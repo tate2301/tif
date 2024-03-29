@@ -4,5 +4,6 @@ export const data = {
         { name: 'Payments', _id: 'payments', location: '/payments' },
         { name: 'Balances', _id: 'projects', location: '/projects' },
         { name: 'Customers', _id: 'settings', location: '/settings' },
+        { name: 'Subscriptions', _id: 'subscription', location: '/subscription' },
       ]
 }

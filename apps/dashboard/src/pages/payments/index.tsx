@@ -18,11 +18,13 @@ const Payments = (props: Props) => {
       </div>
       <div className="grid md:grid-cols-2 grid-cols-2 gap-7 max-w-4xl">
         <CreatePaymentItem
+          location="/payments/create-payment-link"
           heading="Share a link to a checkout page"
           description="Sell a product or subscription or accept a donation by sharing a link to a payment page."
           actionButtonText="Create payment link"
         />
         <CreatePaymentItem
+          location="/payments/create-payment-link"
           heading="Manually charge a customer"
           description="Create a payment from the Dashboard by manually entering a customer’s card information."
           actionButtonText="Charge a customer"

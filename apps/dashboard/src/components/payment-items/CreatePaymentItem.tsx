@@ -1,14 +1,16 @@
 import React from "react";
 import { ClockIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 type Props = {
   isCodeRequired?: boolean;
   actionButtonText: string
   heading: string
   description: string
+  location: string
 };
 
-function CreatePaymentItem({ isCodeRequired, actionButtonText, heading, description }: Props) {
+function CreatePaymentItem({ isCodeRequired, actionButtonText, heading, description, location }: Props) {
   return (
     <div className="col-span-1 flex flex-col space-y-2">
       <div className="h-60 rounded-xl bg-secondary"></div>
@@ -36,9 +38,9 @@ function CreatePaymentItem({ isCodeRequired, actionButtonText, heading, descript
         )}
       </div>
       <div className="flex pt-2">
-        <div className="flex main-border p-2 shadow cursor-pointer text-sm font-medium main-text rounded-xl">
+        <Link href={location} className="flex main-border p-2 shadow cursor-pointer text-sm font-medium main-text rounded-xl">
           {actionButtonText}
-        </div>
+        </Link>
       </div>
     </div>
   );
