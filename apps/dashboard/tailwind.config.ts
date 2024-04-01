@@ -25,18 +25,12 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          light: '#6d7f8a',
-          superlight: '#acb6bc',
-          dark: '#21323e',
-          superdark: '#131d23',
-          original: '#2f4858',
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          light: '#aacfe4',
-          superlight: '#cfe4ef',
-          dark: '#5e8397',
-          superdark: '#364b56',
-          original: '#86bbd8',
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -59,11 +53,7 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
+    
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
