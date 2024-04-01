@@ -1,10 +1,11 @@
 import { DCollectingAddressEntity } from 'src/payment/models/index.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { DMerchant } from 'src/payment/models/merchant.entity';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class DUser extends DCollectingAddressEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column()
   uuid: string;
@@ -35,5 +36,8 @@ export class DUser extends DCollectingAddressEntity {
 
   @Column({ default: null, type:"datetime"})
   updated_at?:  Date;
+
+  @OneToOne(type => DMerchant, merchant => merchant.user)
+  merchant: DMerchant
 
 }

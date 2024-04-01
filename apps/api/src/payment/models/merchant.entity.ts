@@ -12,4 +12,7 @@ export class DMerchant extends DAddressEntity {
 
   @Column()
   email: string;
+
+  @Column()
+  user: number
 }

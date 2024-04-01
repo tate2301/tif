@@ -24,7 +24,7 @@ import { SessionModule } from './session/session.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'root',
+      password: '',
       database: 'test',
       synchronize: true,
       autoLoadEntities: true,
@@ -42,5 +42,6 @@ import { SessionModule } from './session/session.module';
     ApiKeyService,
     SuperRefundsService,
   ],
+  
 })
 export class AppModule {}

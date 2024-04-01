@@ -5,6 +5,8 @@ import { EcoCashStrategy } from './eco-cash/eco-cash.service';
 import { ZimSwitchStrategy } from './zim-switch/zim-switch.service';
 import DPayment from './models/payment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 
 @Module({
   imports: [
@@ -12,7 +14,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     EcoCashStrategy,
     ZimSwitchStrategy,
   ],
-  providers: [PaymentService, EcoCashStrategy, ZimSwitchStrategy],
+  providers: [PaymentService, EcoCashStrategy, ZimSwitchStrategy, {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
   controllers: [PaymentController],
 })
 export class PaymentModule {}
