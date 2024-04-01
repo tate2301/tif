@@ -8,13 +8,16 @@ import {
   HttpStatus,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ExecutePaymentDto, PaymentService } from './payment.service';
 import { PAYMENT_METHODS } from 'src/payment/payments.interface';
 import { RefundDto } from './dto/refund.dto';
 import { VoidDto } from './dto/void.dto';
 import logger from 'src/common/logger';
+import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
 
+@UseGuards(ApiKeyGuard)
 @Controller('payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}

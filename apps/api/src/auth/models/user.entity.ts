@@ -22,5 +22,18 @@ export class DUser extends DCollectingAddressEntity {
   email: string;
 
   @Column()
+  password: string
+
+  @Column()
   is_active: boolean;
+
+  @Column()
+  profile_picture: string
+
+  @Column({ default: null, type:"datetime"})
+  created_at?:  Date;
+
+  @Column({ default: null, type:"datetime"})
+  updated_at?:  Date;
+
 }

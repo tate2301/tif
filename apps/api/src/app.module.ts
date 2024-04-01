@@ -17,7 +17,7 @@ import { SessionModule } from './session/session.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [configuration],
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
