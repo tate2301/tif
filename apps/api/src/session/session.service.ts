@@ -1,4 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DPaymentSession } from './models/payment_session.entity';
+import { Repository } from 'typeorm';
+import { generatePrimaryKey } from 'src/common/utils';
+import { CreateSessionInput } from './dto/create_session.input';
 
 export interface IPaymentSession {
   id: string;
@@ -15,27 +20,22 @@ export interface IPaymentSession {
 
 @Injectable()
 export class SessionService {
-  private sessions: IPaymentSession[] = [];
+  constructor(@InjectRepository(DPaymentSession) private paymentSessionRepo: Repository<DPaymentSession>) {
 
-  createSession(session: IPaymentSession): void {
-    this.sessions.push(session);
   }
 
-  getSession(id: string): IPaymentSession | undefined {
-    return this.sessions.find((session) => session.id === id);
+  createPaymentSession(merchant: any, data: CreateSessionInput) {
+    const id = generatePrimaryKey()
+    
   }
 
-  confirmSession(id: string): void {
-    const session = this.getSession(id);
-    if (session) {
-      session.confirm();
-    }
+  revokePaymentSession(reason: "expire" | "success" | "fail" | "manual") {
+
   }
 
-  cancelSession(id: string): void {
-    const session = this.getSession(id);
-    if (session) {
-      session.cancel();
-    }
+  async getPaymentSession(id: string) {
+    return this.paymentSessionRepo.find({where: {id}})
   }
+
+
 }

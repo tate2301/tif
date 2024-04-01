@@ -1,8 +1,7 @@
 import { Controller, Get, Patch, Post } from '@nestjs/common';
-import { IRefundService } from './refunds.service';
 
-@Controller('refund')
-export class RefundsController {
+@Controller('merchant')
+export class UsersController {
   @Get()
   async get_refunds() {}
 

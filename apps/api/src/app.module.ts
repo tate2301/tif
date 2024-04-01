@@ -5,14 +5,16 @@ import { AppService } from './app.service';
 import { PaymentModule } from './payment/payment.module';
 import { AuthModule } from './auth/auth.module';
 import { AnayticsService } from './anaytics/anaytics.service';
-import { RefundsService, SuperRefundsService } from './refunds/refunds.service';
+import { UsersService } from './user/service/user.service';
 import { ApiKeyService } from './api-key/api-key.service';
 import { WebhookModule } from './webhook/webhook.module';
-import { RefundsController } from './refunds/refunds.controller';
+import { UsersController } from './user/user.controller';
 import { SessionController } from './session/session.controller';
 import configuration from './common/env';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SessionModule } from './session/session.module';
+import { MerchantService } from './user/service/merchant.service';
+import { UsersModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -33,14 +35,13 @@ import { SessionModule } from './session/session.module';
     WebhookModule,
     AuthModule,
     SessionModule,
+    UsersModule
   ],
-  controllers: [AppController, RefundsController, SessionController],
+  controllers: [AppController],
   providers: [
     AppService,
     AnayticsService,
-    RefundsService,
     ApiKeyService,
-    SuperRefundsService,
   ],
   
 })

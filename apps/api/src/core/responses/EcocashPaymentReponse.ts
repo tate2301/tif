@@ -1,4 +1,4 @@
-import { EcocashBillingDetails } from 'src/payment/eco-cash/eco-cash.interface';
+import { EcocashBillingDetails } from 'src/payment/strategy/eco-cash.strategy';
 import { Customer } from '../Customer';
 import { PaymentReponse } from './PaymentResponse';
 

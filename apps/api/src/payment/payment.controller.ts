@@ -22,7 +22,7 @@ import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
-  @Post(':payment_id/capture/:payment_method')
+  @Post(':payment_id/charge/:payment_method')
   @HttpCode(HttpStatus.CREATED)
   async charge(
     @Param('payment_id') payment_id: string,

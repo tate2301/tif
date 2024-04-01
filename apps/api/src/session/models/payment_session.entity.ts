@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class DPaymentSession {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn()
+  id: string;
 
   @Column()
   sessionId: string;
@@ -22,6 +22,9 @@ export class DPaymentSession {
 
   @Column()
   status: 'paid' | 'unpaid' | 'no_payment_required';
+
+  @Column()
+  reason: 'fail' | 'success' | 'manual' | 'expire'
 
   @Column()
   timestamp: Date;

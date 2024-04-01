@@ -5,7 +5,7 @@ import {
   PAYMENT_METHODS,
   PaymentResponse,
 } from 'src/payment/payments.interface';
-import { EcoCashStrategy } from './eco-cash/eco-cash.service';
+import { EcoCashStrategy } from './strategy/eco-cash.strategy';
 import { PaymentMethod } from 'src/core/PaymentMethod';
 import { InitiateCheckoutDto } from './dto/checkout_session.dto';
 import { VoidDto } from './dto/void.dto';

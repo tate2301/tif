@@ -3,12 +3,13 @@ import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import logger from 'src/common/logger';
-import { DUser } from './models/user.entity';
+import { DUser } from '../user/models/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { randomUUID } from 'crypto';
 import { RegisterUserInput } from './dto/register.input';
+import { UsersService } from 'src/user/service/user.service';
 
 @Injectable()
 export class APIKeyAuthService {
@@ -19,28 +20,6 @@ export class APIKeyAuthService {
 
 }
 
-@Injectable()
-export class UsersService {
-  constructor(@InjectRepository(DUser) private userRepository: Repository<DUser>) {
-  }
-
-  async findOne(email: string): Promise<DUser | undefined> {
-    return this.userRepository.findOne({ where: {
-      email
-    } });
-  }
-
-  async create(user: RegisterUserInput): Promise<DUser> {
-    if(await this.userRepository.findOne({where: {email: user.email}})) {
-      throw new ConflictException()
-    }
-    const uuid = randomUUID()
-    const newUser = await this.userRepository.save({...user, uuid}).then()
-    logger.info(`Created user with email: ${user.email}`)
-    return newUser
-
-  }
-}
 
 @Injectable()
 export class AuthService {

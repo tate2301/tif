@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { PaymentController } from './payment.controller';
-import { EcoCashStrategy } from './eco-cash/eco-cash.service';
-import { ZimSwitchStrategy } from './zim-switch/zim-switch.service';
+import { EcoCashStrategy } from './strategy/eco-cash.strategy';
+import { ZimSwitchStrategy } from './strategy/zim-switch.strategy';
 import DPayment from './models/payment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';

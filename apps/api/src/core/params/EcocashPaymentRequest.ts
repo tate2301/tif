@@ -1,7 +1,7 @@
-import { EcocashBillingDetails } from 'src/payment/eco-cash/eco-cash.interface';
 import { PaymentRequest } from './PaymentRequest';
 import { PAYMENT_METHODS, CURRENCIES } from 'src/payment/payments.interface';
 import { Customer } from '../Customer';
+import { EcocashBillingDetails } from 'src/payment/strategy/eco-cash.strategy';
 
 export interface EcoCashPaymentRequest
   extends PaymentRequest<EcocashBillingDetails> {}
