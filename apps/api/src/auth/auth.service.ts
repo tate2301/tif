@@ -7,6 +7,7 @@ import { DUser } from './models/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class JWTAuthService {
@@ -39,7 +40,6 @@ export class AuthService {
 
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usersService.findOne(email);
-    console.log(await bcrypt.hash(pass, 10));
     if (user && bcrypt.compare(user.password, await bcrypt.hash(pass, 10))) {
       const { password, ...result } = user;
       return result;
@@ -48,7 +48,6 @@ export class AuthService {
   }
 
   async login(user: any) {
-    // console.log(user.user);
     const payload = { 
         user : {
             id: user.user.id, 
@@ -58,23 +57,32 @@ export class AuthService {
             updated_at: user.user.updated_at 
         }
     };
-    // console.log({payload});
+
     return {
       access_token: this.jwtService.sign(payload),
     };
 
   }
 
-    async register(data) {
-        data.password = await bcrypt.hash(data.password, 10)
-        let response = await this.usersService.create(data);
-        if (response) {
-            const { password, ...result } = response;
-            return result;
-        }
-    }
+  async register(data) {
+      data.password = await bcrypt.hash(data.password, 10)
+      let response = await this.usersService.create(data);
+      if (response) {
+          const { password, ...result } = response;
+          return result;
+      }
+  }
 
   decodeToken(token) : any {
     return this.jwtService.decode(token)
+  }
+
+  async createAccessToken(email: string) {
+    return this.jwtService.sign({ id: email }, { expiresIn: '15m' });
+  }
+
+  async createRefreshToken(email: string) {
+    const tokenId = randomUUID();
+    return this.jwtService.sign({ id: email, tokenId: tokenId }, { expiresIn: '7d' });
   }
 }
