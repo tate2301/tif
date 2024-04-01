@@ -21,6 +21,7 @@ const CustomCheckbox = ({ text, value, setValue }: Props) => {
           id="default-checkbox"
           type="checkbox"
           value={value}
+          checked={value}
           onChange={handleCheckboxChange}
           className="w-4 h-4 text-cyan-600 bg-zinc-100 border-zinc-300 rounded-lg dark:ring-offset-zinc-800 dark:bg-zinc-700 dark:border-zinc-600"
         />

@@ -6,7 +6,7 @@ function PaymentOptionComponent({ name, Icon, selected }: PaymentOptionProps) {
   return (
     <div
       className={clsx(
-        `col-span-1 border flex flex-row items-center content-center justify-center space-x-2 p-2 rounded-lg cursor-pointer main-border `,
+        `col-span-1 border flex flex-row items-center content-center justify-center space-x-1 p-2 rounded-lg cursor-pointer main-border flex-1 `,
         selected ? "bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 border-zinc-950 " :" text-zinc-950 dark:text-white"
       )}
     >

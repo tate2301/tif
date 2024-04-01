@@ -5,16 +5,21 @@ import CustomDropdown from "@/components/dropdowns/CustomDropdown";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import React, { useState } from "react";
 
-const CreatePaymentLink = () => {
-  const [collect_address, setCollectAddress] = useState();
+const dropdown_options = [
+  { name: "Products or descriptions", _id: "products-or-descriptons" },
+  {
+    name: "Customer chooses what to pay",
+    _id: "customer-chooses-what-to-pay",
+  },
+];
 
-  const dropdown_options = [
-    { name: "Products or descriptions", _id: "products-or-descriptons" },
-    {
-      name: "Customer chooses what to pay",
-      _id: "customer-chooses-what-to-pay",
-    },
-  ];
+const CreatePaymentLink = () => {
+  const [collect_address, setCollectAddress] = useState<any>();
+  const [required_additional_number, setRequireAdditionalNumber] =
+    useState<any>();
+  const [require_mobile_payment, setRequireMobilePayment] = useState(true);
+  const [require_zimswitch, setRequireZimswitch] = useState(true);
+  const [require_card, setRequireCard] = useState(true);
 
   return (
     <DashboardLayout>
@@ -28,16 +33,43 @@ const CreatePaymentLink = () => {
                 heading="Products or description"
               />
             </div>
-            <CustomHeading size="sm" text="Options" />
+            <CustomHeading size="sm" text="User information" />
+            <CustomCheckbox
+              value={require_mobile_payment}
+              setValue={setRequireMobilePayment}
+              text="Add Ecocash"
+            />
+            <CustomCheckbox
+              value={require_zimswitch}
+              setValue={setRequireZimswitch}
+              text="Add Zimswitch "
+            />
+            <CustomCheckbox
+              value={require_card}
+              setValue={setRequireCard}
+              text="Add Debit/Credit card"
+            />
+            <CustomHeading size="sm" text="User information" />
             <CustomCheckbox
               value={collect_address}
               setValue={setCollectAddress}
-              text="collect customer's address"
+              text="Collect customer's address"
+            />
+            <CustomCheckbox
+              value={required_additional_number}
+              setValue={setRequireAdditionalNumber}
+              text="Require customer's additional number"
             />
           </div>
         </div>
         <div className="col-span-1 bg-secondary h-full items-center justify-center content-center">
-          <PaymentPreview />
+          <PaymentPreview
+            require_mobile_payment={require_mobile_payment}
+            require_address={collect_address}
+            reqire_zimswitch={require_zimswitch}
+            require_card={require_card}
+            require_additional_number={required_additional_number}
+          />
         </div>
       </div>
     </DashboardLayout>
