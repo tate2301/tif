@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* // add the code bellow */
+@layer utilities {
+  @variants responsive {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  }
+}
+
+@layer base {
+  body {
+    @apply dark:bg-zinc-900 bg-white;
+  }
+}
+
+@layer utilities {
+  /* animation styles */
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+
+  /* background styles */
+  .bg-primary {
+    @apply dark:bg-zinc-900 bg-white;
+  }
+  .bg-secondary {
+    @apply dark:bg-zinc-800 bg-zinc-100;
+  }
+
+  /* border styles */
+  .main-border-r {
+    @apply border-r dark:border-zinc-800 border-zinc-200;
+  }
+
+  .main-border {
+    @apply border dark:border-zinc-800 border-zinc-200;
+  }
+  .main-border-l {
+    @apply border-l dark:border-zinc-800 border-zinc-200;
+  }
+  .main-border-t {
+    @apply border-t dark:border-zinc-800 border-zinc-200;
+  }
+  .main-border-b {
+    @apply border-b dark:border-zinc-800 border-zinc-200;
+  }
+
+  /* text styles */
+  .main-text {
+    @apply dark:text-zinc-400 text-zinc-700;
+  }
+  .main-link-text {
+    @apply dark:text-zinc-400 text-zinc-700 dark:hover:text-zinc-300 hover:text-zinc-900 cursor-pointer;
+  }
+  .light-link-text {
+    @apply text-secondary-original hover:text-secondary-light cursor-pointer;
+  }
+  .heading-text {
+    @apply dark:text-zinc-200 text-zinc-900;
+  }
+  .light-text {
+    @apply dark:text-zinc-400 text-zinc-500;
+  }
+  .super-light-text {
+    @apply dark:text-zinc-500 text-zinc-500;
+  }
+  .heading-small {
+    @apply dark:text-zinc-200 text-zinc-900 font-bold text-lg;
+  }
+
+  /* width sylles */
+  .limit-width {
+    @apply max-w-7xl w-full mx-auto;
+  }
+
+  /* button styles */
+  .link-button {
+    @apply border z-10 dark:border-secondary-original cursor-pointer dark:hover:border-secondary-superlight dark:bg-secondary-superdark bg-primary-superdark hover:bg-primary-dark text-white border-primary-superdark dark:text-secondary-original;
+  }
+}
