@@ -11,19 +11,13 @@ import {
 } from '@nestjs/common';
 import { ExecutePaymentDto, PaymentService } from './payment.service';
 import { PAYMENT_METHODS } from 'src/payment/payments.interface';
-import { InitiateCheckoutDto } from './dto/checkout.dto';
 import { RefundDto } from './dto/refund.dto';
 import { VoidDto } from './dto/void.dto';
+import logger from 'src/common/logger';
 
 @Controller('payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
-
-  @Post('checkout')
-  @HttpCode(HttpStatus.CREATED)
-  async create_checkout_session(@Body() checkoutDetails: InitiateCheckoutDto) {
-    return this.paymentService.createCheckoutSession(checkoutDetails);
-  }
 
   @Post(':payment_id/capture/:payment_method')
   @HttpCode(HttpStatus.CREATED)
@@ -41,9 +35,9 @@ export class PaymentController {
     );
   }
 
-  @Put(':payment_id/refund')
+  @Put(':payment_id')
   @HttpCode(HttpStatus.CREATED)
-  async refund(
+  async updatePayment(
     @Param('payment_id') payment_id: string,
     @Body() refundRequest: RefundDto,
   ) {
@@ -52,7 +46,7 @@ export class PaymentController {
     return this.paymentService.refundTransaction(payment_id, refundRequest);
   }
 
-  @Delete(':payment_id/void')
+  @Delete(':payment_id')
   @HttpCode(HttpStatus.CREATED)
   async void(
     @Param('payment_id') payment_id: string,
@@ -66,5 +60,6 @@ export class PaymentController {
   @Get(':payment_id')
   async getPaymentStatus(@Param('payment_id') payment_id: string) {
     // Implementation to query and return the payment status
+    logger.info(`Getting payment status for payment_id: ${payment_id}`);
   }
 }

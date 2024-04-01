@@ -3,8 +3,7 @@ import { Customer } from '../Customer';
 import { PaymentReponse } from './PaymentResponse';
 
 export class EcoCashPaymentResponse extends PaymentReponse<EcocashBillingDetails> {
-  getMaskedCustomerDetails(
-  ): Customer<EcocashBillingDetails> {
+  getMaskedCustomerDetails(): Customer<EcocashBillingDetails> {
     let msisdn = '0';
     msisdn += this.customer.billingDetails.msisdn.toString().slice(0, 3);
     msisdn += '****';
@@ -14,7 +13,7 @@ export class EcoCashPaymentResponse extends PaymentReponse<EcocashBillingDetails
   }
 
   override getResponse(): object {
-    const maskedCustomer = this.getMaskedCustomerDetails()
+    const maskedCustomer = this.getMaskedCustomerDetails();
     return {
       success: this.success,
       transactionId: this.transactionId,
@@ -23,8 +22,8 @@ export class EcoCashPaymentResponse extends PaymentReponse<EcocashBillingDetails
       timestamp: this.timestamp,
       customer: {
         ...maskedCustomer.meta,
-        ...maskedCustomer.billingDetails
-      }
+        ...maskedCustomer.billingDetails,
+      },
     };
   }
 }
