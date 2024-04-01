@@ -52,6 +52,7 @@ const CreatePaymentLink = () => {
             <CustomHeading size="sm" text="User information" />
             <CustomCheckbox
               value={collect_address}
+              description="Make users give your the location of where you they want shipping done"
               setValue={setCollectAddress}
               text="Collect customer's address"
             />

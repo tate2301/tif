@@ -27,7 +27,7 @@ const PaymentPreview = ({
 
   return (
     <div
-      className={`${require_address ? "max-w-md " : "max-w-sm "}  flex-1 mx-auto flex flex-col gap-8 p-8 rounded-lg bg-primary`}
+      className={`${require_address ? "max-w-md " : "max-w-sm "}  mx-auto flex flex-col gap-8 p-8 rounded-lg bg-primary`}
     >
       <BorderedHeading text="Pay with" />
       {reqire_zimswitch || require_card || require_mobile_payment ? (
