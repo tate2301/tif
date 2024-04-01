@@ -1,27 +1,56 @@
-import React from 'react'
+import React from "react";
 
 type Props = {
-  value: any
-  setValue: any
-  heading?: string
-  placeholder: string
-}
+  value: any;
+  setValue: any;
+  heading?: string;
+  placeholder: string;
+  textarea?: boolean;
+  rows?: number;
+  optional?: boolean;
+};
 
-function CustomInput({ value, setValue, heading, placeholder }: Props) {
+function CustomInput({
+  value,
+  setValue,
+  heading,
+  placeholder,
+  textarea,
+  rows,
+  optional,
+}: Props) {
   return (
     <div className="flex flex-col space-y-1">
-      {heading && (
-        <p className="text-sm text-zinc-500 capitalize font-medium">{heading}</p>
+      <div className="flex flex-row items-center space-x-1">
+        {heading && (
+          <p className="text-sm text-zinc-700 capitalize font-medium">
+            {heading}
+          </p>
+        )}
+        {optional && (
+          <p className="text-xs bg-secondary p-0.5 rounded font-medium light-text">(Optional)</p>
+        )}
+      </div>
+
+      {textarea ? (
+        <textarea
+          rows={rows ? rows : 3}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder={placeholder}
+          className=" bg-primary main-border shadow-sm p-2 text-sm outline-none rounded-lg"
+        />
+      ) : (
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder={placeholder}
+          className=" bg-primary main-border shadow-sm p-2 text-sm outline-none rounded-lg"
+        />
       )}
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        placeholder={placeholder}
-        className=" bg-secondary main-border shadow-sm p-2 text-sm outline-none rounded-lg"
-      />
     </div>
-  )
+  );
 }
 
-export default CustomInput
+export default CustomInput;
