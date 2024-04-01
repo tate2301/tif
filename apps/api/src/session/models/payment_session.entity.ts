@@ -15,12 +15,6 @@ export class DPaymentSession {
   merchantId: string;
 
   @Column()
-  customerId: string;
-
-  @Column()
-  paymentId: string;
-
-  @Column()
   status: 'paid' | 'unpaid' | 'no_payment_required';
 
   @Column()

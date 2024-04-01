@@ -5,7 +5,7 @@ import { APIKeyAuthService } from "../auth.service";
 import { MerchantService } from "src/user/service/merchant.service";
 
 @Injectable()
-export class ApiKeyStrategy extends PassportStrategy(HeaderAPIKeyStrategy, 'authorization') {
+export class ApiKeyStrategy extends PassportStrategy(HeaderAPIKeyStrategy, 'headerapikey') {
     constructor(private authService: APIKeyAuthService, private merchantService: MerchantService) {
         super({header: 'authorization', prefix: ''}, true, async (apiKey, done) => {
             if(this.authService.validateApiKey(apiKey)) {
@@ -17,6 +17,7 @@ export class ApiKeyStrategy extends PassportStrategy(HeaderAPIKeyStrategy, 'auth
     }
 
     async validate(apiKey: string) {
+        
         return {
 
         }

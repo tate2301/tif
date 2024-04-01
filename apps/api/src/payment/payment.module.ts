@@ -7,6 +7,7 @@ import DPayment from './models/payment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
+import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
   ],
   providers: [PaymentService, EcoCashStrategy, ZimSwitchStrategy, {
       provide: APP_GUARD,
-      useClass: JwtAuthGuard,
+      useClass: ApiKeyGuard,
     },
   ],
   controllers: [PaymentController],

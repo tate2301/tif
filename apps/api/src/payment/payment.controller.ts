@@ -17,7 +17,6 @@ import { VoidDto } from './dto/void.dto';
 import logger from 'src/common/logger';
 import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
 
-@UseGuards(ApiKeyGuard)
 @Controller('payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
