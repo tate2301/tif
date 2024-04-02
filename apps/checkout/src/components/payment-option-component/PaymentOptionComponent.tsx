@@ -11,7 +11,7 @@ function PaymentOptionComponent({ name, Icon, selected }: PaymentOptionProps) {
       )}
     >
       <Icon className="flex-shrink-0 w-5 h-5" />
-      <p className="font-semibold">{name}</p>
+      <p className="font-medium">{name}</p>
     </div>
   );
 }

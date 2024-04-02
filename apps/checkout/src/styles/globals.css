@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 body {
-  text-rendering: optimizeLegibility;
+  text-rendering: geometricPrecision;
   font-size: 14px;
-  font-weight: 400;
 }
