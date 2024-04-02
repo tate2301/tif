@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@tif/core':
+        specifier: workspace:*
+        version: link:packages/core
       '@tif/eslint-config':
         specifier: workspace:*
         version: link:packages/eslint-config
@@ -86,6 +89,9 @@ importers:
       passport-jwt:
         specifier: ^4.0.1
         version: 4.0.1
+      passport-local:
+        specifier: ^1.0.0
+        version: 1.0.0
       reflect-metadata:
         specifier: ^0.2.0
         version: 0.2.1
@@ -313,21 +319,6 @@ importers:
         version: 18.2.0(react@18.2.0)
 
   apps/kyc:
-    dependencies:
-      next:
-        specifier: 14.1.3
-        version: 14.1.3(react-dom@18.2.0)(react@18.2.0)
-      next-themes:
-        specifier: ^0.3.0
-        version: 0.3.0(react-dom@18.2.0)(react@18.2.0)
-      react:
-        specifier: ^18
-        version: 18.2.0
-      react-dom:
-        specifier: ^18
-        version: 18.2.0(react@18.2.0)
-
-  apps/platform:
     dependencies:
       next:
         specifier: 14.1.3
@@ -11141,6 +11132,13 @@ packages:
     resolution: {integrity: sha512-UCKMDYhNuGOBE9/9Ycuoyh7vP6jpeTp/+sfMJl7nLff/t6dps+iaeE0hhNkKN8/HZHcJ7lCdOyDxHdDoxoSvdQ==}
     dependencies:
       jsonwebtoken: 9.0.2
+      passport-strategy: 1.0.0
+    dev: false
+
+  /passport-local@1.0.0:
+    resolution: {integrity: sha512-9wCE6qKznvf9mQYYbgJ3sVOHmCWoUNMVFoZzNoznmISbhnNNPhN9xfY3sLmScHMetEJeoY7CXwfhCe7argfQow==}
+    engines: {node: '>= 0.4.0'}
+    dependencies:
       passport-strategy: 1.0.0
     dev: false
 

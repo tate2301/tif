@@ -1,7 +1,18 @@
-import {  Body, Controller, Delete, Get, Param, Patch, Post, Render, Request, UseGuards } from '@nestjs/common';
-import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Render,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { SessionService } from './session.service';
 import { CreateSessionInput } from './dto/create_session.input';
+import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
 
 @UseGuards(ApiKeyGuard)
 @Controller('payment_session')
@@ -10,24 +21,20 @@ export class SessionController {
 
   @Get(':session_id')
   async get_session(@Param('session_id') session_id: string) {
-    
+    return { message: 'Hey there' };
   }
-  
+
   @Post()
-  async create_session(@Request() req: any, @Body() body: CreateSessionInput ) {
-    const user = req.user
-    return this.sessionService.createPaymentSession(user, body)
+  async create_session(@Request() req: any, @Body() body: CreateSessionInput) {
+    const user = req.user;
+    return this.sessionService.createPaymentSession(user, body);
   }
 
   @Patch()
-  async update_session() {
-
-  }
+  async update_session() {}
 
   @Delete()
-  async revoke_session() {
-    
-  }
+  async revoke_session() {}
 
   @Get()
   @Render('pay')
@@ -35,4 +42,3 @@ export class SessionController {
     return { message: 'Hey there' };
   }
 }
-

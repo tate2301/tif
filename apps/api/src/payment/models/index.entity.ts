@@ -1,9 +1,5 @@
+import { CURRENCIES, PAYMENT_METHODS, PAYMENT_MODE } from 'src/common/enum';
 import { Column } from 'typeorm';
-import {
-  CURRENCIES,
-  PAYMENT_METHODS,
-  PAYMENT_MODE,
-} from '../payments.interface';
 
 export class DTestableEntity {
   @Column()

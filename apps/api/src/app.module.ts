@@ -5,21 +5,20 @@ import { AppService } from './app.service';
 import { PaymentModule } from './payment/payment.module';
 import { AuthModule } from './auth/auth.module';
 import { AnayticsService } from './anaytics/anaytics.service';
-import { UsersService } from './user/service/user.service';
 import { ApiKeyService } from './api-key/api-key.service';
 import { WebhookModule } from './webhook/webhook.module';
-import { UsersController } from './user/user.controller';
-import { SessionController } from './session/session.controller';
-import configuration from './common/env';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SessionModule } from './session/session.module';
-import { MerchantService } from './user/service/merchant.service';
 import { UsersModule } from './user/user.module';
+import env from './common/env';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: ['.env', '.env.example', '.env.development'],
+      load: [env],
+
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -27,7 +26,7 @@ import { UsersModule } from './user/user.module';
       port: 3306,
       username: 'root',
       password: '',
-      database: 'test',
+      database: 'tif',
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -42,6 +41,10 @@ import { UsersModule } from './user/user.module';
     AppService,
     AnayticsService,
     ApiKeyService,
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: AuthInterceptor,
+    // }
   ],
   
 })

@@ -6,7 +6,6 @@ import { ZimSwitchStrategy } from './strategy/zim-switch.strategy';
 import DPayment from './models/payment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
-import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
 
 @Module({
   imports: [
@@ -14,10 +13,7 @@ import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
     EcoCashStrategy,
     ZimSwitchStrategy,
   ],
-  providers: [PaymentService, EcoCashStrategy, ZimSwitchStrategy, {
-      provide: APP_GUARD,
-      useClass: ApiKeyGuard,
-    },
+  providers: [PaymentService, EcoCashStrategy, ZimSwitchStrategy,
   ],
   controllers: [PaymentController],
 })

@@ -8,7 +8,6 @@ import {
   HttpStatus,
   Put,
   Delete,
-  UseGuards,
 } from '@nestjs/common';
 import { ExecutePaymentDto, PaymentService } from './payment.service';
 import { RefundDto } from './dto/refund.dto';

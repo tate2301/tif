@@ -1,9 +1,6 @@
 import { IsNotEmpty, IsString, IsNumber, IsEnum } from 'class-validator';
-import {
-  CURRENCIES,
-  PAYMENT_METHODS,
-  PAYMENT_MODE,
-} from '../payments.interface';
+import { CURRENCIES, PAYMENT_METHODS, PAYMENT_MODE } from 'src/common/enum';
+
 
 export class InitiateCheckoutDto {
   @IsNotEmpty()
