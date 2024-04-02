@@ -1,16 +1,7 @@
 import { IsArray, IsEnum, IsNotEmpty, IsNumber, IsString, IsUrl } from "class-validator";
-import { PAYMENT_METHODS } from "src/payment/payments.interface";
+import { CHECKOUT_TYPE, GOODS_TYPE, PAYMENT_METHODS } from "src/common/enum";
 
-enum GOODS_TYPE {
-    "service",
-    "software",
-    "physical_goods",
 
-}
-
-enum CHECKOUT_TYPE {
-    "payment", "subscription", "donation"
-}
 
 type DiscountCode = {code: string, amount: number}
 

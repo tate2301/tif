@@ -11,17 +11,37 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ExecutePaymentDto, PaymentService } from './payment.service';
-import { PAYMENT_METHODS } from 'src/payment/payments.interface';
 import { RefundDto } from './dto/refund.dto';
 import { VoidDto } from './dto/void.dto';
 import logger from 'src/common/logger';
-import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
+import { PAYMENT_METHODS } from 'src/common/enum';
 
 @Controller('payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
-  @Post(':payment_id/charge/:payment_method')
+  @Get(':payment_id')
+  async getPayment(@Param('payment_id') payment_id: string) {
+    // Implementation to query and return the payment status
+    logger.info(`Getting payment status for payment_id: ${payment_id}`);
+  }
+
+  @Get('merchant/:merchant_id')
+  async getPayments(@Param('merchant_id') merchant_id: string) {
+    logger.info('Getting payments for merchant')
+  }
+
+  @Get('charge/:payment_id')
+  async getChargesForPayment(@Param("payment_id") payment_id: string) {
+
+  }
+
+  @Get('charge/:payment_id/:charge_id')
+  async getChargeDetail(@Param("payment_id") payment_id: string, @Param("charge_id") charge_id: string) {
+
+  }
+
+  @Post('pay/:payment_id/:payment_method')
   @HttpCode(HttpStatus.CREATED)
   async charge(
     @Param('payment_id') payment_id: string,
@@ -37,7 +57,7 @@ export class PaymentController {
     );
   }
 
-  @Put(':payment_id')
+  @Put('pay/:payment_id')
   @HttpCode(HttpStatus.CREATED)
   async updatePayment(
     @Param('payment_id') payment_id: string,
@@ -48,7 +68,7 @@ export class PaymentController {
     return this.paymentService.refundTransaction(payment_id, refundRequest);
   }
 
-  @Delete(':payment_id')
+  @Delete('pay/:payment_id')
   @HttpCode(HttpStatus.CREATED)
   async void(
     @Param('payment_id') payment_id: string,
@@ -59,9 +79,4 @@ export class PaymentController {
     return this.paymentService.voidPayment(payment_id, voidRequest);
   }
 
-  @Get(':payment_id')
-  async getPaymentStatus(@Param('payment_id') payment_id: string) {
-    // Implementation to query and return the payment status
-    logger.info(`Getting payment status for payment_id: ${payment_id}`);
-  }
 }

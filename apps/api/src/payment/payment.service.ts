@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { IsNotEmpty, IsString, IsObject } from 'class-validator';
 import {
   IPaymentService,
-  PAYMENT_METHODS,
   PaymentResponse,
 } from 'src/payment/payments.interface';
 import { EcoCashStrategy } from './strategy/eco-cash.strategy';
-import { PaymentMethod } from 'src/core/PaymentMethod';
+import { PaymentMethod } from 'src/common/abstract/payment_method';
 import { InitiateCheckoutDto } from './dto/checkout_session.dto';
 import { VoidDto } from './dto/void.dto';
 import { RefundDto } from './dto/refund.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import DPayment from './models/payment.entity';
 import { Repository } from 'typeorm';
+import { PAYMENT_METHODS } from 'src/common/enum';
 
 @Injectable()
 export class PaymentService implements IPaymentService {

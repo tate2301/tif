@@ -1,7 +1,8 @@
 import logger from 'src/common/logger';
-import { Customer } from 'src/core/Customer';
-import { PaymentMethod } from 'src/core/PaymentMethod';
-import { EcocashPaymentRequest } from 'src/core/params/EcocashPaymentRequest';
+import { PaymentMethod } from 'src/common/abstract/payment_method';
+import { EcocashPaymentRequest } from 'src/common/params/EcocashPaymentRequest';
+import { CustomerWithBillingDetails } from 'src/customer/customer.types';
+import { Customer } from 'src/customer/models/customer.entity';
 
 export type EcocashBillingDetails = {
   msisdn: string;
@@ -36,14 +37,15 @@ export class EcoCashStrategy extends PaymentMethod {
     throw new Error('Method not implemented.');
   }
 
-  buildCustomerObject(captureParams: {
+  async buildCustomerObject(captureParams: {
     mobile_number: string;
-  }): Customer<EcocashBillingDetails> {
-    const customer = new Customer<EcocashBillingDetails>(
-      null,
-      EcocashPaymentRequest.generateBillingDetails(captureParams.mobile_number),
-    );
-
+  }): Promise<CustomerWithBillingDetails<EcocashBillingDetails>> {
+    const customer_profile = new Customer()
+    const customer: CustomerWithBillingDetails<EcocashBillingDetails> = {
+      meta: customer_profile,
+      billingDetails:EcocashPaymentRequest.generateBillingDetails(captureParams.mobile_number),
+    }
+    
     return customer;
   }
 

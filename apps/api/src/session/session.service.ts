@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DPaymentSession } from './models/payment_session.entity';
+import { PaymentSession } from './models/payment_session.entity';
 import { Repository } from 'typeorm';
 import { generatePrimaryKey } from 'src/common/utils';
 import { CreateSessionInput } from './dto/create_session.input';
@@ -20,7 +20,7 @@ export interface IPaymentSession {
 
 @Injectable()
 export class SessionService {
-  constructor(@InjectRepository(DPaymentSession) private paymentSessionRepo: Repository<DPaymentSession>) {
+  constructor(@InjectRepository(PaymentSession) private paymentSessionRepo: Repository<PaymentSession>) {
 
   }
 

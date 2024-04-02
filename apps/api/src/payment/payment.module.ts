@@ -6,7 +6,6 @@ import { ZimSwitchStrategy } from './strategy/zim-switch.strategy';
 import DPayment from './models/payment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
 
 @Module({

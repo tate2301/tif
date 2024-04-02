@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class DPaymentSession {
+export class PaymentSession {
   @PrimaryColumn()
   id: string;
 

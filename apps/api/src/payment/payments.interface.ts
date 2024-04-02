@@ -1,3 +1,4 @@
+import { PAYMENT_METHODS } from 'src/common/enum';
 import { InitiateCheckoutDto } from './dto/checkout_session.dto';
 import { RefundDto } from './dto/refund.dto';
 import { VoidDto } from './dto/void.dto';
@@ -22,25 +23,6 @@ export interface IPaymentService {
 
 export interface PaymentStrategy<TRequest, TResponse> {
   execute(paymentDetails: TRequest): Promise<TResponse>;
-}
-
-export enum PAYMENT_METHODS {
-  EcoCash = 'ecocash',
-  ZimSwitch = 'zimswitch',
-  Visa = 'visa',
-  Mastercard = 'mastercard',
-  OneMoney = 'onemoney',
-  Telecash = 'telecash',
-}
-
-export enum PAYMENT_MODE {
-  Checkout = 'checkout',
-  Payment = 'payment',
-}
-
-export enum CURRENCIES {
-  USD = 'USD',
-  ZWL = 'ZWL',
 }
 
 export interface Receipt {
@@ -89,7 +71,7 @@ export interface IPaymentController {
   configureWebhook(config: WebhookConfiguration): Promise<any>;
   generateReceipt(paymentId: string): Promise<Receipt>;
   refundTransaction(request: RefundRequest): Promise<any>;
-  listTransactionsForMerchant(
+  listPaymentsForMerchant(
     request: MerchantTransactionsRequest,
   ): Promise<any[]>;
   configurePaymentMethod(config: PaymentMethodConfiguration): Promise<any>;
