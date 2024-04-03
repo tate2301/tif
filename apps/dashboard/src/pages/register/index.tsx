@@ -8,6 +8,7 @@ import { getMessage } from "@/helpers/getMessage";
 import Image from "next/image";
 import CustomInput from "@/components/inputs/CustomInput";
 import { Checkbox } from "@/components/ui/checkbox";
+import { velocityPaymentsAPIClient } from "@/lib/client";
 
 type Props = {};
 
@@ -20,13 +21,14 @@ function Register({}: Props) {
   const [first_name, setFirstName] = useState("");
   const [last_name, setLastName] = useState("");
   const [address, setAddress] = useState("");
-  const [address_line_2, setAddresLine2] = useState("");
   const [city, setCity] = useState("");
-  const [profile_picture, setProfilePicture] = useState("");
+  const [country, setCountry] = useState("");
+  const [loading, setLoading] = useState<boolean>()
 
   const login_user = async () => {
+    setLoading(true)
     try {
-      const { data } = await axios.post(`/auth/login`, {
+      const { data } = await velocityPaymentsAPIClient.post(`/auth/register`, {
         username: email,
         password: password,
       });
@@ -34,8 +36,10 @@ function Register({}: Props) {
       router.push("/payments");
       setPassword("");
       setEmail("");
+      setLoading(false)
       // console.log(data);
     } catch (error) {
+      setLoading(false)
       setErr("login fail");
     }
   };
@@ -72,34 +76,34 @@ function Register({}: Props) {
           <div className="grid grid-cols-2 gap-4">
             <CustomInput
               heading="First name"
-              value={email}
-              setValue={setEmail}
+              value={first_name}
+              setValue={setFirstName}
               placeholder="First name"
             />
             <CustomInput
               heading="Last name"
-              value={email}
-              setValue={setEmail}
+              value={last_name}
+              setValue={setLastName}
               placeholder="Last name"
             />
           </div>
           <CustomInput
             heading="Home address"
-            value={email}
-            setValue={setEmail}
+            value={address}
+            setValue={setAddress}
             placeholder="Enter your physical home address"
           />
            <div className="grid grid-cols-2 gap-4">
             <CustomInput
               heading="City"
-              value={email}
-              setValue={setEmail}
+              value={city}
+              setValue={setCity}
               placeholder="City"
             />
             <CustomInput
               heading="Country"
-              value={email}
-              setValue={setEmail}
+              value={country}
+              setValue={setCountry}
               placeholder="Country"
             />
           </div>
