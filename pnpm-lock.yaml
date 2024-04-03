@@ -391,6 +391,12 @@ importers:
 
   packages/core:
     dependencies:
+      axios:
+        specifier: ^1.6.7
+        version: 1.6.7
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.5
       winston:
         specifier: ^3.12.0
         version: 3.12.0
@@ -410,18 +416,9 @@ importers:
       '@types/node':
         specifier: ^20.11.24
         version: 20.11.25
-      '@types/react':
-        specifier: ^18.2.61
-        version: 18.2.64
-      '@types/react-dom':
-        specifier: ^18.2.19
-        version: 18.2.21
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
-      react:
-        specifier: ^18.2.0
-        version: 18.2.0
       typescript:
         specifier: ^5.3.3
         version: 5.4.2
@@ -6677,6 +6674,11 @@ packages:
 
   /dotenv@16.4.1:
     resolution: {integrity: sha512-CjA3y+Dr3FyFDOAMnxZEGtnW9KBR2M0JvvUtXNW+dYJL5ROWxP9DUHCwgFqpMk0OXCc0ljhaNTr2w/kutYIcHQ==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /dotenv@16.4.5:
+    resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
     engines: {node: '>=12'}
     dev: false
 

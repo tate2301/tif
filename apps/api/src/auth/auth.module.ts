@@ -11,16 +11,16 @@ import { DMerchant } from 'src/user/models/merchant.entity';
 import { UsersModule } from 'src/user/user.module';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { ApiKeyStrategy } from './strategy/apikey.strategy';
-import { jwtConstants } from 'src/common/constants';
 import { ApiKeyService } from 'src/api-key/api-key.service';
 import { APIKeyModule } from 'src/api-key/api-key.module';
 import { ApiKey } from 'src/api-key/models/api_key.entity';
 import { UsersService } from 'src/user/service/user.service';
+import { config } from '@tif/core';
 
 @Module({
   imports: [
     JwtModule.register({
-      secret: jwtConstants.secret,
+      secret: config.jwt.secret,
       signOptions: { expiresIn: '600m' },
     }),
     TypeOrmModule.forFeature([DBearer, Merchant, DMerchant, ApiKey]),
