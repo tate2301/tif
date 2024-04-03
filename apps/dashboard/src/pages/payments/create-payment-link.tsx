@@ -2,6 +2,7 @@ import PaymentPreview from "@/components/create-payment-components/PaymentPrevie
 import CustomCheckbox from "@/components/custom-checkbox/CustomCheckbox";
 import CustomHeading from "@/components/custom-heading/CustomHeading";
 import CustomDropdown from "@/components/dropdowns/CustomDropdown";
+import ChooseProductModal from "@/components/modals/ChooseProductModal";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import React, { useState } from "react";
 
@@ -33,22 +34,26 @@ const CreatePaymentLink = () => {
                 heading="Products or description"
               />
             </div>
-            <CustomHeading size="sm" text="User information" />
+            <CustomHeading size="sm" text="Payment options" />
             <CustomCheckbox
               value={require_mobile_payment}
               setValue={setRequireMobilePayment}
-              text="Add Ecocash"
+              text="Use Ecocash"
             />
             <CustomCheckbox
               value={require_zimswitch}
               setValue={setRequireZimswitch}
-              text="Add Zimswitch "
+              text="Use Zimswitch "
             />
             <CustomCheckbox
               value={require_card}
               setValue={setRequireCard}
-              text="Add Debit/Credit card"
+              text="Use Debit/Credit card"
             />
+            <CustomHeading size="sm" text="Add a product" />
+            <div className="flex">
+              <ChooseProductModal />
+            </div>
             <CustomHeading size="sm" text="User information" />
             <CustomCheckbox
               value={collect_address}

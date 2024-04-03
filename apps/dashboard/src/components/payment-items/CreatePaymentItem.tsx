@@ -1,29 +1,43 @@
 import React from "react";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import Image from "next/image";
 
 type Props = {
   isCodeRequired?: boolean;
-  actionButtonText: string
-  heading: string
-  description: string
-  location: string
+  actionButtonText: string;
+  heading: string;
+  description: string;
+  location: string;
 };
 
-function CreatePaymentItem({ isCodeRequired, actionButtonText, heading, description, location }: Props) {
+function CreatePaymentItem({
+  isCodeRequired,
+  actionButtonText,
+  heading,
+  description,
+  location,
+}: Props) {
   return (
     <div className="col-span-1 flex flex-col space-y-2">
-      <div className="h-60 rounded-xl bg-secondary"></div>
-      <p className="heading-text text-sm font-semibold">
-        {heading}
-      </p>
-      <p className="main-text text-xs font-medium">
-        {description}
-      </p>
+      <div className="h-60 aspect-video rounded-xl bg-zinc-50 dark:bg-zinc-800 overflow-hidden relative">
+        <div className="h-48 w-1/3 relative  top-50">
+          {/* <Image
+            alt="display image item"
+            layout="fill"
+            objectFit="cover"
+            src={"/images/create-link-large.png"}
+          /> */}
+        </div>
+      </div>
+      <p className="heading-text text-sm font-semibold">{heading}</p>
+      <p className="main-text text-xs font-medium">{description}</p>
       <div className="flex flex-row items-center space-x-1">
         {isCodeRequired ? (
           <>
-            <div className="flex bg-secondary main-text text-xs p-1 rounded font-medium">Code required</div>
+            <div className="flex bg-secondary main-text text-xs p-1 rounded font-medium">
+              Code required
+            </div>
           </>
         ) : (
           <>
@@ -38,7 +52,10 @@ function CreatePaymentItem({ isCodeRequired, actionButtonText, heading, descript
         )}
       </div>
       <div className="flex pt-2">
-        <Link href={location} className="flex main-border p-2 shadow cursor-pointer text-sm font-medium main-text rounded-xl">
+        <Link
+          href={location}
+          className="flex main-border p-2 shadow cursor-pointer text-sm font-medium main-text rounded-xl"
+        >
           {actionButtonText}
         </Link>
       </div>
