@@ -28,7 +28,7 @@ export class AuthInterceptor implements NestInterceptor {
         ?.user;
 
       if (!user) {
-        next.handle().pipe();
+        return next.handle().pipe();
       }
       const apiKey = await this.apiKeyService.getApiKeyByMerchantId(user.id);
 
