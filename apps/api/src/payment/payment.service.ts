@@ -13,6 +13,8 @@ import Payment from './models/payment.entity';
 import { Repository } from 'typeorm';
 import { PAYMENT_METHODS } from 'src/common/enum';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Charge } from './models/charge.entity';
+import { ChargeService } from './services/charge.service';
 
 @Injectable()
 export class PaymentService implements IPaymentService {
@@ -22,9 +24,26 @@ export class PaymentService implements IPaymentService {
   constructor(
     @InjectRepository(Payment) private paymentRepository: Repository<Payment>,
     ecoCashStrategy: EcoCashStrategy,
+    private chargeService: ChargeService,
   ) {
     // Map each strategy to its corresponding payment method
     this.strategies.set(PAYMENT_METHODS.EcoCash, ecoCashStrategy);
+  }
+
+  async getPayment(paymentId: string): Promise<Payment> {
+    return this.paymentRepository.findOne({ where: { id: paymentId } });
+  }
+
+  async getPayments(merchantId: string): Promise<Payment[]> {
+    return this.paymentRepository.find({ where: { merchantId } });
+  }
+
+  async getChargesForPayment(paymentId: string): Promise<Charge[]> {
+    return this.chargeService.getChargesForPayment(paymentId);
+  }
+
+  async getChargeDetail(paymentId: string, chargeId: string): Promise<Charge> {
+    return this.getChargeDetail(paymentId, chargeId);
   }
 
   setTestingMode(isTesting: boolean): void {

@@ -87,10 +87,4 @@ export class SessionController {
     const { user } = req;
     return this.sessionService.revokePaymentSession(user.id, id, reason);
   }
-
-  @Get()
-  @Render('pay')
-  root() {
-    return { message: 'Hey there' };
-  }
 }
