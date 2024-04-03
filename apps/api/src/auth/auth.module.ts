@@ -15,7 +15,7 @@ import { ApiKeyService } from 'src/api-key/api-key.service';
 import { APIKeyModule } from 'src/api-key/api-key.module';
 import { ApiKey } from 'src/api-key/models/api_key.entity';
 import { UsersService } from 'src/user/service/user.service';
-import { config } from '@tif/core';
+import { config } from '@tif/core/';
 
 @Module({
   imports: [
