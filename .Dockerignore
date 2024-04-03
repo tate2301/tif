@@ -1,0 +1,13 @@
+# Ignore all files and directories in the root directory
+/*
+
+# Include the apps directory
+!apps/
+!packages/
+
+# Exclude Python cache files
+**/__pycache__/
+*.pyc
+*.pyo
+
+# Exclude any other files or directories you don't want to include in the Docker image
