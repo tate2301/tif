@@ -19,6 +19,7 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { RequestWithApiKey, RequestWithAuth } from 'src/common/types/user.type';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaymentSession } from './models/payment_session.entity';
+import { PatchSessionInput } from './dto/patch_session.input';
 
 @Controller('payment_session')
 export class SessionController {
@@ -65,7 +66,14 @@ export class SessionController {
 
   @UseGuards(ApiKeyGuard)
   @Patch(':id')
-  async update_session() {}
+  async update_session(
+    @Req() req: RequestWithApiKey,
+    @Param('id') id: string,
+    @Body() body: PatchSessionInput,
+  ) {
+    const user = req.user;
+    return this.sessionService.updatePaymentSession(user, id, body);
+  }
 
   @UseGuards(ApiKeyGuard)
   @Delete(':id')

@@ -10,6 +10,8 @@ import { generateUniqueId } from 'src/common/utils';
 import { CreateSessionInput } from './dto/create_session.input';
 import { DUser } from 'src/user/models/user.entity';
 import { AuthenticatedMerchant } from 'src/auth/strategy/apikey.strategy';
+import { PatchSessionInput } from './dto/patch_session.input';
+import { Discount } from '../payment/models/discount.entity';
 
 export type RevokeReason = 'expired' | 'cancelled' | 'fraudulent';
 
@@ -33,6 +35,22 @@ export class SessionService {
     private paymentSessionsRepository: Repository<PaymentSession>,
   ) {}
 
+  private sessionGuard(session: PaymentSession, merchant_id: string) {
+    if (session.merchantId !== merchant_id) {
+      throw new NotFoundException('Session not found');
+    }
+
+    if (session.status === 'revoked') {
+      throw new InternalServerErrorException('Session already cancelled');
+    }
+
+    if (session.status === 'paid' || session.status === 'no_payment_required') {
+      throw new InternalServerErrorException('Session already confirmed');
+    }
+
+    return true;
+  }
+
   async createPaymentSession(
     merchant: AuthenticatedMerchant,
     data: CreateSessionInput,
@@ -47,7 +65,6 @@ export class SessionService {
       timestamp: new Date(),
       checkout_type: data.checkout_type,
       custom_text: data.notes,
-      discount_codes: data.discount_codes?.map((code) => code.code),
       goods_sold_type: data.goods_sold_type,
       reference_id: data.reference_id,
       return_url: data.return_url,
@@ -76,21 +93,33 @@ export class SessionService {
       where: { id: session_id, merchantId: merchant_id },
     });
 
-    if (!session) {
-      throw new NotFoundException('Session not found');
-    }
-
-    if (session.status === 'revoked') {
-      throw new InternalServerErrorException('Session already cancelled');
-    }
-
-    if (session.status === 'paid') {
-      throw new InternalServerErrorException('Session already confirmed');
-    }
+    this.sessionGuard(session, merchant_id);
 
     session.status = 'revoked';
     session.updated_at = new Date().getTime() / 1000;
     session.cancel_reason = reason;
+
+    return this.paymentSessionsRepository.save(session);
+  }
+
+  async updatePaymentSession(
+    merchant: AuthenticatedMerchant,
+    session_id: string,
+    data: PatchSessionInput,
+  ): Promise<PaymentSession> {
+    const session = await this.paymentSessionsRepository.findOne({
+      where: { id: session_id, merchantId: merchant.id },
+    });
+
+    this.sessionGuard(session, merchant.id);
+
+    session.amount = data.amount;
+    session.custom_text = data.notes;
+    session.reference_id = data.reference_id;
+    session.return_url = data.return_url;
+    session.success_url = data.success_url;
+    session.subtotal = data.amount;
+    session.total = data.amount;
 
     return this.paymentSessionsRepository.save(session);
   }
