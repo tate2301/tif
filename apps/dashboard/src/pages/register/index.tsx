@@ -29,11 +29,20 @@ function Register({}: Props) {
     setLoading(true)
     try {
       const { data } = await velocityPaymentsAPIClient.post(`/auth/register`, {
-        username: email,
-        password: password,
+        email,
+        password,
+        first_name,
+        last_name,
+        country,
+        city,
+        address,
+        address_line_2: '',
+        profile_picture: '',
+        merchant_name: `${first_name}-${last_name}`
+
       });
       console.log("mnessage from refitsre", getMessage(data));
-      router.push("/payments");
+      // router.push("/payments");
       setPassword("");
       setEmail("");
       setLoading(false)
