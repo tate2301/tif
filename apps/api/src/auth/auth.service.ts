@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { Merchant } from '../user/models/user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -18,11 +18,13 @@ export class APIKeyAuthService {
   async validateApiKey(apiKey: string): Promise<AuthenticatedMerchant> {
     const apiKeyDetails = await this.apiKeyService.validateKey(apiKey);
 
+    new Logger().log(apiKeyDetails);
+
     if (apiKeyDetails) {
       const merchant =
         await this.merchantService.getUserByApiKey(apiKeyDetails);
 
-      if (!merchant || !merchant.is_active) {
+      if (!merchant) {
         return null;
       }
 
@@ -45,7 +47,6 @@ export class AuthService {
 
   async validateUser(email: string, pass: string): Promise<Merchant> {
     const user = await this.usersService.findOne(email);
-    if (!user.is_active) return null;
 
     if (user && bcrypt.compare(user.password, await bcrypt.hash(pass, 10))) {
       const { ...result } = user;

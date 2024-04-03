@@ -20,6 +20,8 @@ import { RequestWithApiKey, RequestWithAuth } from 'src/common/types/user.type';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaymentSession } from './models/payment_session.entity';
 import { PatchSessionInput } from './dto/patch_session.input';
+import { ApiKeyParam } from 'src/api-key/decorators/apikey.decorator';
+import { ApiKey } from 'src/api-key/models/api_key.entity';
 
 @Controller('payment_session')
 export class SessionController {

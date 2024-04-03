@@ -15,6 +15,8 @@ import { LocalAuthGuard } from './guard/local.guard';
 import { Public } from './decorators/public.decorator';
 import { RegisterUserInput } from './dto/register.input';
 import { JwtAuthGuard } from './guard/jwt.guard';
+import { ApiKeyParam } from 'src/api-key/decorators/apikey.decorator';
+import { ImpersonatorGuard } from 'src/api-key/guards/impersonator.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -37,7 +39,13 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    return req.user;
+    return { ...req.user };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('keys')
+  getApiKeyForUser(@Request() req, @ApiKeyParam() apiKey) {
+    return { api_key: apiKey };
   }
 
   @Post('refresh')

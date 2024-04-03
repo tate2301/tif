@@ -13,6 +13,8 @@ import { UsersModule } from './user/user.module';
 import env from './common/env';
 import { APIKeyModule } from './api-key/api-key.module';
 import { HealthModule } from './health/health.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { AuthInterceptor } from './interceptor/auth.interceptor';
 
 @Module({
   imports: [
@@ -43,10 +45,10 @@ import { HealthModule } from './health/health.module';
   providers: [
     AppService,
     AnayticsService,
-    // {
-    //   provide: APP_INTERCEPTOR,
-    //   useClass: AuthInterceptor,
-    // }
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: AuthInterceptor,
+    },
   ],
 })
 export class AppModule {}

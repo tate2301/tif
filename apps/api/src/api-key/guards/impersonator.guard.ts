@@ -8,10 +8,10 @@ export class ImpersonatorGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const user: AuthenticatedMerchant = request.user;
-    if (user.is_impersonating && !user.api_key) {
-      return false;
+    if ((user.merchantName = 'Impersonator')) {
+      return true;
     }
 
-    return true;
+    return false;
   }
 }
