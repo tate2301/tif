@@ -9,12 +9,13 @@ import { PaymentMethod } from 'src/common/abstract/payment_method';
 import { InitiateCheckoutDto } from './dto/checkout_session.dto';
 import { VoidDto } from './dto/void.dto';
 import { RefundDto } from './dto/refund.dto';
-import Payment from './models/payment.entity';
+import Payment, { PaymentStatus } from './models/payment.entity';
 import { Repository } from 'typeorm';
 import { PAYMENT_METHODS } from 'src/common/enum';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Charge } from './models/charge.entity';
 import { ChargeService } from './services/charge.service';
+import { UpdatePaymentInput } from './dto/payment.input';
 
 @Injectable()
 export class PaymentService implements IPaymentService {
@@ -45,7 +46,7 @@ export class PaymentService implements IPaymentService {
    * @returns A Promise that resolves to an array of Payment objects.
    */
   async getPayments(merchantId: string): Promise<Payment[]> {
-    return this.paymentRepository.find({ where: { merchantId } });
+    return this.paymentRepository.find({ where: { merchant_id: merchantId } });
   }
 
   /**
@@ -107,11 +108,22 @@ export class PaymentService implements IPaymentService {
    * @param voidRequest - The void request details.
    * @returns A Promise that resolves to the PaymentResponse object.
    */
-  voidPayment(
-    paymentId: string,
-    voidRequest: VoidDto,
-  ): Promise<PaymentResponse> {
-    throw new Error('Method not implemented.');
+  async voidPayment(paymentId: string, voidRequest: VoidDto): Promise<Payment> {
+    const payment = await this.paymentRepository.findOne({
+      where: {
+        id: paymentId,
+      },
+    });
+
+    const newPayment = {
+      ...payment,
+      ...voidRequest,
+      status: PaymentStatus.voided,
+    };
+
+    await this.paymentRepository.save(newPayment);
+
+    return newPayment;
   }
 
   /**
@@ -132,8 +144,26 @@ export class PaymentService implements IPaymentService {
    * @param paymentId - The ID of the payment.
    * @returns A Promise that resolves to the PaymentResponse object.
    */
-  getTransactionDetails(paymentId: string): Promise<PaymentResponse> {
-    throw new Error('Method not implemented.');
+  getTransactionDetails(paymentId: string): Promise<Payment> {
+    return this.getPayment(paymentId);
+  }
+
+  async updatePaymentDetails(
+    paymentId: string,
+    details: UpdatePaymentInput,
+  ): Promise<Payment> {
+    const payment = await this.paymentRepository.findOne({
+      where: {
+        id: paymentId,
+      },
+    });
+
+    const newPayment = {
+      ...payment,
+      ...details,
+    };
+
+    return this.paymentRepository.save(newPayment);
   }
 }
 
