@@ -27,6 +27,9 @@ out/
 build
 dist
 
+# python environments
+.venv
+
 
 # Debug
 npm-debug.log*
