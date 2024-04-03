@@ -20,14 +20,14 @@ function CreatePaymentItem({
 }: Props) {
   return (
     <div className="col-span-1 flex flex-col space-y-2">
-      <div className="h-60 aspect-video rounded-xl bg-secondary relative">
-        <div className="h-48 w-1/3 relative bg-red-100 top-50">
-          <Image
+      <div className="h-60 aspect-video rounded-xl bg-zinc-50 dark:bg-zinc-800 overflow-hidden relative">
+        <div className="h-48 w-1/3 relative  top-50">
+          {/* <Image
             alt="display image item"
             layout="fill"
             objectFit="cover"
             src={"/images/create-link-large.png"}
-          />
+          /> */}
         </div>
       </div>
       <p className="heading-text text-sm font-semibold">{heading}</p>

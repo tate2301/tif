@@ -34,7 +34,7 @@ const CreatePaymentLink = () => {
                 heading="Products or description"
               />
             </div>
-            <CustomHeading size="sm" text="User information" />
+            <CustomHeading size="sm" text="Payment options" />
             <CustomCheckbox
               value={require_mobile_payment}
               setValue={setRequireMobilePayment}
