@@ -10,8 +10,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiKeyService } from 'src/api-key/api-key.service';
-import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
-import { CheckApiKeyOwner } from './decorators/api_key_owner.decorator';
 import { CheckApiKeyOwnerGuard } from 'src/api-key/guards/apikey_owner.guard';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { RequestWithAuth } from 'src/common/types/user.type';

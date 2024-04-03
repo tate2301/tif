@@ -18,7 +18,7 @@ export class Merchant extends DCollectingAddressEntity {
   last_name: string;
 
   @Column()
-  merchantName: string;
+  merchant_name: string;
 
   @Column()
   created: Date;

@@ -1,32 +1,44 @@
-import { IsBoolean, IsDate, IsEmail, IsNotEmpty, IsString, IsUUID, isNotEmpty } from "class-validator";
+import {
+  IsBoolean,
+  IsDate,
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  isNotEmpty,
+} from 'class-validator';
 
 export class RegisterUserInput {
-    @IsNotEmpty()
-    first_name: string;
+  @IsNotEmpty()
+  first_name: string;
 
-    @IsNotEmpty()
-    last_name: string;
+  @IsNotEmpty()
+  last_name: string;
 
-    @IsEmail()
-    email: string;
+  @IsNotEmpty()
+  @IsString()
+  merchant_name: string;
 
-    @IsNotEmpty()
-    password: string
+  @IsEmail()
+  email: string;
 
-    @IsNotEmpty()
-    address: string;
+  @IsNotEmpty()
+  password: string;
 
-    @IsString()
-    address_line_2: string;
+  @IsNotEmpty()
+  address: string;
 
-    @IsNotEmpty()
-    @IsString()
-    city: string;
+  @IsString()
+  address_line_2: string;
 
-    @IsNotEmpty()
-    @IsString()
-    country: string;
+  @IsNotEmpty()
+  @IsString()
+  city: string;
 
-    @IsString()
-    profile_picture: string
+  @IsNotEmpty()
+  @IsString()
+  country: string;
+
+  @IsString()
+  profile_picture: string;
 }
