@@ -5,9 +5,9 @@ import { EcoCashStrategy } from './strategy/eco-cash.strategy';
 import { ZimSwitchStrategy } from './strategy/zim-switch.strategy';
 import Payment from './models/payment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { APP_GUARD } from '@nestjs/core';
 import { Discount } from './models/discount.entity';
 import { Charge } from './models/charge.entity';
+import { ChargeService } from './services/charge.service';
 
 @Module({
   imports: [
@@ -15,7 +15,12 @@ import { Charge } from './models/charge.entity';
     EcoCashStrategy,
     ZimSwitchStrategy,
   ],
-  providers: [PaymentService, EcoCashStrategy, ZimSwitchStrategy],
+  providers: [
+    PaymentService,
+    ChargeService,
+    EcoCashStrategy,
+    ZimSwitchStrategy,
+  ],
   controllers: [PaymentController],
 })
 export class PaymentModule {}
