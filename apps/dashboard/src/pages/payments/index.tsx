@@ -1,10 +1,23 @@
 import CreatePaymentItem from "@/components/payment-items/CreatePaymentItem";
+import { Store } from "@/context/Store";
 import OverviewLayout from "@/layouts/OverviewLayout";
-import React from "react";
+import { velocityPaymentsAPIClient } from "@/lib/client";
+import React, { useContext, useEffect } from "react";
 
 type Props = {};
 
 const Payments = (props: Props) => {
+  const { state } = useContext<any>(Store);
+  const { access_token } = state;
+
+  console.log("user Info: ----- ", access_token);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await velocityPaymentsAPIClient.get(`/ping`);
+      console.log("infp om p[ayments page", data);
+    })();
+  }, []);
   return (
     <OverviewLayout heading="Payments">
       <div className="flex flex-col space-y-1">

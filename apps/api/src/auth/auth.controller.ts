@@ -28,7 +28,10 @@ export class AuthController {
     @Req() req,
     @Res({ passthrough: true }) res,
     @Body() body: LoginInput,
-  ) {
+  ): Promise<{
+    access_token: string;
+    refresh_token: string;
+  }> {
     const tokens = await this.authService.login(req.user);
     await this.authService.setRefreshTokenCookie(res, tokens.refresh_token);
     return tokens;
