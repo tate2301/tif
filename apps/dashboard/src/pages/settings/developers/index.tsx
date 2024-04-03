@@ -49,6 +49,15 @@ const Developers = (props: Props) => {
             <div className="col-span-1 font-medium">-</div>
             <div className="col-span-1 font-medium">7 Aug 2021</div>
           </div>
+          {/* table bpdy */}
+          <div className="grid grid-cols-5 p-3 text-sm main-text">
+            <div className="col-span-1 font-semibold">Secret key</div>
+            <div className="col-span-1 text-xs font-medium">
+              pk_test_51JLeUHFjxpMvfIoMyUS9IH8dLitELZoQ1Yo0XJUHEgISRsG8AjoC7UpD84HZkXBZiRoKVtNFlIDJkiOMcUPLVE0100qcw91FMs
+            </div>
+            <div className="col-span-1 font-medium">-</div>
+            <div className="col-span-1 font-medium">7 Aug 2021</div>
+          </div>
         </div>
       </div>
     </DashboardLayout>
