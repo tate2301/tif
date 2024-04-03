@@ -20,22 +20,24 @@ export interface IPaymentSession {
 
 @Injectable()
 export class SessionService {
-  constructor(@InjectRepository(PaymentSession) private paymentSessionRepo: Repository<PaymentSession>) {
+  constructor(
+    @InjectRepository(PaymentSession)
+    private paymentSessionsRepository: Repository<PaymentSession>,
+  ) {}
 
+  async createPaymentSession(merchant: any, data: CreateSessionInput) {
+    const id = generatePrimaryKey();
   }
 
-  createPaymentSession(merchant: any, data: CreateSessionInput) {
-    const id = generatePrimaryKey()
-    
-  }
-
-  revokePaymentSession(reason: "expire" | "success" | "fail" | "manual") {
-
-  }
+  async revokePaymentSession(
+    reason: 'expire' | 'success' | 'fail' | 'manual',
+  ) {}
 
   async getPaymentSession(id: string) {
-    return this.paymentSessionRepo.find({where: {id}})
+    return this.paymentSessionsRepository.find({ where: { id } });
   }
 
-
+  async getPaymentSessionsByMerchantId(user_id: string) {
+    return this.paymentSessionsRepository.find();
+  }
 }
