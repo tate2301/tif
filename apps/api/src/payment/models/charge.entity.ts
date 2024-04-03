@@ -1,9 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { DBasePaymentEntity } from './index.entity';
+import Payment from './payment.entity';
 
 @Entity()
 export class Charge extends DBasePaymentEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   id: string;
 
   @Column()
@@ -37,4 +44,7 @@ export class Charge extends DBasePaymentEntity {
 
   @Column()
   created: Date;
+
+  @OneToOne(() => Payment, (payment) => payment.id)
+  payment: string;
 }

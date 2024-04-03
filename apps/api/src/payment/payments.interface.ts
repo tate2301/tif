@@ -3,6 +3,7 @@ import { InitiateCheckoutDto } from './dto/checkout_session.dto';
 import { RefundDto } from './dto/refund.dto';
 import { VoidDto } from './dto/void.dto';
 import { ExecutePaymentDto } from './payment.service';
+import Payment from './models/payment.entity';
 
 export interface IPaymentService {
   isTestingMode: boolean;
@@ -19,6 +20,11 @@ export interface IPaymentService {
     request: RefundDto,
   ): Promise<PaymentResponse>;
   getTransactionDetails(paymentId: string): Promise<PaymentResponse>;
+
+  getPayment(paymentId: string): Promise<Payment>;
+  getPayments(merchantId: string): Promise<Payment[]>;
+  getChargesForPayment(paymentId: string): Promise<any>;
+  getChargeDetail(paymentId: string, chargeId: string): Promise<any>;
 }
 
 export interface PaymentStrategy<TRequest, TResponse> {
@@ -71,9 +77,7 @@ export interface IPaymentController {
   configureWebhook(config: WebhookConfiguration): Promise<any>;
   generateReceipt(paymentId: string): Promise<Receipt>;
   refundTransaction(request: RefundRequest): Promise<any>;
-  listPaymentsForMerchant(
-    request: MerchantTransactionsRequest,
-  ): Promise<any[]>;
+  listPaymentsForMerchant(request: MerchantTransactionsRequest): Promise<any[]>;
   configurePaymentMethod(config: PaymentMethodConfiguration): Promise<any>;
   getPaymentMethodConfiguration(
     merchantId: string,

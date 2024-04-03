@@ -2,10 +2,8 @@
   "name": "@tif/core",
   "version": "0.0.0",
   "private": true,
-  "main": "./src/index.ts",
   "exports": {
-    "./client": "./src/client/index.ts",
-    "./config": "./src/config.ts"
+    ".": "./src/index.ts"
   },
   "scripts": {
     "lint": "eslint . --max-warnings 0"
