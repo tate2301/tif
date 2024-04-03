@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { DBasePaymentEntity } from './index.entity';
+import { ApiKey } from 'src/api-key/models/api_key.entity';
 
 @Entity()
 export default class Payment extends DBasePaymentEntity {
@@ -36,4 +37,7 @@ export default class Payment extends DBasePaymentEntity {
 
   @Column('simple-array')
   charges: string[];
+
+  @OneToOne(() => ApiKey, (apiKey) => apiKey.id)
+  api_key: string;
 }
