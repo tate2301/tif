@@ -30,7 +30,7 @@ const Developers = (props: Props) => {
             </div>
             <div className="main-border main-link-text text-sm rounded-lg p-1.5 font-medium flex flex-row items-center space-x-1 cursor-default">
               <PlusIcon height={16} width={16} />
-              <p>Create stadard key</p>
+              <p>Create standard key</p>
             </div>
           </div>
           {/* table heading */}
