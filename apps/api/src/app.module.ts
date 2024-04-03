@@ -11,6 +11,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SessionModule } from './session/session.module';
 import { UsersModule } from './user/user.module';
 import env from './common/env';
+import { APIKeyModule } from './api-key/api-key.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -18,7 +20,6 @@ import env from './common/env';
       isGlobal: true,
       envFilePath: ['.env', '.env.example', '.env.development'],
       load: [env],
-
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -34,18 +35,18 @@ import env from './common/env';
     WebhookModule,
     AuthModule,
     SessionModule,
-    UsersModule
+    UsersModule,
+    APIKeyModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     AnayticsService,
-    ApiKeyService,
     // {
     //   provide: APP_INTERCEPTOR,
     //   useClass: AuthInterceptor,
     // }
   ],
-  
 })
 export class AppModule {}

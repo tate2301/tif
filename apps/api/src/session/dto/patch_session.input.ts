@@ -7,11 +7,11 @@ import {
   IsString,
   IsUrl,
 } from 'class-validator';
-import { CHECKOUT_TYPE, GOODS_TYPE, PAYMENT_METHODS } from 'src/common/enum';
 
 type DiscountCode = { code: string; amount: number };
 
-export class CreateSessionInput {
+export class PatchSessionInput {
+  @IsOptional()
   @IsNotEmpty()
   @IsNumber()
   amount: number;
@@ -19,17 +19,6 @@ export class CreateSessionInput {
   @IsOptional()
   @IsString()
   notes?: string;
-
-  @IsArray()
-  payment_methods: PAYMENT_METHODS[] = [PAYMENT_METHODS.EcoCash];
-
-  @IsString()
-  @IsEnum(GOODS_TYPE)
-  goods_sold_type: GOODS_TYPE = GOODS_TYPE.PHYSICAL;
-
-  @IsString()
-  @IsEnum(CHECKOUT_TYPE)
-  checkout_type: CHECKOUT_TYPE = CHECKOUT_TYPE.PAY;
 
   @IsOptional()
   @IsString()

@@ -1,6 +1,13 @@
-import { IsNotEmpty, IsString, IsNumber, IsEnum } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  IsEnum,
+  IsArray,
+  IsOptional,
+} from 'class-validator';
 import { CURRENCIES, PAYMENT_METHODS, PAYMENT_MODE } from 'src/common/enum';
-
+import { Discount } from '../models/discount.entity';
 
 export class InitiateCheckoutDto {
   @IsNotEmpty()
@@ -26,6 +33,10 @@ export class InitiateCheckoutDto {
   @IsNotEmpty()
   @IsString()
   readonly currency: CURRENCIES;
+
+  @IsOptional()
+  @IsArray()
+  discount_codes: string[] = [];
 
   @IsNotEmpty()
   @IsEnum(PAYMENT_METHODS)

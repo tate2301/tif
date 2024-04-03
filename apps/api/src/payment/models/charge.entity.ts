@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { DBasePaymentEntity } from './index.entity';
 
 @Entity()
-export class DCharge extends DBasePaymentEntity {
+export class Charge extends DBasePaymentEntity {
   @PrimaryGeneratedColumn()
   id: string;
 

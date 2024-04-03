@@ -1,16 +1,38 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { DUser } from '../user/models/user.entity';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserInput } from './dto/register.input';
 import { UsersService } from 'src/user/service/user.service';
 import { REFRESH_TOKEN_AGE } from 'src/common/constants';
+import { ApiKeyService } from 'src/api-key/api-key.service';
+import { AuthenticatedMerchant } from './strategy/apikey.strategy';
 
 @Injectable()
 export class APIKeyAuthService {
-  validateApiKey(apiKey: string) {
-    const apiKeys: string[] = ['api-key-1', 'api-key-2'];
-    return apiKeys.find((key) => apiKey === key);
+  constructor(
+    private apiKeyService: ApiKeyService,
+    private merchantService: UsersService,
+  ) {}
+
+  async validateApiKey(apiKey: string): Promise<AuthenticatedMerchant> {
+    const apiKeyDetails = await this.apiKeyService.validateKey(apiKey);
+
+    if (apiKeyDetails) {
+      const merchant =
+        await this.merchantService.getUserByApiKey(apiKeyDetails);
+
+      if (!merchant) {
+        return null;
+      }
+
+      return {
+        ...merchant,
+        api_key: apiKeyDetails,
+      };
+    } else {
+      return null;
+    }
   }
 }
 

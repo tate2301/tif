@@ -9,10 +9,10 @@ import { PaymentMethod } from 'src/common/abstract/payment_method';
 import { InitiateCheckoutDto } from './dto/checkout_session.dto';
 import { VoidDto } from './dto/void.dto';
 import { RefundDto } from './dto/refund.dto';
-import { InjectRepository } from '@nestjs/typeorm';
-import DPayment from './models/payment.entity';
+import Payment from './models/payment.entity';
 import { Repository } from 'typeorm';
 import { PAYMENT_METHODS } from 'src/common/enum';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PaymentService implements IPaymentService {
@@ -20,7 +20,7 @@ export class PaymentService implements IPaymentService {
   isTestingMode: boolean = false;
 
   constructor(
-    @InjectRepository(DPayment) private paymentRepository: Repository<DPayment>,
+    @InjectRepository(Payment) private paymentRepository: Repository<Payment>,
     ecoCashStrategy: EcoCashStrategy,
   ) {
     // Map each strategy to its corresponding payment method
