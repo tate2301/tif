@@ -1,5 +1,5 @@
-import { createJWTClient } from "@tif/core/client";
+import { client } from "@tif/core";
 
-export const velocityPaymentsAPIClient = createJWTClient(
+export const velocityPaymentsAPIClient = client.createJWTClient(
   "http://localhost:3000"
 );
