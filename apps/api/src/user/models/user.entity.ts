@@ -21,9 +21,6 @@ export class Merchant extends DCollectingAddressEntity {
   merchant_name: string;
 
   @Column()
-  created: Date;
-
-  @Column()
   email: string;
 
   @Column()
@@ -36,10 +33,10 @@ export class Merchant extends DCollectingAddressEntity {
   profile_picture: string;
 
   @Column({ default: null, type: 'datetime' })
-  created_at?: Date;
+  created_at?: number = new Date().getTime();
 
   @Column({ default: null, type: 'datetime' })
-  updated_at?: Date;
+  updated_at?: number = new Date().getTime();
 
   @OneToMany((type) => ApiKey, (apiKey) => apiKey.user_id)
   apiKeys: ApiKey[];
