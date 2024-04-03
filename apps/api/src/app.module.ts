@@ -12,6 +12,7 @@ import { SessionModule } from './session/session.module';
 import { UsersModule } from './user/user.module';
 import env from './common/env';
 import { APIKeyModule } from './api-key/api-key.module';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { APIKeyModule } from './api-key/api-key.module';
     SessionModule,
     UsersModule,
     APIKeyModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [
