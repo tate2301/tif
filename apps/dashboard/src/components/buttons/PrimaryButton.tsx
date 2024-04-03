@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement } from "react";
 
 type Props = {
   text: string;
@@ -7,35 +7,18 @@ type Props = {
   outline?: boolean;
   onClick?: () => void;
   loading?: boolean;
-  textStyles?:string
+  textStyles?: string;
 };
 
 const PrimaryButton: FC<Props> = (props: Props): ReactElement => {
   return (
     <button
       disabled={props.loading}
-      onClick={props.loading ? () => console.log('loading') : props.onClick}
-      className={`${
-        props.outline
-          ? `bg-white text-primary-original border border-primary-light hover:bg-primary-original hover:text-white `
-          : `${
-              props.dark
-                ? 'bg-primary-superdark hover:bg-primary-dark '
-                : 'bg-primary-original hover:bg-primary-dark '
-            } text-white `
-      } rounded-lg font-semibold text-center p-3`}
+      onClick={props.loading ? () => console.log("loading") : props.onClick}
+      className={`${""} bg-zinc-950 hover:bg-zinc-800 dark:bg-white rounded-lg font-semibold text-center p-3 text-white dark:text-zinc-950 text-sm`}
     >
       {props.loading ? (
-        <div className="flex flex-row items-center justify-center font-semibold capitalize">
-          <div
-            className={`animate-spin rounded-full h-4 w-4 mr-2 border-t-2  border-b-2 ${
-              props.outline
-                ? 'border-primary-original hover:border-white'
-                : 'border-white'
-            }`}
-          ></div>
-          <p className="font-semibold capitalize">Loading...</p>
-        </div>
+        <p>Loading...</p>
       ) : (
         <p className={props.textStyles}>{props.text}</p>
       )}
