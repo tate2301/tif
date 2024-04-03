@@ -4,17 +4,20 @@ import { Avatar } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { data } from "../../utils/data";
 import { Store } from "@/context/Store";
+import { useRouter } from "next/router";
 
 type Props = {};
 
 const UserMenu = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const { dispatch } = useContext<any>(Store);
+  const router = useRouter();
 
-  const dropdownItems = [{ label: "logout", url: "#" }];
+  // const dropdownItems = [{ label: "logout", url: "#" }];
 
   const logoutUser = () => {
     dispatch({ type: "USER_LOGOUT" });
+    router.push("/");
   };
 
   function toggleDropdown() {
@@ -52,7 +55,7 @@ const UserMenu = (props: Props) => {
           ))} */}
           <button
             onClick={logoutUser}
-            className="block px-4 py-2 hover:bg-primary capitalize text-sm main-text"
+            className="block px-4 py-2 w-full hover:bg-primary capitalize text-sm main-text"
           >
             logout
           </button>

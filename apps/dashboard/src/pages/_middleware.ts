@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
   let user = null;
   if (token) {
     const decodedToken = jwt.verify(token, "supersecret");
-    if (!decodedToken) return NextResponse.redirect("/login");
+    if (!decodedToken) return NextResponse.redirect("/");
 
     user = (
       decodedToken as {
