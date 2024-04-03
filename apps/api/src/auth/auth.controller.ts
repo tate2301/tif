@@ -5,19 +5,16 @@ import {
   UseGuards,
   Get,
   Body,
-  Logger,
   Req,
   BadRequestException,
   UnauthorizedException,
   Res,
-  Response,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guard/local.guard';
 import { Public } from './decorators/public.decorator';
 import { RegisterUserInput } from './dto/register.input';
 import { JwtAuthGuard } from './guard/jwt.guard';
-import { REFRESH_TOKEN_AGE } from 'src/common/constants';
 
 @Controller('auth')
 export class AuthController {
@@ -28,7 +25,7 @@ export class AuthController {
   async login(@Req() req, @Res({ passthrough: true }) res) {
     const tokens = await this.authService.login(req.user);
     await this.authService.setRefreshTokenCookie(res, tokens.refresh_token);
-    return { access_token: tokens.access_token };
+    return tokens;
   }
 
   @Public()

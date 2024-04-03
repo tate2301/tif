@@ -1,8 +1,8 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { HeaderAPIKeyStrategy } from 'passport-headerapikey';
 import { APIKeyAuthService } from '../auth.service';
-import { MerchantService } from 'src/user/service/merchant.service';
+import { UsersService } from 'src/user/service/user.service';
 
 @Injectable()
 export class ApiKeyStrategy extends PassportStrategy(
@@ -11,7 +11,7 @@ export class ApiKeyStrategy extends PassportStrategy(
 ) {
   constructor(
     private authService: APIKeyAuthService,
-    private merchantService: MerchantService,
+    private merchantService: UsersService,
   ) {
     super(
       { header: 'x-api-key', prefix: 'Bearer ' },
@@ -27,10 +27,11 @@ export class ApiKeyStrategy extends PassportStrategy(
   }
 
   async validate(apiKey: string) {
-    new Logger().debug('API Key Strategy');
+    const merchant = await this.merchantService.getUserByApiKey(apiKey);
+    if (!merchant) {
+      throw new UnauthorizedException();
+    }
 
-    return {
-      user: {},
-    };
+    return merchant;
   }
 }

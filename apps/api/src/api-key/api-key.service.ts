@@ -1,17 +1,46 @@
 import { Injectable } from '@nestjs/common';
-
-interface ApiKey {}
+import { Repository } from 'typeorm';
+import { ApiKey } from './models/api_key.entity';
+import { randomBytes } from 'crypto';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ApiKeyService {
-  async generateApiKeyForUser(username: string): Promise<ApiKey> {
-    const user = {}; // await this.usersService.findByUsername(username);
-    if (!user) {
-      throw new Error('User not found');
-    }
-    return {};
-    // return this.generateApiKey(user.id);
+  constructor(
+    @InjectRepository(ApiKey)
+    private readonly apiKeyRepository: Repository<ApiKey>,
+  ) {}
+
+  static generateKey(length: number = 64): string {
+    return randomBytes(length).toString('hex');
   }
 
-  generateApiKey(val: string) {}
+  async addKey(user_id: string, name: string = 'Default'): Promise<ApiKey> {
+    const apiKey = await this.apiKeyRepository.save({
+      id: ApiKeyService.generateKey(16),
+      secret: ApiKeyService.generateKey(64),
+      user_id,
+      name,
+    } as ApiKey);
+
+    return apiKey;
+  }
+
+  async removeKey(id: string) {}
+
+  async getKey(id: string): Promise<ApiKey> {
+    return this.apiKeyRepository.findOne({ where: { id } });
+  }
+
+  async getKeys(user_id: string): Promise<ApiKey[]> {
+    return this.apiKeyRepository.find({ where: { user_id } });
+  }
+
+  async getIndividualKey(id: string) {
+    return this.apiKeyRepository.findOne({ where: { id } });
+  }
+
+  async validateKey(apiKey: string): Promise<boolean> {
+    return !!this.apiKeyRepository.findOne({ where: { id: apiKey } });
+  }
 }

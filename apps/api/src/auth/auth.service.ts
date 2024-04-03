@@ -5,12 +5,14 @@ import { JwtService } from '@nestjs/jwt';
 import { RegisterUserInput } from './dto/register.input';
 import { UsersService } from 'src/user/service/user.service';
 import { REFRESH_TOKEN_AGE } from 'src/common/constants';
+import { ApiKeyService } from 'src/api-key/api-key.service';
 
 @Injectable()
 export class APIKeyAuthService {
+  constructor(private apiKeyService: ApiKeyService) {}
+
   validateApiKey(apiKey: string) {
-    const apiKeys: string[] = ['api-key-1', 'api-key-2'];
-    return apiKeys.find((key) => apiKey === key);
+    return this.apiKeyService.validateKey(apiKey);
   }
 }
 
