@@ -40,7 +40,7 @@ export class ApiKeyService {
     return this.apiKeyRepository.findOne({ where: { id } });
   }
 
-  async validateKey(apiKey: string): Promise<boolean> {
-    return !!this.apiKeyRepository.findOne({ where: { id: apiKey } });
+  async validateKey(apiKey: string): Promise<ApiKey> {
+    return this.apiKeyRepository.findOne({ where: { secret: apiKey } });
   }
 }

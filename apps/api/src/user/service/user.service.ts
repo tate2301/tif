@@ -1,12 +1,13 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DUser } from '../models/user.entity';
 import { Repository } from 'typeorm';
 import { RegisterUserInput } from 'src/auth/dto/register.input';
-import { generatePrimaryKey } from 'src/common/utils';
+import { generateUniqueId } from 'src/common/utils';
 import logger from 'src/common/logger';
 import { randomUUID } from 'crypto';
 import { ApiKeyService } from 'src/api-key/api-key.service';
+import { ApiKey } from 'src/api-key/models/api_key.entity';
 
 @Injectable()
 export class UsersService {
@@ -15,7 +16,7 @@ export class UsersService {
     private apiKeyService: ApiKeyService,
   ) {}
 
-  async getUserById(id: string): Promise<DUser | undefined> {
+  async getUserByID(id: string): Promise<DUser | undefined> {
     const user = await this.userRepository.findOneBy({ id });
     if (user) user.password = undefined;
     return { ...user };
@@ -39,15 +40,13 @@ export class UsersService {
     }
     const uuid = randomUUID();
     const newUser = await this.userRepository
-      .save({ ...user, uuid, id: uuid })
+      .save({ ...user, uuid, id: generateUniqueId(16, 'merchant_') })
       .then();
     logger.info(`Created user with email: ${user.email}`);
     return newUser;
   }
 
-  async getUserByApiKey(apiKey: string): Promise<DUser | undefined> {
-    const key = await this.apiKeyService.getKey(apiKey);
-    if (!key) return undefined;
-    return this.getUserById(key.user_id);
+  async getUserByApiKey(apiKey: ApiKey): Promise<DUser | undefined> {
+    return this.getUserByID(apiKey.user_id);
   }
 }

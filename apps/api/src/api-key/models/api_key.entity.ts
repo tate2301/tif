@@ -12,6 +12,12 @@ export class ApiKey {
   name: string;
 
   @Column()
+  is_test: boolean = true;
+
+  @Column()
+  environment: string;
+
+  @Column()
   user_id: string;
 
   @Column('datetime')

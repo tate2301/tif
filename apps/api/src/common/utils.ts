@@ -1,5 +1,8 @@
-import { createCipheriv, randomUUID } from "crypto"
+import { createCipheriv, randomBytes, randomUUID } from 'crypto';
 
-export const generatePrimaryKey = () => {
-    return randomUUID()
-}
+export const generateUniqueId = (
+  length: number = 32,
+  prefix: string = '',
+): string => {
+  return `${prefix}${randomBytes(length).toString('hex')}`;
+};

@@ -38,7 +38,7 @@ export class UsersController {
   @Public()
   @Get(':id')
   async get_merchant_by_id(@Param('id') id: string) {
-    return this.userService.getUserById(id);
+    return this.userService.getUserByID(id);
   }
 }
 

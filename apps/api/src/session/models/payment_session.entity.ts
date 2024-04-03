@@ -1,4 +1,6 @@
+import { CHECKOUT_TYPE } from 'src/common/enum';
 import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { RevokeReason } from '../session.service';
 
 @Entity()
 export class PaymentSession {
@@ -15,10 +17,10 @@ export class PaymentSession {
   merchantId: string;
 
   @Column()
-  status: 'paid' | 'unpaid' | 'no_payment_required';
+  status: 'paid' | 'unpaid' | 'no_payment_required' | 'revoked';
 
   @Column()
-  reason: 'fail' | 'success' | 'manual' | 'expire'
+  cancel_reason: RevokeReason;
 
   @Column()
   timestamp: Date;
@@ -30,7 +32,7 @@ export class PaymentSession {
   goods_sold_type: string;
 
   @Column()
-  checkout_type: 'payment' | 'subscription' | 'donation';
+  checkout_type: CHECKOUT_TYPE;
 
   @Column()
   reference_id: string;
@@ -51,13 +53,13 @@ export class PaymentSession {
   custom_text: string;
 
   @Column()
-  expires_at: Date;
+  expires_at: number;
+
+  @Column()
+  updated_at: number;
 
   @Column()
   livemode: boolean;
-
-  @Column()
-  action_type: 'book' | 'pay' | 'subscribe' | 'donate';
 
   @Column('simple-array')
   items: {
