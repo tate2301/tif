@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import CustomInput from "@/components/inputs/CustomInput";
 import { velocityPaymentsAPIClient } from "@/lib/client";
-import { localStorageInfo } from "@/utils/locaStorage";
 import { setLocalStorageItem } from "@/helpers/localStorageMethods";
 
 export function Index() {
