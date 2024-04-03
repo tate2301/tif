@@ -16,7 +16,7 @@ import { Public } from './decorators/public.decorator';
 import { RegisterUserInput } from './dto/register.input';
 import { JwtAuthGuard } from './guard/jwt.guard';
 import { ApiKeyParam } from 'src/api-key/decorators/apikey.decorator';
-import { ImpersonatorGuard } from 'src/api-key/guards/impersonator.guard';
+import { LoginInput } from './dto/login.input';
 
 @Controller('auth')
 export class AuthController {
@@ -24,7 +24,11 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Req() req, @Res({ passthrough: true }) res) {
+  async login(
+    @Req() req,
+    @Res({ passthrough: true }) res,
+    @Body() body: LoginInput,
+  ) {
     const tokens = await this.authService.login(req.user);
     await this.authService.setRefreshTokenCookie(res, tokens.refresh_token);
     return tokens;
