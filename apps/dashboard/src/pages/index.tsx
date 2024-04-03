@@ -1,31 +1,37 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import CustomInput from "@/components/inputs/CustomInput";
+import { velocityPaymentsAPIClient } from "@/lib/client";
+import { localStorageInfo } from "@/utils/locaStorage";
+import { setLocalStorageItem } from "@/helpers/localStorageMethods";
 
 export function Index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
   const router = useRouter();
 
   const login_user = async () => {
+    setLoading(true);
     try {
-      // const { data } = await axios.post(
-      //   `http://localhost:3333/api/auth/login`,
-      //   {
-      //     username: email,
-      //     password: password,
-      //   }
-      // );
+      const { data } = await velocityPaymentsAPIClient.post(`/auth/login`, {
+        email,
+        password,
+      });
+      setLocalStorageItem("access_token", data.access_token);
+      setLocalStorageItem("refresh_token", data.refresh_token);
+      setLoading(false);
       router.push("/payments");
       setPassword("");
       setEmail("");
       // console.log(data);
     } catch (error) {
+      setLoading(false);
       setErr("login fail");
     }
   };
@@ -72,7 +78,11 @@ export function Index() {
               Forgot password?
             </Link>
           </div>
-          <PrimaryButton text="Sign in to account" onClick={login_user} />
+          <PrimaryButton
+            loading={loading}
+            text="Sign in to account"
+            onClick={login_user}
+          />
           <Link
             href={"/register"}
             className="text-xs font-medium main-link-text text-center"

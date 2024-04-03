@@ -2,14 +2,17 @@ import { AppProps } from 'next/app';
 import { ThemeProvider } from 'next-themes';
 import { ChakraProvider } from '@chakra-ui/react';
 import './styles.css';
+import { StoreProvider } from '@/context/Store';
 
 function CustomApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider attribute="class" enableSystem={true}>
+    <StoreProvider>
+      <ThemeProvider attribute="class" enableSystem={true}>
       <ChakraProvider>
         <Component {...pageProps} />
       </ChakraProvider>
     </ThemeProvider>
+    </StoreProvider>
   );
 }
 

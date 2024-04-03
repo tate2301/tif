@@ -1,15 +1,21 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React, { useState } from 'react';
-import { Avatar } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { data } from '../../utils/data';
+import React, { useContext, useState } from "react";
+import { Avatar } from "@chakra-ui/react";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { data } from "../../utils/data";
+import { Store } from "@/context/Store";
 
 type Props = {};
 
 const UserMenu = (props: Props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { dispatch } = useContext<any>(Store);
 
-  const dropdownItems = [{ label: 'logout', url: '#' }];
+  const dropdownItems = [{ label: "logout", url: "#" }];
+
+  const logoutUser = () => {
+    dispatch({ type: "USER_LOGOUT" });
+  };
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -20,7 +26,7 @@ const UserMenu = (props: Props) => {
         className=" flex flex-row items-center space-x-1 outline-none main-link-text"
         onClick={toggleDropdown}
       >
-        <Avatar size={'xs'} name="username" />
+        <Avatar size={"xs"} name="username" />
         <ChevronDownIcon height={16} width={16} />
       </button>
       {isOpen && (
@@ -35,7 +41,7 @@ const UserMenu = (props: Props) => {
             </a>
           ))}
           <div className="md:border-none main-border-b"></div>
-          {dropdownItems.map((item, index) => (
+          {/* {dropdownItems.map((item, index) => (
             <a
               key={index}
               href={item.url}
@@ -43,7 +49,13 @@ const UserMenu = (props: Props) => {
             >
               {item.label}
             </a>
-          ))}
+          ))} */}
+          <button
+            onClick={logoutUser}
+            className="block px-4 py-2 hover:bg-primary capitalize text-sm main-text"
+          >
+            logout
+          </button>
         </div>
       )}
     </div>
