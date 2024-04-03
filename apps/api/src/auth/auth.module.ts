@@ -5,7 +5,7 @@ import { APIKeyAuthService, AuthService } from './auth.service';
 import { LocalStrategy } from './strategy/local.strategy';
 import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DUser } from '../user/models/user.entity';
+import { Merchant } from '../user/models/user.entity';
 import { DBearer } from './models/bearer.entity';
 import { DMerchant } from 'src/user/models/merchant.entity';
 import { UsersModule } from 'src/user/user.module';
@@ -23,7 +23,7 @@ import { UsersService } from 'src/user/service/user.service';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '600m' },
     }),
-    TypeOrmModule.forFeature([DBearer, DUser, DMerchant, ApiKey]),
+    TypeOrmModule.forFeature([DBearer, Merchant, DMerchant, ApiKey]),
     PassportModule,
     UsersModule,
     APIKeyModule,

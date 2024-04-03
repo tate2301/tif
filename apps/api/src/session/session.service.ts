@@ -8,7 +8,7 @@ import { PaymentSession } from './models/payment_session.entity';
 import { Repository } from 'typeorm';
 import { generateUniqueId } from 'src/common/utils';
 import { CreateSessionInput } from './dto/create_session.input';
-import { DUser } from 'src/user/models/user.entity';
+import { Merchant } from 'src/user/models/user.entity';
 import { AuthenticatedMerchant } from 'src/auth/strategy/apikey.strategy';
 import { PatchSessionInput } from './dto/patch_session.input';
 import { Discount } from '../payment/models/discount.entity';

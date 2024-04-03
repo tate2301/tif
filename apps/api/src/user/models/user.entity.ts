@@ -1,15 +1,10 @@
+import { ApiKey } from 'src/api-key/models/api_key.entity';
 import { DCollectingAddressEntity } from 'src/payment/models/index.entity';
 import { DMerchant } from 'src/user/models/merchant.entity';
-import {
-  Column,
-  Entity,
-  OneToOne,
-  PrimaryColumn,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export class DUser extends DCollectingAddressEntity {
+export class Merchant extends DCollectingAddressEntity {
   @PrimaryColumn()
   id?: string;
 
@@ -21,6 +16,9 @@ export class DUser extends DCollectingAddressEntity {
 
   @Column()
   last_name: string;
+
+  @Column()
+  merchantName: string;
 
   @Column()
   created: Date;
@@ -43,6 +41,6 @@ export class DUser extends DCollectingAddressEntity {
   @Column({ default: null, type: 'datetime' })
   updated_at?: Date;
 
-  @OneToOne((type) => DMerchant, (merchant) => merchant.user)
-  merchant: DMerchant;
+  @OneToMany((type) => ApiKey, (apiKey) => apiKey.user_id)
+  apiKeys: ApiKey[];
 }

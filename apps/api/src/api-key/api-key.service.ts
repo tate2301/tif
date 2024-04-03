@@ -40,6 +40,10 @@ export class ApiKeyService {
     return this.apiKeyRepository.findOne({ where: { id } });
   }
 
+  async getApiKeyByMerchantId(merchant_id: string): Promise<ApiKey> {
+    return this.apiKeyRepository.findOne({ where: { user_id: merchant_id } });
+  }
+
   async validateKey(apiKey: string): Promise<ApiKey> {
     return this.apiKeyRepository.findOne({ where: { secret: apiKey } });
   }
