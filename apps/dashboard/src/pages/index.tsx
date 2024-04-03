@@ -1,14 +1,14 @@
-import Link from 'next/link';
-import { useState } from 'react';
-import PrimaryButton from '../components/buttons/PrimaryButton';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
+import Link from "next/link";
+import { useState } from "react";
+import PrimaryButton from "../components/buttons/PrimaryButton";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 export function Index() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [err, setErr] = useState('');
-  const router  = useRouter()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
+  const router = useRouter();
 
   const login_user = async () => {
     try {
@@ -19,12 +19,12 @@ export function Index() {
       //     password: password,
       //   }
       // );
-      router.push('/payments')
-      setPassword('');
-      setEmail('');
+      router.push("/payments");
+      setPassword("");
+      setEmail("");
       // console.log(data);
     } catch (error) {
-      setErr('login fail');
+      setErr("login fail");
     }
   };
   return (
@@ -33,9 +33,7 @@ export function Index() {
         <title>Dashboard - Login</title>
       </Head>
       <div className="overflow-hidden relative min-h-screen grid items-center  w-full px-4">
-        <div className="z-0 absolute top-40 left-4 md:w-96 w-60 md:h-96 h-60 bg-yellow-200 rounded-full blur-3xl opacity-50 mix-blend-multiply animate-blob" />
-        <div className="z-0 absolute top-52 right-52 md:w-96 w-60 md:h-96 h-60 bg-purple-200 rounded-full blur-3xl opacity-50 mix-blend-multiply animate-blob animation-delay-2000" />
-        <div className="z-0 absolute bottom-8 left-80 md:w-96 w-60 md:h-96 h-60 bg-pink-200 rounded-full blur-3xl opacity-50 mix-blend-multiply animate-blob animation-delay-4000" />
+        
         <div className="max-w-sm mx-auto w-full flex flex-col space-y-6">
           <p className="text-slate-900 text-lg font-semibold text-center">
             Welcome Back
@@ -55,12 +53,20 @@ export function Index() {
             />
           </div>
           <div className="flex flex-col w-full space-y-2">
-            <label
-              htmlFor="password"
-              className="z-10 text-slate-700 text-sm font-semibold"
-            >
-              Password
-            </label>
+            <div className="flex flex-row items-center justify-between">
+              <label
+                htmlFor="password"
+                className="z-10 text-slate-700 text-sm font-semibold"
+              >
+                Password
+              </label>
+              <Link
+                href={"/login"}
+                className="text-xs font-medium text-slate-700 text-center"
+              >
+                Forgot password?
+              </Link>
+            </div>
             <input
               type="password"
               value={password}
@@ -69,9 +75,11 @@ export function Index() {
             />
           </div>
           <PrimaryButton text="Sign in to account" onClick={login_user} />
-
-          <Link href={'/login'} className="text-sm text-slate-700 text-center">
-            Forgot password?
+          <Link
+            href={"/login"}
+            className="text-xs font-medium text-slate-700 text-center"
+          >
+            Don't have an account?
           </Link>
         </div>
       </div>

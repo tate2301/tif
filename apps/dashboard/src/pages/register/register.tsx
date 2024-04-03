@@ -3,6 +3,8 @@ import { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import PrimaryButton from "@/components/buttons/PrimaryButton";
+import axios from 'axios'
+import { getMessage } from "@/helpers/getMessage";
 
 type Props = {};
 
@@ -22,13 +24,14 @@ function Register({}: Props) {
 
   const register_Users = async () => {
     try {
-    //   const { data } = await axios.post(
-    //     `http://localhost:3333/api/auth/login`,
-    //     {
-    //       username: email,
-    //       password: password,
-    //     }
-    //   );
+      const { data } = await axios.post(
+        `http://localhost:3333/api/auth/login`,
+        {
+          username: email,
+          password: password,
+        }
+      );
+      console.log('mnessage from refitsre', getMessage(data))
       router.push("/payments");
       setPassword("");
       setEmail("");
