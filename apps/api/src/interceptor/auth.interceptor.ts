@@ -25,7 +25,7 @@ export class AuthInterceptor implements NestInterceptor {
 
     if (tokenArray) {
       const user = await this.authService.decodeToken(tokenArray.split(' ')[1])
-        .user;
+        ?.user;
 
       if (!user) {
         next.handle().pipe();
