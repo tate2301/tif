@@ -27,6 +27,8 @@ function reducer(state: any, action: { type: any; payload: any }) {
       setLocalStorageItem("refresh_token", action.payload.refresh_token);
       return { ...state, userInfo: action.payload };
     case "USER_LOGOUT":
+      setLocalStorageItem("access_token", null);
+      setLocalStorageItem("refresh_token", null);
       return { ...state, userInfo: null, cart: { cartItems: [] } };
     case "SET_SEARCH_QUERY":
       return { ...state, search_query: action.payload };

@@ -12,12 +12,6 @@ const Payments = (props: Props) => {
 
   console.log("user Info: ----- ", access_token);
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await velocityPaymentsAPIClient.get(`/ping`);
-      console.log("infp om p[ayments page", data);
-    })();
-  }, []);
   return (
     <OverviewLayout heading="Payments">
       <div className="flex flex-col space-y-1">
