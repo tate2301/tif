@@ -1,12 +1,43 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { APIKeyAuthService, AuthService } from './auth.service';
+import { LocalStrategy } from './strategy/local.strategy';
+import { AuthController } from './auth.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Merchant } from '../user/models/user.entity';
+import { DBearer } from './models/bearer.entity';
+import { DMerchant } from 'src/user/models/merchant.entity';
+import { UsersModule } from 'src/user/user.module';
+import { JwtStrategy } from './strategy/jwt.strategy';
+import { ApiKeyStrategy } from './strategy/apikey.strategy';
+import { ApiKeyService } from 'src/api-key/api-key.service';
+import { APIKeyModule } from 'src/api-key/api-key.module';
+import { ApiKey } from 'src/api-key/models/api_key.entity';
+import { UsersService } from 'src/user/service/user.service';
+import { config } from '@tif/core';
 
 @Module({
   imports: [
     JwtModule.register({
-      secret: process.env.JWT_SECRET, // Use an environment variable for the secret
-      signOptions: { expiresIn: '60s' }, // Optional: configure token expiration
+      secret: config.jwt.secret,
+      signOptions: { expiresIn: '600m' },
     }),
+    TypeOrmModule.forFeature([DBearer, Merchant, DMerchant, ApiKey]),
+    PassportModule,
+    UsersModule,
+    APIKeyModule,
   ],
+  providers: [
+    AuthService,
+    UsersService,
+    APIKeyAuthService,
+    ApiKeyService,
+    LocalStrategy,
+    JwtStrategy,
+    ApiKeyStrategy,
+  ],
+  controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AuthModule {}

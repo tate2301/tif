@@ -1,17 +1,20 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as fs from 'fs';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import logger from './common/logger';
 import { ValidationPipe } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   // const httpsOptions = {
   //   key: '', //fs.readFileSync(process.env.PRIVATE_KEY_PATH),
   //   cert: '', //fs.readFileSync(process.env.PUBLIC_CERT_PATH),
   // };
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe());
+  app.setGlobalPrefix('api');
+  app.use(cookieParser());
 
   const config = new DocumentBuilder()
     .setTitle('TiF API')
