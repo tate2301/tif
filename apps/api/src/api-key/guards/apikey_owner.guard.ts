@@ -5,6 +5,7 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { ApiKeyService } from 'src/api-key/api-key.service';
+import logger from 'src/common/logger';
 
 @Injectable()
 export class CheckApiKeyOwnerGuard implements CanActivate {
@@ -22,7 +23,10 @@ export class CheckApiKeyOwnerGuard implements CanActivate {
     }
 
     if (apiKey.user_id !== userId) {
-      throw new ForbiddenException('You are not the owner of this API key');
+      logger.error(
+        `User ${userId} tried to access API key ${apiKeyId} which does not belong to them`,
+      );
+      throw new ForbiddenException('Invalid API key');
     }
 
     return true;
