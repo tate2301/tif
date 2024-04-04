@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import PrimaryButton from "@/components/buttons/PrimaryButton";
 import { getMessage } from "@/helpers/getMessage";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import CustomInput from "@/components/inputs/CustomInput";
 import { Checkbox } from "@/components/ui/checkbox";
 import { velocityPaymentsAPIClient } from "@/lib/client";

@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import CustomInput from "@/components/inputs/CustomInput";
 import { velocityPaymentsAPIClient } from "@/lib/client";
 import { setLocalStorageItem } from "@/helpers/localStorageMethods";
