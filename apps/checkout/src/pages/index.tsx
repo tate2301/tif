@@ -44,7 +44,7 @@ function Checkout() {
       <Head>
         <title>Checkout</title>
       </Head>
-      <div className="flex min-h-screen w-full bg-zinc-50">
+      <div className="flex min-h-screen w-full bg-zinc-50/50">
         <div className="grid grid-cols-2  max-w-7xl w-full mx-auto p-4 rounded-lg">
           <div className="h-full p-8 flex flex-col space-y-8">
             <div className="flex flex-row text-zinc-500 space-x-2 items-center">
