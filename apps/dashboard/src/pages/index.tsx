@@ -26,13 +26,15 @@ export function Index() {
         .then(({ data }) => {
           console.log(data);
 
-          setLocalStorageItem("access_token", data.access_token);
-          setLocalStorageItem("refresh_token", data.refresh_token);
+          localStorage.setItem("access_token", data.access_token);
+          localStorage.setItem("refresh_token", data.refresh_token);
         })
         .then(async () => {
+          await velocityPaymentsAPIClient.get(`/auth/profile`);
+
           const { data: api_key } =
             await velocityPaymentsAPIClient.get(`/auth/keys`);
-          setLocalStorageItem("api_key", api_key.api_key);
+          localStorage.setItem("api_key", api_key.api_key.secret);
           router.push("/payments");
           setPassword("");
           setEmail("");

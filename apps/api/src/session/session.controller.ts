@@ -57,7 +57,6 @@ export class SessionController {
     @Request() req: RequestWithApiKey,
     @Body() body: CreateSessionInput,
   ): Promise<{ session_id: string; checkout_url: string }> {
-    new Logger().debug(req.user);
     const user = req.user;
     return this.sessionService.createPaymentSession(user, body);
   }

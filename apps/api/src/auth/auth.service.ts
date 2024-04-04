@@ -18,8 +18,6 @@ export class APIKeyAuthService {
   async validateApiKey(apiKey: string): Promise<AuthenticatedMerchant> {
     const apiKeyDetails = await this.apiKeyService.validateKey(apiKey);
 
-    new Logger().log(apiKeyDetails);
-
     if (apiKeyDetails) {
       const merchant =
         await this.merchantService.getUserByApiKey(apiKeyDetails);
