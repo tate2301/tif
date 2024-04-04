@@ -62,8 +62,8 @@ export class AuthController {
   }
 
   @Post('refresh')
-  async refresh(@Req() request, @Res() res) {
-    const refreshToken = request.body.refreshToken;
+  async refresh(@Body() body: { refreshToken: string }, @Res() res) {
+    const refreshToken = body.refreshToken;
     if (!refreshToken) {
       throw new BadRequestException('Refresh token is required');
     }
