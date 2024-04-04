@@ -54,7 +54,7 @@ function Checkout() {
             </div>
             <div className="flex flex-col space-y-2">
               <p className="text-zinc-500">Pay Tatenda</p>
-              <p className="text-zinc-800 font-semibold text-4xl">$140.0</p>
+              <p className="text-zinc-800 font-semibold text-4xl">$140.00</p>
             </div>
             {/* product item */}
             <ProductItem />
