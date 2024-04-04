@@ -21,6 +21,11 @@ export class ApiKeyService {
       secret: ApiKeyService.generateKey(64),
       user_id,
       name,
+      is_test: true,
+      environment: 'sandbox',
+      created_at: new Date(),
+      updated_at: new Date(),
+      deleted_at: null,
     } as ApiKey);
 
     return apiKey;
