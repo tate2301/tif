@@ -88,7 +88,7 @@ const ProductItem = () => {
       <div className="flex flex-col space-y-1 flex-1">
         <p className="text-sm text-zinc-700 font-medium">The pure set</p>
         <div className="flex">
-          <div className="flex flex-row text-xs p-0.5 bg-zinc-200 rounded items-center">
+          <div className="flex flex-row text-xs p-0.5 bg-zinc-100 rounded items-center">
             <p>Qty</p>
             <ChevronDownIcon height={12} width={12} />
           </div>
