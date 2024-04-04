@@ -3,9 +3,13 @@ import { PaymentSession as PaymentSession } from './models/payment_session.entit
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SessionController } from './session.controller';
 import { SessionService } from './session.service';
+import { PaymentSessionProducts } from './models/payment_session_products.entity';
+import { Product } from 'src/product/models/product.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PaymentSession])],
+  imports: [
+    TypeOrmModule.forFeature([PaymentSession, PaymentSessionProducts, Product]),
+  ],
   controllers: [SessionController],
   providers: [SessionService],
 })

@@ -8,6 +8,7 @@ import {
   IsUrl,
 } from 'class-validator';
 import { CHECKOUT_TYPE, GOODS_TYPE, PAYMENT_METHODS } from 'src/common/enum';
+import { Product } from 'src/product/models/product.entity';
 
 type DiscountCode = { code: string; amount: number };
 
@@ -30,6 +31,12 @@ export class CreateSessionInput {
   @IsString()
   @IsEnum(CHECKOUT_TYPE)
   checkout_type: CHECKOUT_TYPE = CHECKOUT_TYPE.PAY;
+
+  @IsArray({ each: true })
+  items: {
+    product: string;
+    quantity: number;
+  }[] = [];
 
   @IsOptional()
   @IsString()
