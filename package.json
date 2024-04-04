@@ -10,7 +10,7 @@
   "devDependencies": {
     "@tif/eslint-config": "workspace:*",
     "@tif/typescript-config": "workspace:*",
-    "@tif/core": "workspace:*",
+    "@tif/sdk": "workspace:*",
     "prettier": "^3.2.5",
     "turbo": "latest"
   }
