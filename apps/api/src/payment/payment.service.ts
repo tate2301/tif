@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseInterceptors } from '@nestjs/common';
 import { IsNotEmpty, IsString, IsObject } from 'class-validator';
 import {
   IPaymentService,
@@ -15,9 +15,35 @@ import { PAYMENT_METHODS } from 'src/common/enum';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Charge } from './models/charge.entity';
 import { ChargeService } from './services/charge.service';
+import { CanActivate, ExecutionContext } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { Observable } from 'rxjs';
+import { PaymentCheckInterceptor } from './interceptors/payment.interceptor';
+import { PaymentCheck } from './decorators/checks.decorator';
 import { UpdatePaymentInput } from './dto/payment.input';
 
 @Injectable()
+export class PaymentNotVoidedGuard implements CanActivate {
+  constructor(private reflector: Reflector) {}
+
+  canActivate(
+    context: ExecutionContext,
+  ): boolean | Promise<boolean> | Observable<boolean> {
+    const isVoided = this.reflector.get<boolean>(
+      'isVoided',
+      context.getHandler(),
+    );
+
+    if (isVoided) {
+      throw new Error('Payment has been voided.');
+    }
+
+    return true;
+  }
+}
+
+@Injectable()
+@UseInterceptors(PaymentCheckInterceptor)
 export class PaymentService implements IPaymentService {
   private strategies: Map<PAYMENT_METHODS, PaymentMethod> = new Map();
   isTestingMode: boolean = false;
@@ -94,6 +120,7 @@ export class PaymentService implements IPaymentService {
    * @param paymentDetails - The details of the payment.
    * @returns A Promise that resolves to the PaymentResponse object.
    */
+  @PaymentCheck('voided', 'already_paid')
   executePayment(
     paymentId: string,
     paymentMethod: PAYMENT_METHODS,

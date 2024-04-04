@@ -19,6 +19,8 @@ import { Charge } from './models/charge.entity';
 import { PaymentResponse } from './payments.interface';
 import { UpdatePaymentInput } from './dto/payment.input';
 import { SecretKeyGuard } from 'src/auth/guard/api-key/secret.guard';
+import { AnyApiKeyGuard } from 'src/auth/guard/api-key/any.guard';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('payment')
 export class PaymentController {
@@ -30,7 +32,7 @@ export class PaymentController {
     return this.paymentService.getPayment(payment_id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AnyApiKeyGuard)
   @Get('merchant/:merchant_id')
   async getPayments(
     @Param('merchant_id') merchant_id: string,
@@ -38,7 +40,7 @@ export class PaymentController {
     return this.paymentService.getPayments(merchant_id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AnyApiKeyGuard)
   @Get('charge/:payment_id')
   async getChargesForPayment(
     @Param('payment_id') payment_id: string,
@@ -46,7 +48,7 @@ export class PaymentController {
     return this.paymentService.getChargesForPayment(payment_id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AnyApiKeyGuard)
   @Get('charge/:payment_id/:charge_id')
   async getChargeDetail(
     @Param('payment_id') payment_id: string,
@@ -55,6 +57,7 @@ export class PaymentController {
     return this.paymentService.getChargeDetail(payment_id, charge_id);
   }
 
+  // TODO: Implement the logic to handle the charge operation
   @UseGuards(SecretKeyGuard)
   @Post('pay/:payment_id/:payment_method')
   @HttpCode(HttpStatus.CREATED)
@@ -80,6 +83,10 @@ export class PaymentController {
     return this.paymentService.updatePaymentDetails(payment_id, refundRequest);
   }
 
+  @ApiOperation({
+    summary: 'Void a payment',
+    description: 'Will void a payment and render it invalid',
+  })
   @UseGuards(SecretKeyGuard)
   @Delete('pay/:payment_id')
   @HttpCode(HttpStatus.CREATED)
