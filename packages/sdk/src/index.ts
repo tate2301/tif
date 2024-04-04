@@ -1,68 +1,54 @@
+import { AxiosInstance } from "axios";
 import {
   VelocityMerchantClient,
   VelocityPaymentClient,
   VelocityPaymentLinkClient,
   VelocityPaymentSessionClient,
+  VelocityProductClient,
 } from "./types";
+import { createAPIKeyClient } from "./client";
 
 export interface VelocityClient {
-  publishable_key: string;
-  secret_key: string;
-
   merchant: VelocityMerchantClient;
   payment: VelocityPaymentClient;
   session: VelocityPaymentSessionClient;
   link: VelocityPaymentLinkClient;
-
-  /**
-   * Creates a new Velocity client.
-   * @param {string} publishable_key - The publishable key.
-   * @param {string} secret_key - The secret key.
-   */
-  constructor(publishable_key: string, secret_key: string): VelocityClient;
-
-  /**
-   * Gets the publishable key.
-   * @returns {string} The publishable key.
-   */
-  getPublishableKey(): string;
-
-  /**
-   * Gets the secret key.
-   * @returns {string} The secret key.
-   */
-  getSecretKey(): string;
-
-  /**
-   * Sets the publishable key.
-   * @param {string} publishable_key - The publishable key.
-   */
-  setPublishableKey(publishable_key: string): void;
-
-  /**
-   * Sets the secret key.
-   * @param {string} secret_key - The secret key.
-   */
-  setSecretKey(secret_key: string): void;
+  product: VelocityProductClient;
 }
 
 class Velocity implements VelocityClient {
-  publishable_key: string;
-  secret_key: string;
+  private publishable_key?: string;
+  private secret_key?: string;
+  enviroment: "server" | "client" = "client";
+  private transportClient: AxiosInstance = {} as AxiosInstance;
+  private baseURL: string;
 
   merchant: VelocityMerchantClient;
   payment: VelocityPaymentClient;
   session: VelocityPaymentSessionClient;
   link: VelocityPaymentLinkClient;
+  product: VelocityProductClient;
 
-  constructor(publishable_key: string, secret_key: string) {
-    this.publishable_key = publishable_key;
-    this.secret_key = secret_key;
+  constructor(
+    keys: {
+      publishable_key?: string;
+      secret_key?: string;
+    },
+    baseURL: string = "http://localhost:3000"
+  ) {
+    this.publishable_key = keys.publishable_key;
+    this.secret_key = keys.secret_key;
+    this.baseURL = baseURL;
+
+    if (keys.secret_key) this.enviroment = "server";
+    if (keys.publishable_key) this.enviroment = "client";
+
+    this.configureTransportClient();
 
     this.merchant = {
-      getMerchantProfile: () => {},
-      updateMerchantProfile: () => {},
-      getMerchantKeys: () => {},
+      getProfile: () => {},
+      updateProfile: () => {},
+      getKeys: () => {},
       getPaymentSessions: () => {},
       getPayments: () => {},
       getCharges: () => {},
@@ -71,36 +57,55 @@ class Velocity implements VelocityClient {
     };
 
     this.payment = {
-      createPayment: () => {},
-      getPayment: () => {},
-      voidPayment: () => {},
-      updatePayment: () => {},
+      create: () => {},
+      get: () => {},
+      void: () => {},
+      update: () => {},
+    };
+
+    this.product = {
+      create: () => {},
+      get: () => {},
+      update: () => {},
+      delete: () => {},
     };
 
     this.session = {
-      createPaymentSession: () => {},
-      getPaymentSession: () => {},
-      voidPaymentSession: () => {},
-      updatePaymentSession: () => {},
+      create: () => {},
+      get: () => {},
+      void: () => {},
+      update: () => {},
     };
 
     this.link = {
-      createPaymentLink: () => {},
-      getPaymentLink: () => {},
-      updatePaymentLink: () => {},
-      deletePaymentLink: () => {},
+      create: () => {},
+      get: () => {},
+      update: () => {},
+      delete: () => {},
     };
   }
-  ["constructor"](publishable_key: string, secret_key: string): VelocityClient {
-    throw new Error("Method not implemented.");
+
+  private configureTransportClient() {
+    if (this.enviroment === "server") {
+      this.transportClient = createAPIKeyClient(this.secret_key, this.baseURL);
+    }
+
+    if (this.enviroment === "client") {
+      this.transportClient = createAPIKeyClient(
+        this.publishable_key,
+        this.baseURL
+      );
+    }
   }
 
-  getPublishableKey(): string {
-    return this.publishable_key;
+  private getPublishableKey(): string {
+    if (!this.publishable_key) throw new Error("Publishable key not set");
+    return this.publishable_key!;
   }
 
-  getSecretKey(): string {
-    return this.secret_key;
+  private getSecretKey(): string {
+    if (!this.secret_key) throw new Error("Secret key not set");
+    return this.secret_key!;
   }
 
   setPublishableKey(publishable_key: string): void {

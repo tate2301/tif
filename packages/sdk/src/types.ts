@@ -17,44 +17,38 @@ export type ApiKey = {
   name: string;
 };
 
-abstract class Client {
-  create(): void {}
-  getItem(): void {}
-  update(): void {}
-}
-
 export interface VelocityPaymentSessionClient {
-  createPaymentSession(): void;
-  getPaymentSession(): void;
-  voidPaymentSession(): void;
-  updatePaymentSession(): void;
+  create(): void;
+  get(): void;
+  void(): void;
+  update(): void;
 }
 
 export interface VelocityPaymentClient {
-  createPayment(): void;
-  getPayment(): void;
-  voidPayment(): void;
-  updatePayment(): void;
+  create(): void;
+  get(): void;
+  void(): void;
+  update(): void;
 }
 
 export interface VelocityProductClient {
-  createProduct(): void;
-  getProduct(): void;
-  updateProduct(): void;
-  deleteProduct(): void;
+  create(): void;
+  get(): void;
+  update(): void;
+  delete(): void;
 }
 
 export interface VelocityPaymentLinkClient {
-  createPaymentLink(): void;
-  getPaymentLink(): void;
-  updatePaymentLink(): void;
-  deletePaymentLink(): void;
+  create(): void;
+  get(): void;
+  update(): void;
+  delete(): void;
 }
 
 export interface VelocityMerchantClient {
-  getMerchantProfile(): void;
-  updateMerchantProfile(): void;
-  getMerchantKeys(): void;
+  getProfile(): void;
+  updateProfile(): void;
+  getKeys(): void;
 
   getPaymentSessions(): void;
   getPayments(): void;
