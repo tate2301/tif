@@ -22,6 +22,9 @@ export default function Footer() {
               <li>
                 <p>Charge</p>
               </li>
+              <li>
+                <p>Product Kit</p>
+              </li>
             </ul>
           </div>
           <div className="space-y-4">

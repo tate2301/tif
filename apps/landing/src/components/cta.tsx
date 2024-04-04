@@ -1,7 +1,7 @@
 export default function CTA() {
   return (
     <div className="bg-zinc-100">
-      <div className="container mx-auto py-24">
+      <div className="container mx-auto py-48">
         <div className="grid grid-cols-2 gap-32">
           <div>
             <h2 className="text-3xl mb-4">Ready to transform your payments?</h2>
