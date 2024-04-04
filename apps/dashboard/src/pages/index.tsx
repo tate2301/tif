@@ -18,17 +18,31 @@ export function Index() {
   const login_user = async () => {
     setLoading(true);
     try {
-      const { data } = await velocityPaymentsAPIClient.post(`/auth/login`, {
-        email,
-        password,
-      });
-      setLocalStorageItem("access_token", data.access_token);
-      setLocalStorageItem("refresh_token", data.refresh_token);
-      setLoading(false);
-      // router.push("/payments");
-      setPassword("");
-      setEmail("");
-      console.log(data);
+      await velocityPaymentsAPIClient
+        .post(`/auth/login`, {
+          email,
+          password,
+        })
+        .then(({ data }) => {
+          console.log(data);
+
+          setLocalStorageItem("access_token", data.access_token);
+          setLocalStorageItem("refresh_token", data.refresh_token);
+        })
+        .then(async () => {
+          const { data: api_key } =
+            await velocityPaymentsAPIClient.get(`/auth/keys`);
+          setLocalStorageItem("api_key", api_key.api_key);
+          router.push("/payments");
+          setPassword("");
+          setEmail("");
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } catch (error) {
       setLoading(false);
       setErr("login fail");

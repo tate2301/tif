@@ -34,7 +34,9 @@ class AxiosBuilder {
           error.config.__isRetryRequest = true;
 
           const refresh_token = localStorage.getItem("refresh_token");
-          const response = await axios.post("/auth/refresh", { refresh_token });
+          const response = await this.instance.post("/auth/refresh", {
+            refresh_token,
+          });
           localStorage.setItem("access_token", response.data.access_token);
 
           return this.instance(error.config);
