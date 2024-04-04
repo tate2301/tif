@@ -120,7 +120,6 @@ export class PaymentService implements IPaymentService {
    * @param paymentDetails - The details of the payment.
    * @returns A Promise that resolves to the PaymentResponse object.
    */
-  @PaymentCheck('voided', 'already_paid')
   executePayment(
     paymentId: string,
     paymentMethod: PAYMENT_METHODS,

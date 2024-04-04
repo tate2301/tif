@@ -18,6 +18,7 @@ import { JwtAuthGuard } from './guard/jwt.guard';
 import { ApiKeyParam } from 'src/api-key/decorators/apikey.decorator';
 import { LoginInput } from './dto/login.input';
 import { ApiKeyService } from 'src/api-key/api-key.service';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -55,6 +56,10 @@ export class AuthController {
     return { ...req.user };
   }
 
+  @ApiOperation({
+    summary: 'Get API key for user',
+    description: 'Get the API key associated with the authenticated user',
+  })
   @UseGuards(JwtAuthGuard)
   @Get('keys')
   getApiKeyForUser(@Request() req, @ApiKeyParam() apiKey) {
