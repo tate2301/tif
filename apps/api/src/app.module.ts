@@ -5,7 +5,6 @@ import { AppService } from './app.service';
 import { PaymentModule } from './payment/payment.module';
 import { AuthModule } from './auth/auth.module';
 import { AnayticsService } from './anaytics/anaytics.service';
-import { ApiKeyService } from './api-key/api-key.service';
 import { WebhookModule } from './webhook/webhook.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SessionModule } from './session/session.module';
@@ -15,6 +14,7 @@ import { APIKeyModule } from './api-key/api-key.module';
 import { HealthModule } from './health/health.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -25,7 +25,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: '127.0.0.1',
       port: 3306,
       username: 'root',
       password: '',
@@ -40,6 +40,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
     UsersModule,
     APIKeyModule,
     HealthModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [

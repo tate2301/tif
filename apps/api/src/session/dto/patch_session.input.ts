@@ -8,8 +8,6 @@ import {
   IsUrl,
 } from 'class-validator';
 
-type DiscountCode = { code: string; amount: number };
-
 export class PatchSessionInput {
   @IsOptional()
   @IsNotEmpty()

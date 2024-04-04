@@ -1,6 +1,5 @@
 import { ApiKey } from 'src/api-key/models/api_key.entity';
 import { DCollectingAddressEntity } from 'src/payment/models/index.entity';
-import { DMerchant } from 'src/user/models/merchant.entity';
 import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 
 @Entity()
@@ -18,10 +17,7 @@ export class Merchant extends DCollectingAddressEntity {
   last_name: string;
 
   @Column()
-  merchantName: string;
-
-  @Column()
-  created: Date;
+  merchant_name: string;
 
   @Column()
   email: string;
@@ -30,16 +26,17 @@ export class Merchant extends DCollectingAddressEntity {
   password: string;
 
   @Column()
-  is_active: boolean;
+  is_active: boolean = false;
 
   @Column()
-  profile_picture: string;
+  profile_picture: string =
+    'https://st3.depositphotos.com/6672868/13701/v/450/depositphotos_137014128-stock-illustration-user-profile-icon.jpg';
 
   @Column({ default: null, type: 'datetime' })
-  created_at?: Date;
+  created_at?: number = new Date().getTime();
 
   @Column({ default: null, type: 'datetime' })
-  updated_at?: Date;
+  updated_at?: number = new Date().getTime();
 
   @OneToMany((type) => ApiKey, (apiKey) => apiKey.user_id)
   apiKeys: ApiKey[];

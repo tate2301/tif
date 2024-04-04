@@ -12,6 +12,8 @@ import { Merchant } from 'src/user/models/user.entity';
 import { AuthenticatedMerchant } from 'src/auth/strategy/apikey.strategy';
 import { PatchSessionInput } from './dto/patch_session.input';
 import { Discount } from '../payment/models/discount.entity';
+import { Product } from 'src/product/models/product.entity';
+import { PaymentSessionProducts } from './models/payment_session_products.entity';
 
 export type RevokeReason = 'expired' | 'cancelled' | 'fraudulent';
 
@@ -33,6 +35,10 @@ export class SessionService {
   constructor(
     @InjectRepository(PaymentSession)
     private paymentSessionsRepository: Repository<PaymentSession>,
+    @InjectRepository(Product)
+    private productRepository: Repository<Product>,
+    @InjectRepository(PaymentSessionProducts)
+    private paymentSessionProductsRepository: Repository<PaymentSessionProducts>,
   ) {}
 
   private sessionGuard(session: PaymentSession, merchant_id: string) {
@@ -74,10 +80,35 @@ export class SessionService {
       // expires in 3 days
       expires_at: data.expires_at || Date.now() + 3 * 24 * 60 * 60,
       livemode: !merchant.api_key.is_test,
-      sessionId: generateUniqueId(16),
     });
 
-    await this.paymentSessionsRepository.save(session);
+    let payment_session_products: PaymentSessionProducts = null;
+
+    if (data.items) {
+      const items = await Promise.all(
+        data.items.map(async (item) => {
+          const product = await this.productRepository.findOne({
+            where: { id: item.product },
+          });
+          if (!product) {
+            throw new NotFoundException('Product not found: ' + item.product);
+          }
+
+          return item.product;
+        }),
+      );
+
+      payment_session_products =
+        await this.paymentSessionProductsRepository.save({
+          id: generateUniqueId(32, 'psp_'),
+          products: items,
+        });
+    }
+
+    await this.paymentSessionsRepository.save({
+      ...session,
+      payment_session_products: payment_session_products.id,
+    });
 
     const url = `https://checkout.buildwithtif.xyz/${session.id}`;
 

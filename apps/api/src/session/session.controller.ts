@@ -3,25 +3,21 @@ import {
   Controller,
   Delete,
   Get,
-  Logger,
   Param,
   Patch,
   Post,
-  Render,
   Req,
   Request,
   UseGuards,
 } from '@nestjs/common';
 import { RevokeReason, SessionService } from './session.service';
 import { CreateSessionInput } from './dto/create_session.input';
-import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import { RequestWithApiKey, RequestWithAuth } from 'src/common/types/user.type';
 import { Public } from 'src/auth/decorators/public.decorator';
 import { PaymentSession } from './models/payment_session.entity';
 import { PatchSessionInput } from './dto/patch_session.input';
-import { ApiKeyParam } from 'src/api-key/decorators/apikey.decorator';
-import { ApiKey } from 'src/api-key/models/api_key.entity';
+import { SecretKeyGuard } from 'src/auth/guard/api-key/secret.guard';
+import { AnyApiKeyGuard } from 'src/auth/guard/api-key/any.guard';
 
 @Controller('payment_session')
 export class SessionController {
@@ -32,7 +28,7 @@ export class SessionController {
    * @param req RequestWithAuth
    * @returns PaymentSession[]
    */
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(AnyApiKeyGuard)
   @Get()
   async get_all_sessions(
     @Req() req: RequestWithAuth,
@@ -55,18 +51,17 @@ export class SessionController {
     return this.sessionService.getPaymentSession(session_id);
   }
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Post()
   async create_session(
     @Request() req: RequestWithApiKey,
     @Body() body: CreateSessionInput,
   ): Promise<{ session_id: string; checkout_url: string }> {
-    new Logger().debug(req.user);
     const user = req.user;
     return this.sessionService.createPaymentSession(user, body);
   }
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Patch(':id')
   async update_session(
     @Req() req: RequestWithApiKey,
@@ -77,7 +72,7 @@ export class SessionController {
     return this.sessionService.updatePaymentSession(user, id, body);
   }
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Delete(':id')
   async revoke_session(
     @Req() req: RequestWithAuth,

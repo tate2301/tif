@@ -1,0 +1,172 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model api_key {
+  id          String    @id @db.VarChar(255)
+  name        String    @db.VarChar(255)
+  created_at  DateTime  @db.DateTime(0)
+  updated_at  DateTime? @db.DateTime(0)
+  deleted_at  DateTime? @db.DateTime(0)
+  user_id     String    @db.VarChar(255)
+  secret      String    @db.VarChar(255)
+  is_test     Int       @db.TinyInt
+  environment String    @db.VarChar(255)
+}
+
+model charge {
+  livemode        Int      @db.TinyInt
+  merchant_id     String   @db.VarChar(255)
+  created         DateTime @db.DateTime(0)
+  mode            String   @db.VarChar(255)
+  submit_type     String   @db.VarChar(255)
+  payment_methods String   @db.Text
+  currencies      String   @db.Text
+  amount          Int
+  currency        String   @db.VarChar(255)
+  customer_id     String   @db.VarChar(255)
+  description     String   @db.VarChar(255)
+  payment_method  String   @db.LongText
+  refunded        Int      @db.TinyInt
+  status          String   @db.VarChar(255)
+  id              String   @id @db.VarChar(255)
+}
+
+model d_bearer {
+  api_key     String @id @db.VarChar(255)
+  merchant_id String @db.VarChar(255)
+  env         String @db.VarChar(255)
+  is_active   Int    @db.TinyInt
+}
+
+model d_merchant {
+  address        String @db.VarChar(255)
+  address_line_2 String @db.VarChar(255)
+  city           String @db.VarChar(255)
+  country        String @db.VarChar(255)
+  id             Int    @id @default(autoincrement())
+  merchantName   String @db.VarChar(255)
+  email          String @db.VarChar(255)
+  user           Int
+}
+
+model d_payment {
+  livemode        Int      @db.TinyInt
+  merchant_id     String   @db.VarChar(255)
+  created         DateTime @db.DateTime(0)
+  mode            String   @db.VarChar(255)
+  submit_type     String   @db.VarChar(255)
+  payment_methods String   @db.Text
+  currencies      String   @db.Text
+  id              Int      @id @default(autoincrement())
+  amount          Int
+  status          String   @db.VarChar(255)
+  merchantId      String   @db.VarChar(255)
+  customerId      String   @db.VarChar(255)
+  paymentId       String   @db.VarChar(255)
+  notes           String   @db.VarChar(255)
+  receipt_email   String   @db.VarChar(255)
+  shipping        String   @db.Text
+  charges         String   @db.Text
+}
+
+model d_user {
+  address         String    @db.VarChar(255)
+  address_line_2  String    @db.VarChar(255)
+  city            String    @db.VarChar(255)
+  country         String    @db.VarChar(255)
+  uuid            String    @db.VarChar(255)
+  first_name      String    @db.VarChar(255)
+  last_name       String    @db.VarChar(255)
+  created         DateTime  @db.DateTime(0)
+  email           String    @db.VarChar(255)
+  password        String    @db.VarChar(255)
+  is_active       Int       @db.TinyInt
+  profile_picture String    @db.VarChar(255)
+  created_at      DateTime? @db.DateTime(0)
+  updated_at      DateTime? @db.DateTime(0)
+  id              String    @id @db.VarChar(255)
+}
+
+model merchant {
+  address         String    @db.VarChar(255)
+  address_line_2  String    @db.VarChar(255)
+  city            String    @db.VarChar(255)
+  country         String    @db.VarChar(255)
+  id              String    @id @db.VarChar(255)
+  uuid            String    @db.VarChar(255)
+  first_name      String    @db.VarChar(255)
+  last_name       String    @db.VarChar(255)
+  email           String    @db.VarChar(255)
+  password        String    @db.VarChar(255)
+  is_active       Int       @db.TinyInt
+  profile_picture String    @db.VarChar(255)
+  created_at      DateTime? @db.DateTime(0)
+  updated_at      DateTime? @db.DateTime(0)
+  merchant_name   String    @db.VarChar(255)
+}
+
+model payment {
+  livemode        Int      @db.TinyInt
+  merchant_id     String   @db.VarChar(255)
+  created         DateTime @db.DateTime(0)
+  mode            String   @db.VarChar(255)
+  submit_type     String   @db.VarChar(255)
+  payment_methods String   @db.Text
+  currencies      String   @db.Text
+  amount          Int
+  status          String   @db.VarChar(255)
+  notes           String   @db.VarChar(255)
+  receipt_email   String   @db.VarChar(255)
+  shipping        String   @db.Text
+  charges         String   @db.Text
+  id              String   @id @db.VarChar(255)
+  customer_id     String   @db.VarChar(255)
+}
+
+model payment_session {
+  id               String   @id @db.VarChar(255)
+  sessionId        String   @db.VarChar(255)
+  amount           Int
+  merchantId       String   @db.VarChar(255)
+  status           String   @db.VarChar(255)
+  timestamp        DateTime @db.DateTime(0)
+  notes            String   @db.VarChar(255)
+  goods_sold_type  String   @db.VarChar(255)
+  checkout_type    String   @db.VarChar(255)
+  reference_id     String   @db.VarChar(255)
+  return_url       String   @db.VarChar(255)
+  success_url      String   @db.VarChar(255)
+  subtotal         Int
+  total            Int
+  custom_text      String   @db.VarChar(255)
+  livemode         Int      @db.TinyInt
+  payment_methods  String   @db.Text
+  flags            String   @db.Text
+  discount_codes   String   @db.Text
+  shipping_methods String   @db.Text
+  cancel_reason    String   @db.VarChar(255)
+  expires_at       Int
+  updated_at       Int
+  products         String   @db.VarChar(255)
+}
+
+model payment_session_products {
+  id      String @id @db.VarChar(255)
+  product String @db.Text
+}
+
+model product {
+  id          String @id @db.VarChar(255)
+  merchant_id String @db.VarChar(255)
+  name        String @db.VarChar(255)
+  description String @db.VarChar(255)
+  price       Int
+  quantity    Int
+  image       String @db.VarChar(255)
+}

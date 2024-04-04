@@ -12,6 +12,15 @@ async function bootstrap() {
   //   cert: '', //fs.readFileSync(process.env.PUBLIC_CERT_PATH),
   // };
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  app.enableCors({
+    origin: [
+      'http://localhost:3001',
+      'http://localhost:3002',
+      'http://localhost:3003',
+      'http://localhost:3004',
+    ],
+    credentials: true,
+  });
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api');
   app.use(cookieParser());

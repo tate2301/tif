@@ -24,8 +24,15 @@ export class AuthInterceptor implements NestInterceptor {
     let tokenArray = req.headers.authorization;
 
     if (tokenArray) {
-      const user = await this.authService.decodeToken(tokenArray.split(' ')[1])
-        .user;
+      const token = await this.authService.decodeToken(
+        tokenArray.split(' ')[1],
+      );
+      const user = token?.user;
+
+      if (!user) {
+        return next.handle().pipe();
+      }
+
       const apiKey = await this.apiKeyService.getApiKeyByMerchantId(user.id);
 
       req.body['user'] = user;
