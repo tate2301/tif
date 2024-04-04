@@ -7,6 +7,7 @@ import Image from "next/image";
 import CustomInput from "@/components/inputs/CustomInput";
 import { velocityPaymentsAPIClient } from "@/lib/client";
 import { setLocalStorageItem } from "@/helpers/localStorageMethods";
+import { ApiKey } from "./types";
 
 export function Index() {
   const [email, setEmail] = useState("");
@@ -32,9 +33,9 @@ export function Index() {
         .then(async () => {
           await velocityPaymentsAPIClient.get(`/auth/profile`);
 
-          const { data: api_key } =
+          const { data: api_key }: { data: ApiKey } =
             await velocityPaymentsAPIClient.get(`/auth/keys`);
-          localStorage.setItem("api_key", api_key.api_key.secret);
+          localStorage.setItem("api_key", JSON.stringify(api_key));
           router.push("/payments");
           setPassword("");
           setEmail("");

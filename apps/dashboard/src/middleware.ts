@@ -23,9 +23,11 @@ export async function middleware(req: NextRequest) {
   }
 
   const { pathname } = req.nextUrl;
+  const url = req.nextUrl.clone();
 
   if (!token && pathname !== "/" && pathname !== "/register") {
-    return NextResponse.redirect("/");
+    url.pathname = "/";
+    return NextResponse.redirect(url);
   }
 
   if (pathname.includes("/") || pathname.includes("/register") || user) {
