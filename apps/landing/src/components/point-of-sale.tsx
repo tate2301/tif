@@ -1,7 +1,7 @@
 export default function POS() {
   return (
-    <div className="w-full bg-white py-24">
-      <div className="container mx-auto space-y-8 h-[80vh]">
+    <div className="w-full bg-white py-48">
+      <div className="container mx-auto space-y-8">
         <div className="flex flex-col items-start">
           <h2 className="font-bold text-3xl mb-4">
             Seamless payments, anywhere you go

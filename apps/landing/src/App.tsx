@@ -19,9 +19,9 @@ function App() {
       <main className="bg-zinc-50 min-h-screen">
         <header>
           <Navbar />
+          <Hero />
         </header>
         <div>
-          <Hero />
           <PaymentMethods />
           <Products />
           <POS />

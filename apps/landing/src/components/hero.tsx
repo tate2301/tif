@@ -1,13 +1,12 @@
 export default function Hero() {
   return (
-    <div className="container mx-auto place-content-center grid grid-cols-2">
-      <div className="py-32 space-y-16">
-        <h1 className="text-5xl font-bold tracking-tight text-balance leading-[4rem]">
+    <div className="container mx-auto place-content-center grid">
+      <div className="py-48 space-y-12 max-w-screen-lg mx-auto text-center flex flex-col items-center">
+        <h1 className="text-6xl font-bold tracking-tight text-balance leading-[5rem]">
           Supercharged Zimbabwean payments infrastructure.
         </h1>
-        <p className="text-balance font-medium max-w-xl">
-          Velocity Checkout is a set of prebuilt payment infrastructure
-          optimized for conversion. Embed Checkout into your website or direct
+        <p className="text-balance font-medium max-w-2xl text-xl">
+          Embed Checkout into your website, charge customers in-person or direct
           customers to a Velocity-hosted page to easily and securely accept
           one-time payments or subscriptions.
         </p>
