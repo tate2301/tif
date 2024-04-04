@@ -402,6 +402,10 @@ importers:
         version: 5.4.2
 
   packages/sdk:
+    dependencies:
+      axios:
+        specifier: ^1.6.8
+        version: 1.6.8
     devDependencies:
       '@tif/eslint-config':
         specifier: workspace:*

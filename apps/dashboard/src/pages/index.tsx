@@ -7,7 +7,7 @@ import Image from "next/legacy/image";
 import CustomInput from "@/components/inputs/CustomInput";
 import { velocityPaymentsAPIClient } from "@/lib/client";
 import { setLocalStorageItem } from "@/helpers/localStorageMethods";
-import { ApiKey } from "./types";
+import { ApiKey } from "../types";
 
 export function Index() {
   const [email, setEmail] = useState("");
