@@ -17,10 +17,14 @@ import { RegisterUserInput } from './dto/register.input';
 import { JwtAuthGuard } from './guard/jwt.guard';
 import { ApiKeyParam } from 'src/api-key/decorators/apikey.decorator';
 import { LoginInput } from './dto/login.input';
+import { ApiKeyService } from 'src/api-key/api-key.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private apiKeyService: ApiKeyService,
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -40,7 +44,9 @@ export class AuthController {
   @Public()
   @Post('register')
   async register(@Body() registrationDetails: RegisterUserInput) {
-    return this.authService.register(registrationDetails);
+    const user = await this.authService.register(registrationDetails);
+    await this.apiKeyService.addKey(user.id, 'default');
+    return user;
   }
 
   @UseGuards(JwtAuthGuard)
