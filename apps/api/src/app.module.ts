@@ -14,6 +14,7 @@ import { APIKeyModule } from './api-key/api-key.module';
 import { HealthModule } from './health/health.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
     UsersModule,
     APIKeyModule,
     HealthModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [
