@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { ApiKey } from './models/api_key.entity';
 import { randomBytes } from 'crypto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { generateUniqueId } from 'src/common/utils';
 
 @Injectable()
 export class ApiKeyService {
@@ -15,10 +16,18 @@ export class ApiKeyService {
     return randomBytes(length).toString('hex');
   }
 
+  generatePublishableKey(): string {
+    return generateUniqueId(12, 'pub_');
+  }
+
+  generateSecretKey(): string {
+    return generateUniqueId(28, 'sec_');
+  }
+
   async addKey(user_id: string, name: string = 'Default'): Promise<ApiKey> {
     const apiKey = await this.apiKeyRepository.save({
-      id: ApiKeyService.generateKey(16),
-      secret: ApiKeyService.generateKey(64),
+      id: this.generatePublishableKey(),
+      secret: this.generateSecretKey(),
       user_id,
       name,
       is_test: true,
