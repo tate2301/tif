@@ -1,31 +1,37 @@
 // secret-key.strategy.ts
 
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { HeaderAPIKeyStrategy } from 'passport-headerapikey';
 import { APIKeyAuthService } from 'src/auth/auth.service';
+import { PassportStrategy } from '@nestjs/passport';
 
 @Injectable()
-export class SecretKeyStrategy extends HeaderAPIKeyStrategy {
+export class SecretKeyStrategy extends PassportStrategy(
+  HeaderAPIKeyStrategy,
+  'secret_headerapikey',
+) {
   constructor(private authService: APIKeyAuthService) {
     super(
       { header: 'x-api-key', prefix: 'Bearer ' },
       true,
       async (apiKey, done) => {
-        if (this.authService.whatKeyTypeIsThis(apiKey) !== 'private') {
-          return done(
-            new UnauthorizedException(
+        try {
+          if (this.authService.whatKeyTypeIsThis(apiKey) !== 'private') {
+            throw new UnauthorizedException(
               'A secret key is required for this operation',
-            ),
-            false,
-          );
-        }
+            );
+          }
 
-        const user = await this.authService.validateSecretKey(apiKey);
-        if (user) {
-          done(null, user);
-        }
+          const user = await this.authService.validateSecretKey(apiKey);
 
-        done(new UnauthorizedException(), null);
+          if (!user) {
+            throw new UnauthorizedException();
+          }
+
+          return done(null, user);
+        } catch (error) {
+          return done(new UnauthorizedException(), null);
+        }
       },
     );
   }

@@ -20,12 +20,12 @@ export class ApiKey {
   @Column()
   user_id: string;
 
-  @Column('datetime')
-  created_at?: Date = new Date();
+  @Column()
+  created_at?: number = new Date().getTime() / 1000;
 
   @Column({ nullable: true })
-  updated_at?: Date;
+  updated_at?: number = new Date().getTime() / 1000;
 
   @Column({ nullable: true })
-  deleted_at?: Date;
+  deleted_at?: number = null;
 }

@@ -51,8 +51,8 @@ export class ApiKeyService {
       name,
       is_test: true,
       environment: 'sandbox',
-      created_at: new Date(),
-      updated_at: new Date(),
+      created_at: new Date().getTime() / 1000,
+      updated_at: new Date().getTime() / 1000,
       deleted_at: null,
     } as ApiKey);
 

@@ -14,8 +14,8 @@ import { ProductService } from './product.service';
 import { Product } from './models/product.entity';
 import { RequestWithAuth } from 'src/common/types/user.type';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
-import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
 import { UpdateProductInput } from './dto/update.input';
+import { SecretKeyGuard } from 'src/auth/guard/api-key/secret.guard';
 
 @Controller('product')
 export class ProductController {
@@ -27,7 +27,7 @@ export class ProductController {
     return this.productService.getProducts(req.user.id);
   }
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Get(':id')
   async getProduct(
     @Req() req: RequestWithAuth,
@@ -36,7 +36,7 @@ export class ProductController {
     return this.productService.getProduct(id, req.user.id);
   }
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Post()
   async createProduct(
     @Req() req: RequestWithAuth,
@@ -45,7 +45,7 @@ export class ProductController {
     return this.productService.createProduct(req.user.id, body);
   }
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Patch(':id')
   async updateProduct(
     @Req() req: RequestWithAuth,
@@ -55,7 +55,7 @@ export class ProductController {
     return this.productService.updateProduct(id, req.user.id, body);
   }
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Delete(':id')
   async deleteProduct(
     @Req() req: RequestWithAuth,

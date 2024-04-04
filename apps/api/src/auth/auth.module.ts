@@ -6,15 +6,15 @@ import { LocalStrategy } from './strategy/local.strategy';
 import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Merchant } from '../user/models/user.entity';
-import { DBearer } from './models/bearer.entity';
-import { DMerchant } from 'src/user/models/merchant.entity';
+import { Bearer as Bearer } from './models/bearer.entity';
 import { UsersModule } from 'src/user/user.module';
 import { JwtStrategy } from './strategy/jwt.strategy';
-import { ApiKeyStrategy } from './strategy/apikey.strategy';
 import { ApiKeyService } from 'src/api-key/api-key.service';
 import { APIKeyModule } from 'src/api-key/api-key.module';
 import { ApiKey } from 'src/api-key/models/api_key.entity';
 import { UsersService } from 'src/user/service/user.service';
+import { AnyApiKeyStrategy } from './strategy/apikey/any.strategy';
+import { SecretKeyStrategy } from './strategy/apikey/secret.strategy';
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { UsersService } from 'src/user/service/user.service';
       secret: 'supersecret',
       signOptions: { expiresIn: '600m' },
     }),
-    TypeOrmModule.forFeature([DBearer, Merchant, DMerchant, ApiKey]),
+    TypeOrmModule.forFeature([Bearer, Merchant, ApiKey]),
     PassportModule,
     UsersModule,
     APIKeyModule,
@@ -34,7 +34,8 @@ import { UsersService } from 'src/user/service/user.service';
     ApiKeyService,
     LocalStrategy,
     JwtStrategy,
-    ApiKeyStrategy,
+    AnyApiKeyStrategy,
+    SecretKeyStrategy,
   ],
   controllers: [AuthController],
   exports: [AuthService],

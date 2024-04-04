@@ -58,7 +58,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('keys')
   getApiKeyForUser(@Request() req, @ApiKeyParam() apiKey) {
-    return { api_key: apiKey };
+    return { ...apiKey };
   }
 
   @Post('refresh')

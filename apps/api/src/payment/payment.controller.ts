@@ -14,17 +14,17 @@ import { ExecutePaymentDto, PaymentService } from './payment.service';
 import { VoidDto } from './dto/void.dto';
 import { PAYMENT_METHODS } from 'src/common/enum';
 import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
-import { ApiKeyGuard } from 'src/auth/guard/apikey-auth.guard';
 import Payment from './models/payment.entity';
 import { Charge } from './models/charge.entity';
 import { PaymentResponse } from './payments.interface';
 import { UpdatePaymentInput } from './dto/payment.input';
+import { SecretKeyGuard } from 'src/auth/guard/api-key/secret.guard';
 
 @Controller('payment')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Get(':payment_id')
   async getPayment(@Param('payment_id') payment_id: string): Promise<Payment> {
     return this.paymentService.getPayment(payment_id);
@@ -55,7 +55,7 @@ export class PaymentController {
     return this.paymentService.getChargeDetail(payment_id, charge_id);
   }
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Post('pay/:payment_id/:payment_method')
   @HttpCode(HttpStatus.CREATED)
   async charge(
@@ -70,7 +70,7 @@ export class PaymentController {
     );
   }
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Put('pay/:payment_id')
   @HttpCode(HttpStatus.CREATED)
   async updatePayment(
@@ -80,7 +80,7 @@ export class PaymentController {
     return this.paymentService.updatePaymentDetails(payment_id, refundRequest);
   }
 
-  @UseGuards(ApiKeyGuard)
+  @UseGuards(SecretKeyGuard)
   @Delete('pay/:payment_id')
   @HttpCode(HttpStatus.CREATED)
   async void(

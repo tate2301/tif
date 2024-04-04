@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export class DBearer {
+export class Bearer {
   @PrimaryColumn()
   api_key: string;
 
