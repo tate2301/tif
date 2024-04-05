@@ -1,3 +1,4 @@
+import { getFromLocalStorage } from "@/helpers/localStorageMethods";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import { velocityPaymentsAPIKeyClient } from "@/lib/client";
 import { useRouter } from "next/router";
@@ -50,7 +51,7 @@ export default function Link() {
             <button
               onClick={() => {
                 navigator.clipboard.writeText(
-                  `${"http://localhost:3001"}/${session.id}`
+                  `${"http://localhost:3001"}/${session.id}?key=${getFromLocalStorage("api_key").id}`
                 );
               }}
               className="bg-blue-500 text-white font-semibold px-4 py-2 rounded-full"

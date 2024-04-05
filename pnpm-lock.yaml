@@ -180,6 +180,9 @@ importers:
       '@heroicons/react':
         specifier: ^2.1.1
         version: 2.1.1(react@18.2.0)
+      axios:
+        specifier: ^1.6.8
+        version: 1.6.8
       clsx:
         specifier: ^2.1.0
         version: 2.1.0
