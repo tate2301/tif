@@ -1,6 +1,6 @@
 export default function PaymentMethods() {
   return (
-    <div className="w-full bg-white py-48">
+    <div className="w-full bg-white py-48 pt-24">
       <div className="container mx-auto space-y-8">
         <div className="flex flex-col items-start max-w-xl">
           <h2 className="font-bold text-3xl mb-4">

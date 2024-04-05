@@ -10,22 +10,6 @@ type Props = {
 };
 
 const DashboardLayout = (props: Props) => {
-  // const { state } = useContext<any>(Store);
-  // const { access_token } = state;
-  // const router = useRouter();
-
-  // console.log("user Info: ----- ", access_token);
-
-  /*
-    TODO: protect all routes
-  */
-
-  // useEffect(() => {
-  //   if (!access_token) {
-  //     router.push("/");
-  //   }
-  // }, []);
-
   return (
     <>
       <Head>

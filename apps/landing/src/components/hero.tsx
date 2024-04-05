@@ -1,8 +1,8 @@
 export default function Hero() {
   return (
-    <div className="container mx-auto place-content-center grid">
-      <div className="py-48 space-y-12 max-w-screen-lg mx-auto text-center flex flex-col items-center">
-        <h1 className="text-6xl font-bold tracking-tight text-balance leading-[5rem]">
+    <div className="container mx-auto place-content-center grid grid-cols-3 ">
+      <div className="pt-24 pb-12 space-y-12 max-w-screen-lg mx-auto flex flex-col">
+        <h1 className="text-6xl font-bold tracking-tight text-balance leading-[4.5rem]">
           Supercharged Zimbabwean payments infrastructure.
         </h1>
         <p className="text-balance font-medium max-w-2xl text-xl">
@@ -25,7 +25,9 @@ export default function Hero() {
           </a>
         </div>
       </div>
-      <div></div>
+      <div className="col-span-2 p-24 pb-0 flex items-end">
+        <img src="/hero.png" alt="Hero image" className="w-full" />
+      </div>
     </div>
   );
 }

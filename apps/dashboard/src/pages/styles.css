@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  font-family: 'Open Sans', sans-serif;
-}
-
 /* // add the code bellow */
 @layer utilities {
   @variants responsive {
@@ -70,7 +66,7 @@
   .main-link-text {
     @apply dark:text-zinc-400 text-zinc-700 dark:hover:text-zinc-300 hover:text-zinc-900 cursor-pointer;
   }
-  
+
   .heading-text {
     @apply dark:text-zinc-200 text-zinc-900;
   }

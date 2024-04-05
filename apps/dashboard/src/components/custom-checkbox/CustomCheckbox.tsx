@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 
 type Props = {
   text: string;
@@ -12,14 +12,14 @@ const CustomCheckbox = ({ text, value, setValue, description }: Props) => {
     setValue(!value);
   };
 
-  console.log("value selected: ", value);
+  const id = useId();
   return (
     <div className={`flex items-center space-x-2`}>
       <div
         className={`${description ? "items-start " : "items-center "} flex flex-row `}
       >
         <input
-          id="default-checkbox"
+          id={id}
           type="checkbox"
           value={value}
           checked={value}
@@ -28,7 +28,7 @@ const CustomCheckbox = ({ text, value, setValue, description }: Props) => {
         />
         <div className="flex flex-col ms-2">
           <label
-            htmlFor="default-checkbox"
+            htmlFor={id}
             className="text-sm font-medium text-zinc-700 dark:text-zinc-300"
           >
             {text}

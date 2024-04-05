@@ -3,7 +3,6 @@ export default function Navbar() {
     <div className="border-b border-dashed border-zinc-400/30">
       <nav className="container mx-auto p-4 flex justify-between items-center">
         <div className="pr-4 flex items-baseline gap-16">
-          <p className="text-xl font-semibold">velocity</p>
           <div className="flex gap-8">
             <a href="#">Products</a>
             <a href="#">Solutions</a>

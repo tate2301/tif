@@ -16,12 +16,12 @@ function App() {
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@100;300;400;500;700;900&display=swap"
         rel="stylesheet"
       />
-      <main className="bg-zinc-50 min-h-screen">
-        <header>
+      <main className="bg-white min-h-screen">
+        <header className="border-b border-zinc-300">
           <Navbar />
           <Hero />
         </header>
-        <div>
+        <div className="bg-zinc-50">
           <PaymentMethods />
           <Products />
           <POS />

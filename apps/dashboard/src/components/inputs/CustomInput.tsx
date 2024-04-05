@@ -8,6 +8,7 @@ type Props = {
   textarea?: boolean;
   rows?: number;
   optional?: boolean;
+  type?: string;
 };
 
 function CustomInput({
@@ -18,6 +19,7 @@ function CustomInput({
   textarea,
   rows,
   optional,
+  type,
 }: Props) {
   return (
     <div className="flex flex-col space-y-1">
@@ -28,7 +30,9 @@ function CustomInput({
           </p>
         )}
         {optional && (
-          <p className="text-xs bg-secondary p-0.5 rounded font-medium light-text">(Optional)</p>
+          <p className="text-xs bg-secondary p-0.5 rounded font-medium light-text">
+            (Optional)
+          </p>
         )}
       </div>
 
@@ -42,7 +46,7 @@ function CustomInput({
         />
       ) : (
         <input
-          type="text"
+          type={type ? type : "text"}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder={placeholder}
