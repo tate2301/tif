@@ -12,15 +12,14 @@ import { RefundDto } from './dto/refund.dto';
 import Payment, { PaymentStatus } from './models/payment.entity';
 import { Repository } from 'typeorm';
 import { PAYMENT_METHODS } from 'src/common/enum';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Charge } from './models/charge.entity';
 import { ChargeService } from './services/charge.service';
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { PaymentCheckInterceptor } from './interceptors/payment.interceptor';
-import { PaymentCheck } from './decorators/checks.decorator';
 import { UpdatePaymentInput } from './dto/payment.input';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PaymentNotVoidedGuard implements CanActivate {

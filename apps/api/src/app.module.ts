@@ -4,7 +4,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PaymentModule } from './payment/payment.module';
 import { AuthModule } from './auth/auth.module';
-import { AnayticsService } from './anaytics/anaytics.service';
 import { WebhookModule } from './webhook/webhook.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SessionModule } from './session/session.module';
@@ -15,6 +14,10 @@ import { HealthModule } from './health/health.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { ProductModule } from './product/product.module';
+import { ChargeModule } from './charge/charge.module';
+import { ReportsModule } from './reports/reports.module';
+import { PaymentLinkModule } from './link/link.module';
+import { AnalyticsModule } from './anaytics/analytics.module';
 
 @Module({
   imports: [
@@ -33,19 +36,22 @@ import { ProductModule } from './product/product.module';
       synchronize: true,
       autoLoadEntities: true,
     }),
+    HealthModule,
+    AuthModule,
+    APIKeyModule,
+    UsersModule,
     PaymentModule,
     WebhookModule,
-    AuthModule,
     SessionModule,
-    UsersModule,
-    APIKeyModule,
-    HealthModule,
     ProductModule,
+    ChargeModule,
+    ReportsModule,
+    PaymentLinkModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
-    AnayticsService,
     {
       provide: APP_INTERCEPTOR,
       useClass: AuthInterceptor,
