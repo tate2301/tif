@@ -38,8 +38,8 @@ export class SessionService {
     private paymentSessionsRepository: Repository<PaymentSession>,
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
-    @InjectRepository(PaymentSessionProducts)
-    private paymentSessionProductsRepository: Repository<PaymentSessionProducts>,
+    @InjectRepository(Merchant)
+    private userRepository: Repository<Merchant>,
   ) {}
 
   private sessionGuard(session: PaymentSession, merchant_id: string) {
@@ -165,9 +165,14 @@ export class SessionService {
       where: { id: product },
     });
 
+    const merchant = await this.userRepository.findOne({
+      where: { id: session.merchantId },
+    });
+
     return {
       ...session,
       products,
+      merchant,
     };
   }
 

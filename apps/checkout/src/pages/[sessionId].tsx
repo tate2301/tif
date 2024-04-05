@@ -14,6 +14,9 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import { setLocalStorageItem } from "@/helpers/localStorageMethods";
 import { velocityPaymentsAPIKeyClient } from "@/lib/client";
+import { ArrowLeftIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import ShippingInfoSection from "@/components/page-sections/ShippingInfoSection";
+import AmountInfoSection from "@/components/page-sections/AmountInfoSection";
 
 interface PostData {
   title: string;
@@ -62,96 +65,100 @@ function Checkout({ postData }: Props) {
       });
   }, [postData]);
 
+  console.log({ session });
+
+  if (!session.id) return null;
+
   return (
     <>
       <Head>
         <title>Checkout</title>
       </Head>
-      <div className="flex h-screen w-full">
-        <div className="w-1/2 h-full bg-blue-500 p-8">
-          <div className="flex justify-between pb-2 border-b">
-            <p className="inline-flex gap-2 items-center text-white text-xl font-semibold tracking-loose">
-              velocity
-            </p>
-            <p className="font-semibold text-center text-3xl text-white">
-              {Intl.NumberFormat("en-us", {
-                style: "currency",
-                currency: "ZWL",
-              }).format(session.amount || 0)}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex-1 space-y-8">
-          <div className="max-w-lg flex-1 mx-auto flex flex-col gap-8 p-8 pt-24 rounded-lg">
-            <BorderedHeading text="Pay with" />
-            <div className="grid grid-cols-3 gap-2 items-center justify-between">
-              <PaymentOptionComponent
-                active={true}
-                selected={true}
-                name="Mobile"
-                Icon={DevicePhoneMobileIcon}
-              />
-              <PaymentOptionComponent
-                active={false}
-                selected={false}
-                name="ZIMSWITCH"
-                Icon={CreditCardIcon}
-              />
-              <PaymentOptionComponent
-                active={false}
-                selected={false}
-                name="Debit/Credit"
-                Icon={BuildingLibraryIcon}
-              />
+      <div className="flex min-h-screen w-full bg-zinc-50/50">
+        <div className="grid grid-cols-2  max-w-7xl w-full mx-auto p-4 rounded-lg">
+          <div className="h-full p-8 flex flex-col space-y-8">
+            <div className="flex flex-row text-zinc-500 space-x-2 items-center">
+              <ArrowLeftIcon height={16} width={16} />
+              <p className="text-zinc-800 font-medium">
+                {session.merchant.first_name} {session.merchant.last_name}'s
+                Shop
+              </p>
+              <p className="text-orange-700 bg-orange-200 py-0.5 px-1 font-semibold text-xs rounded uppercase">
+                test mode
+              </p>
             </div>
-
-            <div className="space-y-6 rounded-xl bg-white">
-              <CustomInput
-                name="full_name"
-                placeholder="John Doe"
-                heading="Full name"
-              />
-              <CustomInput
-                name="phone_number"
-                value={phone_number}
-                onChange={(e) => setPhoneNumber(e.currentTarget.value)}
-                placeholder="0771000000"
-                heading="Phone number"
-              />
-              <CustomInput
-                name="email"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.currentTarget.value)}
-                heading="Email"
-              />
+            <div className="flex flex-col space-y-2">
+              <p className="text-zinc-500">{session.custom_text}</p>
+              <p className="text-zinc-800 font-semibold text-4xl">
+                {Intl.NumberFormat("en-us", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(session.amount) || 0}
+              </p>
             </div>
-            <CustomButton
-              text={`Pay ZWL$${total}`}
-              loading={loading}
-              onClick={handlePaymentProcess}
+            {/* product item */}
+            <ProductItem
+              name={session.products.name}
+              price={session.products.price}
+              quantity="1"
             />
-          </div>
-          <div className="h-px w-auto bg-zinc-400/30 mx-8" />
-          <div className="px-4 mx-8 space-y-2">
-            <div className="flex justify-between items-baseline">
-              <p>{new Date().getFullYear()} &copy; Velocity</p>
-              <ul className="flex items-center gap-8">
-                <li>Terms & Conditions</li>
-                <li>Privacy Policy</li>
-              </ul>
+            <AmountInfoSection price={session.products.price} />
+            <div className="flex-1"></div>
+            <div className="flex self-center flex-row text-xs items-center text-zinc-500 divide-x-[1px] divide-zinc-400 gap-4">
+              <p>
+                Powered by <span className="font-bold">Velocity</span>
+              </p>
+              <div className="flex px-4 space0=-x-4">
+                <p>Terms</p>
+                <p>Privacy</p>
+              </div>
             </div>
-            <p className="text-zinc-400">
-              Velocity is a registered trademark of Hurudza Creative. Made with
-              love in Zimbabwe.
-            </p>
+          </div>
+
+          <div className="flex-1 space-y-8">
+            <ShippingInfoSection
+              sessionId={sessionId as string}
+              price={session.amount}
+            />
           </div>
         </div>
       </div>
     </>
   );
 }
+
+const ProductItem = ({
+  name,
+  price,
+  quantity,
+}: {
+  name: string;
+  price: number;
+  quantity: string;
+}) => {
+  return (
+    <div className="flex flex-row items-start space-x-2 max-w-md">
+      <img
+        src="http://localhost:3002/images/chris.jpeg"
+        className="bg-zinc-400 h-16 w-16 rounded-xl object-cover "
+      />
+      <div className="flex flex-col space-y-1 flex-1">
+        <p className="text-zinc-700 font-medium">{name}</p>
+        <div className="flex">
+          <div className="flex flex-row text-sm p-0.5 bg-zinc-100 rounded items-center">
+            <p className="font-semibold text-zinc-400">Quantity: {quantity}</p>
+          </div>
+        </div>
+      </div>
+      <p className="text-zinc-600 font-semibold">
+        {Intl.NumberFormat("en-us", {
+          style: "currency",
+          currency: "USD",
+        }).format(price || 0)}
+      </p>
+    </div>
+  );
+};
 
 // Example of fetching data using getServerSideProps
 export async function getServerSideProps(context: GetServerSidePropsContext) {
