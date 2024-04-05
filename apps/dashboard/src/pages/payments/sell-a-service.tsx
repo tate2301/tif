@@ -1,7 +1,11 @@
 import PaymentPreview from "@/components/create-payment-components/PaymentPreview";
 import CustomCheckbox from "@/components/custom-checkbox/CustomCheckbox";
 import DashboardLayout from "@/layouts/DashboardLayout";
-import { useState } from "react";
+import { use, useState } from "react";
+import { createAPIKeyClient } from "../../../../../packages/sdk/src/client";
+import { apiUrl } from "@/utils/apiUrl";
+import { velocityPaymentsAPIKeyClient } from "@/lib/client";
+import { useRouter } from "next/router";
 
 const dropdown_options = [
   { name: "Products or descriptions", _id: "products-or-descriptons" },
@@ -12,6 +16,7 @@ const dropdown_options = [
 ];
 
 const CreatePaymentLink = () => {
+  const router = useRouter();
   const [collect_address, setCollectAddress] = useState<any>();
   const [required_additional_number, setRequireAdditionalNumber] =
     useState<any>();
@@ -19,15 +24,52 @@ const CreatePaymentLink = () => {
   const [require_zimswitch, setRequireZimswitch] = useState(true);
   const [require_card, setRequireCard] = useState(true);
 
-  const handleCreatePaymentLink = (e: any) => {
+  const handleCreatePaymentLink = async (e: any) => {
     e.preventDefault();
 
     const form = e.target;
     const service_name = form.service_name.value;
     const service_price = form.service_price.value;
-    const service_description = form.service_description.value;
 
-    // Handle this payment
+    // create the product
+    const { data } = await velocityPaymentsAPIKeyClient.post("/product", {
+      name: service_name,
+      description: "No description",
+      price: parseFloat(service_price),
+      quantity: 999,
+    });
+
+    const item_id = data.id;
+
+    const { data: payment_link } = await velocityPaymentsAPIKeyClient.post(
+      "/payment_session",
+      {
+        service_name,
+        amount: parseFloat(service_price),
+        payment_methods: [
+          require_mobile_payment && "ecocash",
+          require_zimswitch && "zimswitch",
+          require_card && ["mastercard", "visa"],
+        ]
+          .flat(2)
+          .filter((x) => x), // filter out undefined values
+        collect_address,
+        required_additional_number,
+        goods_sold_type: "service",
+        checkout_type: "pay",
+        return_url: `${apiUrl}/payment/return`,
+        success_url: `${apiUrl}/payment/success`,
+        items: [
+          {
+            product: item_id,
+            quantity: 1,
+          },
+        ],
+        notes: "Payment for " + service_name,
+      }
+    );
+
+    router.push(`/payments/links/${payment_link.session_id}`);
   };
 
   return (

@@ -45,9 +45,12 @@ export class SessionController {
    */
   @Public()
   @Get(':session_id')
-  async get_session(
-    @Param('session_id') session_id: string,
-  ): Promise<PaymentSession> {
+  async get_session(@Param('session_id') session_id: string): Promise<
+    | (PaymentSession & {
+        products: { product: string; quantity: number }[];
+      })
+    | any
+  > {
     return this.sessionService.getPaymentSession(session_id);
   }
 

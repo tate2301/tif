@@ -32,7 +32,7 @@ export class CreateSessionInput {
   @IsEnum(CHECKOUT_TYPE)
   checkout_type: CHECKOUT_TYPE = CHECKOUT_TYPE.PAY;
 
-  @IsArray({ each: true })
+  @IsArray()
   items: {
     product: string;
     quantity: number;
@@ -43,11 +43,9 @@ export class CreateSessionInput {
   reference_id?: string;
 
   @IsString()
-  @IsUrl()
   return_url: string;
 
   @IsString()
-  @IsUrl()
   success_url: string;
 
   @IsOptional()

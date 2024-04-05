@@ -1,6 +1,7 @@
 import {
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -84,30 +85,30 @@ export class SessionService {
 
     let payment_session_products: PaymentSessionProducts = null;
 
-    if (data.items) {
-      const items = await Promise.all(
-        data.items.map(async (item) => {
-          const product = await this.productRepository.findOne({
-            where: { id: item.product },
-          });
-          if (!product) {
-            throw new NotFoundException('Product not found: ' + item.product);
-          }
+    // if (data.items) {
+    //   let items: string[] = [];
+    //   for (const item of data.items) {
+    //     const product = await this.productRepository.findOne({
+    //       where: { id: item.product },
+    //     });
 
-          return item.product;
-        }),
-      );
+    //     if (!product) {
+    //       throw new NotFoundException('Product not found');
+    //     }
 
-      payment_session_products =
-        await this.paymentSessionProductsRepository.save({
-          id: generateUniqueId(32, 'psp_'),
-          products: items,
-        });
-    }
+    //     items.push(item.product);
+    //   }
+
+    //   payment_session_products =
+    //     await this.paymentSessionProductsRepository.save({
+    //       id: generateUniqueId(32, 'psp_'),
+    //       products: JSON.stringify(items),
+    //     });
+    // }
 
     await this.paymentSessionsRepository.save({
       ...session,
-      payment_session_products: payment_session_products.id,
+      products: JSON.stringify(data.items),
     });
 
     const url = `https://checkout.buildwithtif.xyz/${session.id}`;
@@ -156,7 +157,18 @@ export class SessionService {
   }
 
   async getPaymentSession(id: string) {
-    return this.paymentSessionsRepository.findOne({ where: { id } });
+    const session = await this.paymentSessionsRepository.findOne({
+      where: { id },
+    });
+    const product = JSON.parse(session.products)[0].product;
+    const products = await this.productRepository.findOne({
+      where: { id: product },
+    });
+
+    return {
+      ...session,
+      products,
+    };
   }
 
   async getPaymentSessionsByMerchantId(user_id: string) {

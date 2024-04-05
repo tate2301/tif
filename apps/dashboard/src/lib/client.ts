@@ -1,4 +1,5 @@
 import { getFromLocalStorage } from "@/helpers/localStorageMethods";
+import { ApiKey } from "@/types";
 import { apiUrl } from "@/utils/apiUrl";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
@@ -50,8 +51,8 @@ class AxiosBuilder {
 
   withAPIKey() {
     this.instance.interceptors.request.use((config: any) => {
-      const apiKey = getFromLocalStorage("api_key");
-      config.headers["x-api-key"] = `Bearer ${apiKey}`;
+      const apiKey: ApiKey = getFromLocalStorage("api_key");
+      config.headers["x-api-key"] = `Bearer ${apiKey.secret}`;
       return config;
     });
 
@@ -66,9 +67,8 @@ class AxiosBuilder {
 const createJWTClient = (baseUrl: string = "http://localhost:3000/api") =>
   new AxiosBuilder(baseUrl).withJWT().build();
 
-const createAPIKeyClient = (
-  baseUrl: string = "http://localhost:3000/api",
-  apiKey: string
-) => new AxiosBuilder(baseUrl).withAPIKey().build();
+const createAPIKeyClient = (baseUrl: string = "http://localhost:3000/api") =>
+  new AxiosBuilder(baseUrl).withAPIKey().build();
 
 export const velocityPaymentsAPIClient = createJWTClient(apiUrl);
+export const velocityPaymentsAPIKeyClient = createAPIKeyClient(apiUrl);
