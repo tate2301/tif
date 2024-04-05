@@ -42,7 +42,7 @@ export default function Empowering() {
           <div className="rounded-xl hover:shadow shadow-sm bg-white p-2 border border-zinc-400/10">
             <div
               style={{
-                backgroundImage: `url('https://images.ctfassets.net/fzn2n1nzq965/5C5LvT3YZvRTGYn7uabXGj/7da8063dc77c67b7f66a1479f47409c8/build_with_stripe.svg?q=80')`,
+                backgroundImage: `url('https://images.ctfassets.net/fzn2n1nzq965/5C5LvT3YZvRTGYn7uabXGj/7da8063dc77c67b7f66a1479f47409c8/build_with_Velocity.svg?q=80')`,
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center",
               }}

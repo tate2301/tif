@@ -7,6 +7,8 @@ import {
   BuildingLibraryIcon,
   CreditCardIcon,
 } from "@heroicons/react/24/solid";
+import { velocityPaymentsAPIKeyClient } from "@/lib/client";
+import { useRouter } from "next/router";
 
 const ShippingInfoSection = ({
   sessionId,
@@ -16,19 +18,39 @@ const ShippingInfoSection = ({
   price: number;
 }) => {
   const [value, setValue] = useState<any>("");
+  const router = useRouter();
+  const payment_method = "ecocash";
+  const onSubmitForm = (e: any) => {
+    e.preventDefault();
+    const formData = {
+      email: e.target.email.value,
+      phone_number: e.target.phone_number.value,
+      country: e.target.country.value,
+      full_name: e.target.full_name.value,
+      address: e.target.address.value,
+      city: e.target.city.value,
+    };
+
+    velocityPaymentsAPIKeyClient.post(
+      `/payment/pay/${sessionId}/${payment_method}`,
+      formData
+    );
+
+    router.push(`/success?price=${price}`);
+  };
   return (
-    <div
+    <form
       className={`"max-w-sm bg-white mx-auto flex flex-col gap-10 p-8 rounded-lg bg-primary transition-transform duration-300 delay-50`}
+      onSubmit={onSubmitForm}
     >
       <BorderedHeading text="Pay with" />
       <div className="space-y-4">
         <p className=" font-semibold text-zinc-900 text-lg">Shipping Info</p>
         <div className="space-y-6 rounded-xl bg-primary">
-          <CustomInput
+          <input
+            name="email"
             placeholder="Email address"
-            value={value}
-            setValue={setValue}
-            heading="email"
+            className="border-zinc-200 border w-full focus:bg-transparent shadow-sm focus:border-zinc-400/30 focus:shadow-sm p-2 outline-none rounded-lg"
           />
           <BillingSectionAddress />
         </div>
@@ -36,7 +58,7 @@ const ShippingInfoSection = ({
 
       <div className="space-y-4">
         <p className=" font-semibold text-zinc-900 text-lg">Payment Method</p>
-        <div className="flex flex-row gap-2 items-center gap-4">
+        <div className="flex flex-row items-center gap-4">
           <PaymentOptionComponent
             active={true}
             selected={true}
@@ -57,23 +79,24 @@ const ShippingInfoSection = ({
           />
         </div>
       </div>
-      <CustomInput
-        value={value}
-        setValue={setValue}
+      <input
+        name="phone_number"
         placeholder="0771000000"
-        heading="phone number"
+        type="text"
+        className="border-zinc-200 border focus:bg-transparent shadow-sm focus:border-zinc-400/30 focus:shadow-sm p-2 outline-none rounded-lg"
       />
 
-      <div className="bg-zinc-900 text-center font-medium text-white p-2 rounded-lg">
+      <button
+        type="submit"
+        className="bg-blue-500 text-center font-medium text-white p-2 rounded-lg"
+      >
         Pay
-      </div>
-    </div>
+      </button>
+    </form>
   );
 };
 
 const BillingSectionAddress = () => {
-  const [value, setValue] = useState("");
-
   return (
     <div className="flex flex-col">
       <p className="text-xs font-semibold text-zinc-500 capitalize pb-1">
@@ -81,27 +104,23 @@ const BillingSectionAddress = () => {
       </p>
       <div className="flex flex-col shadow-sm rounded-lg">
         <input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          name="country"
           placeholder={"Zimabwe"}
           className="border border-zinc-200 p-2 outline-none rounded-t-lg"
         />
         <input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          name="full_name"
           placeholder={"Full name"}
           className="border border-zinc-200 p-2 outline-none"
         />
         <textarea
+          name="address"
           rows={3}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
           placeholder={"Address"}
           className="border border-zinc-200 p-2 outline-none"
         />
         <input
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          name="city"
           placeholder={"City"}
           className="border border-zinc-200 p-2 outline-none rounded-b-lg"
         />

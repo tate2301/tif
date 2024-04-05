@@ -8,7 +8,7 @@ export default function Products() {
           </h2>
           <p className="max-w-3xl text-balance mb-16">
             Reduce costs, grow revenue, and run your business more efficiently
-            on a fully integrated platform. Use Stripe to handle all of your
+            on a fully integrated platform. Use Velocity to handle all of your
             payments-related needs, manage revenue operations, and launch (or
             invent) new business models.
           </p>

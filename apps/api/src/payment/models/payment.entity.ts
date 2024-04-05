@@ -18,7 +18,7 @@ export enum PaymentStatus {
 }
 
 @Entity()
-export default class Payment extends DBasePaymentEntity {
+export default class Payment {
   @PrimaryColumn()
   id: string;
 
@@ -40,16 +40,9 @@ export default class Payment extends DBasePaymentEntity {
   @Column()
   receipt_email: string;
 
-  @Column('simple-json')
-  shipping: {
-    address: string;
-    city: string;
-    country: string;
-  };
+  @Column()
+  shipping: string;
 
-  @Column('simple-array')
-  charges: string[];
-
-  @OneToOne(() => ApiKey, (apiKey) => apiKey.id)
+  @Column()
   api_key: string;
 }
