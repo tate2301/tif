@@ -1,3 +1,4 @@
+import { getFromLocalStorage } from "@/helpers/localStorageMethods";
 import { apiUrl } from "@/utils/apiUrl";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
@@ -33,7 +34,9 @@ class AxiosBuilder {
           error.config.__isRetryRequest = true;
 
           const refresh_token = localStorage.getItem("refresh_token");
-          const response = await axios.post("/auth/refresh", { refresh_token });
+          const response = await this.instance.post("/auth/refresh", {
+            refresh_token,
+          });
           localStorage.setItem("access_token", response.data.access_token);
 
           return this.instance(error.config);
@@ -45,8 +48,9 @@ class AxiosBuilder {
     return this;
   }
 
-  withAPIKey(apiKey: string) {
+  withAPIKey() {
     this.instance.interceptors.request.use((config: any) => {
+      const apiKey = getFromLocalStorage("api_key");
       config.headers["x-api-key"] = `Bearer ${apiKey}`;
       return config;
     });
@@ -59,15 +63,12 @@ class AxiosBuilder {
   }
 }
 
- const createJWTClient = (
-  baseUrl: string = "http://localhost:3000/api"
-) => new AxiosBuilder(baseUrl).withJWT().build();
+const createJWTClient = (baseUrl: string = "http://localhost:3000/api") =>
+  new AxiosBuilder(baseUrl).withJWT().build();
 
- const createAPIKeyClient = (
+const createAPIKeyClient = (
   baseUrl: string = "http://localhost:3000/api",
   apiKey: string
-) => new AxiosBuilder(baseUrl).withAPIKey(apiKey).build();
+) => new AxiosBuilder(baseUrl).withAPIKey().build();
 
-export const velocityPaymentsAPIClient = createJWTClient(
-  apiUrl
-);
+export const velocityPaymentsAPIClient = createJWTClient(apiUrl);

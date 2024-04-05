@@ -1,26 +1,44 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import React, { ReactNode } from 'react'
-import Navbar from '../components/navigation/Navbar'
-import Head from 'next/head'
+import React, { ReactNode, useContext, useEffect } from "react";
+import Navbar from "../components/navigation/Navbar";
+import Head from "next/head";
+import { Store } from "@/context/Store";
+import { useRouter } from "next/router";
 
 type Props = {
-    children?:ReactNode
-}
+  children?: ReactNode;
+};
 
 const DashboardLayout = (props: Props) => {
+  // const { state } = useContext<any>(Store);
+  // const { access_token } = state;
+  // const router = useRouter();
+
+  // console.log("user Info: ----- ", access_token);
+
+  /*
+    TODO: protect all routes
+  */
+
+  // useEffect(() => {
+  //   if (!access_token) {
+  //     router.push("/");
+  //   }
+  // }, []);
+
   return (
     <>
-    <Head>
-      <title>Dashboard</title>
-    </Head>
-    <div className='flex flex-col min-h-screen'>
+      <Head>
+        <title>Dashboard</title>
+      </Head>
+      <div className="flex flex-col min-h-screen">
         <div className="nav">
-            <Navbar />
+          <Navbar />
         </div>
         {props.children}
-    </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default DashboardLayout
+export default DashboardLayout;

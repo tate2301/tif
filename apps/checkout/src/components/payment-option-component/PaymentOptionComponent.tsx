@@ -4,14 +4,9 @@ import React from "react";
 
 function PaymentOptionComponent({ name, Icon, selected }: PaymentOptionProps) {
   return (
-    <div
-      className={clsx(
-        `col-span-1 border flex flex-row items-center content-center justify-center space-x-2 p-2 rounded-lg cursor-pointer`,
-        selected && "bg-zinc-900 text-white border-zinc-950"
-      )}
-    >
-      <Icon className="flex-shrink-0 w-5 h-5" />
-      <p className="font-medium">{name}</p>
+    <div className={`${selected ? " border-zinc-900 shadow " : " border-zinc-200 " } flex flex-col space-y-2 border w-28 p-2 rounded-lg`} >
+      <Icon className="flex-shrink-0 w-4 h-4" />
+      <p className="font-medium text-zinc-500 font-semibold text-xs">{name}</p>
     </div>
   );
 }

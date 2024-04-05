@@ -4,6 +4,7 @@ import { RefundDto } from './dto/refund.dto';
 import { VoidDto } from './dto/void.dto';
 import { ExecutePaymentDto } from './payment.service';
 import Payment from './models/payment.entity';
+import { Charge } from './models/charge.entity';
 
 export interface IPaymentService {
   isTestingMode: boolean;
@@ -14,17 +15,19 @@ export interface IPaymentService {
     paymentMethod: PAYMENT_METHODS,
     paymentDetails: ExecutePaymentDto,
   ): Promise<PaymentResponse>;
-  voidPayment(paymentId: string, request: VoidDto): Promise<PaymentResponse>;
+  voidPayment(paymentId: string, request: VoidDto): Promise<Payment>;
   refundTransaction(
     paymentId: string,
     request: RefundDto,
   ): Promise<PaymentResponse>;
-  getTransactionDetails(paymentId: string): Promise<PaymentResponse>;
+  getTransactionDetails(paymentId: string): Promise<Payment>;
 
   getPayment(paymentId: string): Promise<Payment>;
   getPayments(merchantId: string): Promise<Payment[]>;
-  getChargesForPayment(paymentId: string): Promise<any>;
-  getChargeDetail(paymentId: string, chargeId: string): Promise<any>;
+  getChargesForPayment(paymentId: string): Promise<Charge[]>;
+  getChargeDetail(paymentId: string, chargeId: string): Promise<Charge>;
+
+  updatePaymentDetails(paymentId: string, details: any): Promise<Payment>;
 }
 
 export interface PaymentStrategy<TRequest, TResponse> {

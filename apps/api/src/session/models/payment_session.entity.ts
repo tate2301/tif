@@ -1,6 +1,15 @@
 import { CHECKOUT_TYPE } from 'src/common/enum';
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { RevokeReason } from '../session.service';
+import { Product } from 'src/product/models/product.entity';
+import { PaymentSessionProducts } from './payment_session_products.entity';
 
 @Entity()
 export class PaymentSession {
@@ -61,19 +70,9 @@ export class PaymentSession {
   @Column()
   livemode: boolean;
 
-  @Column('simple-array')
-  items: {
-    [key: string]: {
-      item_id: string;
-      item_name: string;
-      item_description: string;
-      item_image: string;
-      item_url: string;
-      item_quantity: number;
-      item_price: number;
-      item_currency: string;
-    };
-  }[];
+  @Column()
+  @OneToOne(() => PaymentSessionProducts, (product) => product.id)
+  products: string;
 
   @Column('simple-array')
   payment_methods: string[];

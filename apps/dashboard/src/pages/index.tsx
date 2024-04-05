@@ -1,31 +1,53 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import PrimaryButton from "../components/buttons/PrimaryButton";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import CustomInput from "@/components/inputs/CustomInput";
+import { velocityPaymentsAPIClient } from "@/lib/client";
+import { setLocalStorageItem } from "@/helpers/localStorageMethods";
+import { ApiKey } from "../types";
 
 export function Index() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
   const router = useRouter();
 
   const login_user = async () => {
+    setLoading(true);
     try {
-      // const { data } = await axios.post(
-      //   `http://localhost:3333/api/auth/login`,
-      //   {
-      //     username: email,
-      //     password: password,
-      //   }
-      // );
-      router.push("/payments");
-      setPassword("");
-      setEmail("");
-      // console.log(data);
+      await velocityPaymentsAPIClient
+        .post(`/auth/login`, {
+          email,
+          password,
+        })
+        .then(({ data }) => {
+          console.log(data);
+
+          localStorage.setItem("access_token", data.access_token);
+          localStorage.setItem("refresh_token", data.refresh_token);
+        })
+        .then(async () => {
+          await velocityPaymentsAPIClient.get(`/auth/profile`);
+
+          const { data: api_key }: { data: ApiKey } =
+            await velocityPaymentsAPIClient.get(`/auth/keys`);
+          localStorage.setItem("api_key", JSON.stringify(api_key));
+          router.push("/payments");
+          setPassword("");
+          setEmail("");
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } catch (error) {
+      setLoading(false);
       setErr("login fail");
     }
   };
@@ -72,7 +94,11 @@ export function Index() {
               Forgot password?
             </Link>
           </div>
-          <PrimaryButton text="Sign in to account" onClick={login_user} />
+          <PrimaryButton
+            loading={loading}
+            text="Sign in to account"
+            onClick={login_user}
+          />
           <Link
             href={"/register"}
             className="text-xs font-medium main-link-text text-center"

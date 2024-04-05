@@ -40,7 +40,12 @@ export class UsersService {
     }
     const uuid = randomUUID();
     const newUser = await this.userRepository
-      .save({ ...user, uuid, id: generateUniqueId(16, 'merchant_') })
+      .save({
+        ...user,
+        uuid,
+        id: generateUniqueId(16, 'merchant_'),
+        is_active: true,
+      })
       .then();
     logger.info(`Created user with email: ${user.email}`);
     return newUser;

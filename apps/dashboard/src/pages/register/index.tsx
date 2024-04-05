@@ -3,12 +3,12 @@ import { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import PrimaryButton from "@/components/buttons/PrimaryButton";
-import axios from "axios";
 import { getMessage } from "@/helpers/getMessage";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import CustomInput from "@/components/inputs/CustomInput";
 import { Checkbox } from "@/components/ui/checkbox";
 import { velocityPaymentsAPIClient } from "@/lib/client";
+import CustomAlert from "@/components/alerts/CustomAlert";
 
 type Props = {};
 
@@ -29,11 +29,21 @@ function Register({}: Props) {
     setLoading(true)
     try {
       const { data } = await velocityPaymentsAPIClient.post(`/auth/register`, {
-        username: email,
-        password: password,
+        email,
+        password,
+        first_name,
+        last_name,
+        country,
+        city,
+        address,
+        address_line_2: '',
+        profile_picture: '',
+        merchant_name: `${first_name}-${last_name}`
+
       });
+      setErr(getMessage(data))
       console.log("mnessage from refitsre", getMessage(data));
-      router.push("/payments");
+      router.push("/");
       setPassword("");
       setEmail("");
       setLoading(false)
@@ -122,7 +132,9 @@ function Register({}: Props) {
               Accept terms and conditions
             </label>
           </div>
-          <PrimaryButton text="Sign in to account" onClick={login_user} />
+          {err && <CustomAlert message="Message" type="error" />}
+          
+          <PrimaryButton loading={loading} text="Sign in to account" onClick={login_user} />
           <Link
             href={"/"}
             className="text-xs font-medium main-link-text text-center"

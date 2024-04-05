@@ -12,6 +12,8 @@ import {
 import CustomInput from "@/components/inputs/CustomInput";
 import { useState } from "react";
 import FileUploadInput from "@/components/inputs/FileUploadInput";
+import PrimaryButton from "../buttons/PrimaryButton";
+import { velocityPaymentsAPIClient } from "@/lib/client";
 
 type Props = {};
 
@@ -20,6 +22,28 @@ const ChooseProductModal = (props: Props) => {
   const [picture, setPicture] = useState();
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [loadiong, setLoading] = useState(false);
+
+  const createProductHandler = async () => {
+    try {
+      setLoading(true);
+      // male request
+      const { data } = await velocityPaymentsAPIClient.post("/product", {
+        name,
+        price,
+        description,
+        quantity,
+        image: "",
+      });
+      console.log(data);
+      setLoading(true);
+    } catch (error) {
+      setLoading(false);
+      console.log("error creatting ptodu t", error);
+    }
+  };
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -71,9 +95,11 @@ const ChooseProductModal = (props: Props) => {
         </div>
         <CustomDivider />
         <DialogFooter>
-          <button className="flex text-sm font-medium bg-zinc-950 text-white p-2 rounded-lg">
-            Create product
-          </button>
+          <PrimaryButton
+            text="Create product"
+            loading={loadiong}
+            onClick={createProductHandler}
+          />
         </DialogFooter>
       </DialogContent>
     </Dialog>

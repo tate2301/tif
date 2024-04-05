@@ -8,6 +8,15 @@ import {
 import { DBasePaymentEntity } from './index.entity';
 import { ApiKey } from 'src/api-key/models/api_key.entity';
 
+export enum PaymentStatus {
+  paid = 'paid',
+  unpaid = 'unpaid',
+  no_payment_requirement = 'no_payment_requirement',
+  processing = 'processing',
+  cancelled = 'cancelled',
+  voided = 'voided',
+}
+
 @Entity()
 export default class Payment extends DBasePaymentEntity {
   @PrimaryColumn()
@@ -17,16 +26,13 @@ export default class Payment extends DBasePaymentEntity {
   amount: number;
 
   @Column()
-  status: 'paid' | 'upaid' | 'no_payment_required' | 'processing' | 'canceled';
+  status: PaymentStatus;
 
   @Column()
-  merchantId: string;
+  merchant_id: string;
 
   @Column()
-  customerId: string;
-
-  @Column()
-  paymentId: string;
+  customer_id: string;
 
   @Column()
   notes: string;

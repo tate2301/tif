@@ -7,6 +7,7 @@ import { UsersService } from 'src/user/service/user.service';
 import { REFRESH_TOKEN_AGE } from 'src/common/constants';
 import { ApiKeyService } from 'src/api-key/api-key.service';
 import { AuthenticatedMerchant } from './strategy/apikey.strategy';
+import { ApiKey } from 'src/api-key/models/api_key.entity';
 
 @Injectable()
 export class APIKeyAuthService {
@@ -15,26 +16,56 @@ export class APIKeyAuthService {
     private merchantService: UsersService,
   ) {}
 
-  async validateApiKey(apiKey: string): Promise<AuthenticatedMerchant> {
-    const apiKeyDetails = await this.apiKeyService.validateKey(apiKey);
+  whatKeyTypeIsThis(key: string): 'publishable' | 'private' {
+    if (key.startsWith('pub_')) {
+      return 'publishable';
+    } else if (key.startsWith('sec_')) {
+      return 'private';
+    }
+  }
 
-    new Logger().log(apiKeyDetails);
+  async implicitValidateKey(apiKey: string): Promise<AuthenticatedMerchant> {
+    const keyType = this.whatKeyTypeIsThis(apiKey);
+
+    let apiKeyDetails: ApiKey;
+
+    if (keyType === 'publishable') {
+      apiKeyDetails = await this.apiKeyService.getKey(apiKey);
+    } else if (keyType === 'private') {
+      apiKeyDetails = await this.apiKeyService.validateSecretKey(apiKey);
+    }
 
     if (apiKeyDetails) {
-      const merchant =
-        await this.merchantService.getUserByApiKey(apiKeyDetails);
-
-      if (!merchant) {
-        return null;
-      }
-
-      return {
-        ...merchant,
-        api_key: apiKeyDetails,
-      };
+      return this.buildAuthenticatedMerchant(apiKeyDetails);
     } else {
       return null;
     }
+  }
+
+  async validateSecretKey(apiKey: string): Promise<AuthenticatedMerchant> {
+    let apiKeyDetails: ApiKey =
+      await this.apiKeyService.validateSecretKey(apiKey);
+
+    if (apiKeyDetails) {
+      return this.buildAuthenticatedMerchant(apiKeyDetails);
+    } else {
+      return null;
+    }
+  }
+
+  private async buildAuthenticatedMerchant(
+    apiKeyDetails: ApiKey,
+  ): Promise<AuthenticatedMerchant> {
+    const merchant = await this.merchantService.getUserByApiKey(apiKeyDetails);
+
+    if (!merchant) {
+      return null;
+    }
+
+    return {
+      ...merchant,
+      api_key: apiKeyDetails,
+    };
   }
 }
 
