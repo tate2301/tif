@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
-import { Open_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 
-const inter = Open_Sans({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 type Props = {
   children?: ReactNode;
