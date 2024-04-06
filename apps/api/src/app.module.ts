@@ -18,6 +18,7 @@ import { ChargeModule } from './charge/charge.module';
 import { ReportsModule } from './reports/reports.module';
 import { PaymentLinkModule } from './link/link.module';
 import { AnalyticsModule } from './anaytics/analytics.module';
+import { CurrencyModule } from './currency/currency.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { AnalyticsModule } from './anaytics/analytics.module';
     ReportsModule,
     PaymentLinkModule,
     AnalyticsModule,
+    CurrencyModule,
   ],
   controllers: [AppController],
   providers: [
