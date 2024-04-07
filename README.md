@@ -7,7 +7,6 @@
 - SwiftPay: Payment processing at the speed of now
 - LinkUp: Seamlessly connect and collect payments.
 - AssureID: Professional identity clearance
-- Checkout: Smooth checkouts, every click
 - BillingFlow: Streamlined subscriptions for seamless growth.
 - CheckEase: Effortless checkouts for modern businesses
 - Settler: Settle payments swiftly, with confidence
