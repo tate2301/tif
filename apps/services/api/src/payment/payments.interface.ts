@@ -12,9 +12,9 @@ export interface IPaymentService {
   createCheckoutSession(checkoutDetails: InitiateCheckoutDto): Promise<string>;
   executePayment(
     paymentId: string,
-    paymentMethod: PAYMENT_METHODS,
     paymentDetails: ExecutePaymentDto,
-  ): Promise<PaymentResponse>;
+    apiKey: string,
+  ): Promise<Payment>;
   voidPayment(paymentId: string, request: VoidDto): Promise<Payment>;
   refundTransaction(
     paymentId: string,

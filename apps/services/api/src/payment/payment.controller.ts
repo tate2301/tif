@@ -9,11 +9,11 @@ import {
   Put,
   Delete,
   UseGuards,
+  Req,
 } from '@nestjs/common';
 import { ExecutePaymentDto, PaymentService } from './payment.service';
 import { VoidDto } from './dto/void.dto';
 import { PAYMENT_METHODS } from 'src/common/enum';
-import { JwtAuthGuard } from 'src/auth/guard/jwt.guard';
 import Payment from './models/payment.entity';
 import { Charge } from './models/charge.entity';
 import { PaymentResponse } from './payments.interface';
@@ -21,6 +21,7 @@ import { UpdatePaymentInput } from './dto/payment.input';
 import { SecretKeyGuard } from 'src/auth/guard/api-key/secret.guard';
 import { AnyApiKeyGuard } from 'src/auth/guard/api-key/any.guard';
 import { ApiOperation } from '@nestjs/swagger';
+import { RequestWithAuth } from 'src/common/types/user.type';
 
 @Controller('payment')
 export class PaymentController {
@@ -58,19 +59,15 @@ export class PaymentController {
   }
 
   // TODO: Implement the logic to handle the charge operation
-  @UseGuards(SecretKeyGuard)
-  @Post('pay/:payment_id/:payment_method')
+  @UseGuards(AnyApiKeyGuard)
+  @Post('pay/:session_id/:payment_method')
   @HttpCode(HttpStatus.CREATED)
   async charge(
-    @Param('payment_id') payment_id: string,
+    @Param('session_id') session_id: string,
     @Param('payment_method') payment_method: string,
     @Body() checkoutDetails: ExecutePaymentDto,
-  ): Promise<PaymentResponse> {
-    return this.paymentService.executePayment(
-      payment_id,
-      payment_method as PAYMENT_METHODS,
-      checkoutDetails,
-    );
+  ): Promise<Payment> {
+    return this.paymentService.executePayment(session_id, checkoutDetails, '');
   }
 
   @UseGuards(SecretKeyGuard)

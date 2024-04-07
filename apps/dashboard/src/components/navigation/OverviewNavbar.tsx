@@ -12,10 +12,8 @@ const OverviewNavbar = (props: Props) => {
     { name: "Transactions", _id: "transactions", location: "/transactions" },
   ];
 
-  console.log(pathname)
-
   return (
-    <div className="flex overflow-scroll no-scrollbar flex-row items-center p-1 rounded-full">
+    <div className="flex overflow-scroll no-scrollbar flex-row items-center pb-4 border-b border-zinc-400/20 w-full">
       {overview_options.map((item, index) => (
         <button
           onClick={() => {
@@ -24,7 +22,7 @@ const OverviewNavbar = (props: Props) => {
           key={index}
           className={`${
             pathname === item.location ? "bg-secondary font-semibold " : ""
-          } py-2 outline-none px-4 text-sm rounded-full main-link-text cursor-pointer `}
+          } py-2 outline-none px-4 rounded-full main-link-text cursor-pointer `}
         >
           {item.name}
         </button>

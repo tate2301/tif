@@ -12,14 +12,17 @@ import { RefundDto } from './dto/refund.dto';
 import Payment, { PaymentStatus } from './models/payment.entity';
 import { Repository } from 'typeorm';
 import { PAYMENT_METHODS } from 'src/common/enum';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Charge } from './models/charge.entity';
 import { ChargeService } from './services/charge.service';
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { PaymentCheckInterceptor } from './interceptors/payment.interceptor';
+import { PaymentCheck } from './decorators/checks.decorator';
 import { UpdatePaymentInput } from './dto/payment.input';
-import { InjectRepository } from '@nestjs/typeorm';
+import { PaymentSession } from 'src/session/models/payment_session.entity';
+import { generateUniqueId } from 'src/common/utils';
 
 @Injectable()
 export class PaymentNotVoidedGuard implements CanActivate {
@@ -49,6 +52,8 @@ export class PaymentService implements IPaymentService {
 
   constructor(
     @InjectRepository(Payment) private paymentRepository: Repository<Payment>,
+    @InjectRepository(PaymentSession)
+    private paymentSessionRepository: Repository<PaymentSession>,
     ecoCashStrategy: EcoCashStrategy,
     private chargeService: ChargeService,
   ) {
@@ -114,17 +119,41 @@ export class PaymentService implements IPaymentService {
 
   /**
    * Executes a payment using the specified payment method and details.
-   * @param paymentId - The ID of the payment.
+   * @param sessionId - The ID of the payment.
    * @param paymentMethod - The payment method to use.
    * @param paymentDetails - The details of the payment.
    * @returns A Promise that resolves to the PaymentResponse object.
    */
-  executePayment(
-    paymentId: string,
-    paymentMethod: PAYMENT_METHODS,
+  async executePayment(
+    sessionId: string,
     paymentDetails: ExecutePaymentDto,
-  ): Promise<PaymentResponse> {
-    throw new Error('Method not implemented.');
+    apiKey: string,
+  ): Promise<Payment> {
+    const session = await this.paymentSessionRepository.findOne({
+      where: { id: sessionId },
+    });
+
+    const payment_entity: Payment = {
+      amount: session.amount,
+      status: PaymentStatus.paid,
+      merchant_id: session.merchantId,
+      api_key: apiKey,
+      customer_id: paymentDetails.email,
+      id: generateUniqueId(16, 'pay_'),
+      notes: '',
+      receipt_email: paymentDetails.email,
+      shipping: JSON.stringify({
+        address: paymentDetails.address,
+        city: paymentDetails.city,
+        country: paymentDetails.country,
+      }),
+    };
+
+    await this.paymentSessionRepository.update(sessionId, { status: 'paid' });
+
+    await this.paymentRepository.save(payment_entity);
+
+    return payment_entity;
   }
 
   /**
@@ -183,21 +212,24 @@ export class PaymentService implements IPaymentService {
       },
     });
 
-    const newPayment = {
-      ...payment,
-      ...details,
-    };
-
-    return this.paymentRepository.save(newPayment);
+    return payment;
   }
 }
 
 export class ExecutePaymentDto {
   @IsNotEmpty()
   @IsString()
-  paymentMethod: string;
+  phone_number: string;
 
-  @IsNotEmpty()
-  @IsObject()
-  paymentDetails: any;
+  @IsString()
+  email: string;
+
+  @IsString()
+  country: string;
+
+  @IsString()
+  city: string;
+
+  @IsString()
+  address: string;
 }

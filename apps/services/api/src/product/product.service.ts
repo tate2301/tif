@@ -4,6 +4,7 @@ import { Product } from './models/product.entity';
 import { Repository } from 'typeorm';
 import { CreateProductInput } from './dto/create.input';
 import { UpdateProductInput } from './dto/update.input';
+import { generateUniqueId } from 'src/common/utils';
 
 @Injectable()
 export class ProductService {
@@ -23,7 +24,11 @@ export class ProductService {
     merchant_id: string,
     product: CreateProductInput,
   ): Promise<Product> {
-    return this.productRepository.save({ ...product, merchant_id });
+    return this.productRepository.save({
+      ...product,
+      merchant_id,
+      id: generateUniqueId(16, 'product_'),
+    });
   }
 
   async updateProduct(

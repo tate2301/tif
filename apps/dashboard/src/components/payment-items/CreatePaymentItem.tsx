@@ -1,7 +1,5 @@
-import React from "react";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import Image from "next/legacy/image";
 
 type Props = {
   isCodeRequired?: boolean;
@@ -19,8 +17,8 @@ function CreatePaymentItem({
   location,
 }: Props) {
   return (
-    <div className="col-span-1 flex flex-col space-y-2">
-      <div className="h-60 aspect-video rounded-xl bg-zinc-50 dark:bg-zinc-800 overflow-hidden relative">
+    <div className="col-span-1  h-fit">
+      <div className="h-60 w-full rounded-lg bg-zinc-100 dark:bg-zinc-800 overflow-hidden relative mb-4">
         <div className="h-48 w-1/3 relative  top-50">
           {/* <Image
             alt="display image item"
@@ -30,9 +28,9 @@ function CreatePaymentItem({
           /> */}
         </div>
       </div>
-      <p className="heading-text text-sm font-semibold">{heading}</p>
-      <p className="main-text text-xs font-medium">{description}</p>
-      <div className="flex flex-row items-center space-x-1">
+      <p className="heading-text font-semibold mb-2">{heading}</p>
+      <p className="text-zinc-500 mb-4">{description}</p>
+      <div className="flex flex-row items-center space-x-1 mb-8">
         {isCodeRequired ? (
           <>
             <div className="flex bg-secondary main-text text-xs p-1 rounded font-medium">
@@ -51,10 +49,10 @@ function CreatePaymentItem({
           </>
         )}
       </div>
-      <div className="flex pt-2">
+      <div className="flex">
         <Link
           href={location}
-          className="flex main-border p-2 shadow cursor-pointer text-sm font-medium main-text rounded-xl"
+          className="flex border border-zinc-400/30 px-4 py-2 hover:shadow cursor-pointer text-sm main-text rounded-xl font-semibold"
         >
           {actionButtonText}
         </Link>

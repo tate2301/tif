@@ -17,7 +17,7 @@ const Navbar = (props: Props) => {
 
   return (
     <div className="w-full main-border-b">
-      <div className="max-w-7xl w-full mx-auto px-4 flex flex-row items-center space-x-4 py-4 ">
+      <div className="container w-full mx-auto px-4 flex flex-row items-center space-x-4 py-4 ">
         <ProjectsMenu />
         <div className="md:flex hidden flex-row items-center space-x-4 text-sm font-semibold">
           {data.nav_options.map((item, index) => (
@@ -36,7 +36,10 @@ const Navbar = (props: Props) => {
         </div>
         <div className="flex-1" />
         <ThemeToggler />
-        <Link href={'/settings/developers'} className=" transition-all cursor-pointer duration-100 main-link-text dark:hover:bg-slate-800 hover:bg-slate-100 p-1 rounded-full">
+        <Link
+          href={"/settings/developers"}
+          className=" transition-all cursor-pointer duration-100 main-link-text dark:hover:bg-slate-800 hover:bg-slate-100 p-1 rounded-full"
+        >
           <Cog6ToothIcon height={20} width={20} />
         </Link>
 

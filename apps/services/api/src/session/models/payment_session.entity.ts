@@ -70,8 +70,7 @@ export class PaymentSession {
   @Column()
   livemode: boolean;
 
-  @Column()
-  @OneToOne(() => PaymentSessionProducts, (product) => product.id)
+  @Column('simple-array')
   products: string;
 
   @Column('simple-array')

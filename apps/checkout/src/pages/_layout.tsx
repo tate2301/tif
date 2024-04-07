@@ -9,9 +9,7 @@ type Props = {
 
 function Layout({ children }: Props) {
   return (
-    <div
-      className={`flex flex-col bg-white ${inter.className} subpixel-antialiased`}
-    >
+    <div className={`flex flex-col bg-white subpixel-antialiased`}>
       {children}
     </div>
   );

@@ -52,7 +52,7 @@ class AxiosBuilder {
   withAPIKey() {
     this.instance.interceptors.request.use((config: any) => {
       const apiKey: ApiKey = getFromLocalStorage("api_key");
-      config.headers["x-api-key"] = `Bearer ${apiKey.secret}`;
+      config.headers["x-api-key"] = `Bearer ${apiKey.id}`;
       return config;
     });
 
